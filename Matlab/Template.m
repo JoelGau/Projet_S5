@@ -1,7 +1,7 @@
-%% Entête (remplacer entête par le nom de la fonction)
+%% Entête
 % Programmeurs:             JG,
 % Date de création:         2019-02-23
 % Dernière modification:    2019-02-23
-% Description:              Description de l'utilité de la fonction.
-%                           peut être sur plusieurs
-%                           lignes.
+% Description:              
+% Description de l'utilité de la fonction. Peut être sur plusieurs lignes.
+% Décrire aussi les inputs et les outputs.
