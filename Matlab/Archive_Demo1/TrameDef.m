@@ -1,5 +1,5 @@
 %% TrameDef
-% Programmeurs:             JG,
+% Programmeurs:             JG,LPBR
 % Date de création:         2019-02-25
 % Dernière modification:    2019-02-25
 % Description:              
@@ -14,19 +14,27 @@ clear all
 close all
 
 %On load le signal de référence
-[x,fe] = audioread('Tropical_JG_2019-02-23_09-33-49.wav');
+[y,Fs] = audioread('SonGraveO.wav');
+T = 1/Fs;
+L = length(y);
+t = (0:L-1)*T;
+w = hamming(L);
+Y = y.*w; %Fenêtrage
 
-fmax = fe/2;
-fgrad = fmax./(length(x)./2);
+FFT = fft(Y);
+P2 = abs(FFT/L);
+P1 = P2(1:L/2+1);
+P1(2:end-1) = 2*P1(2:end-1);
+P = 20*log10(P1/max(abs(P1)));
+f = Fs*(0:(L/2))/L;
 
-% FFT du signal de référence
-X = fft(x,length(x)./2);
-Xm = abs(X);
-Xp = angle(X);
-f = 0:fgrad:fmax-fgrad;
-
+% Affichage FFT du signal d'origine
 figure(1)
-subplot(2,1,1)
-plot(f,Xm)
-subplot(2,1,2)
-plot(f,Xp)
+semilogx(f(2:end-1),P(2:end-1))
+grid
+xlabel('Frequency (Hz)')
+ylabel('Amplitude (dB)')
+title('LA d origine')
+
+% Selon le graph, la freq min est à 106 Hz environ
+% tmin = 20 ms
