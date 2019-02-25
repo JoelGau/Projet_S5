@@ -34,7 +34,7 @@ semilogx(f(2:end-1),P(2:end-1))
 grid
 xlabel('Frequency (Hz)')
 ylabel('Amplitude (dB)')
-title('LA d origine')
+title('Son "O"')
 
-% Selon le graph, la freq min est à 106 Hz environ
-% tmin = 20 ms
+% Selon le graph, la freq min est à 100 Hz environ 
+% tmin_trame = 2/freq = 20 ms approximativement
