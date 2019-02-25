@@ -8,6 +8,8 @@
 #ifndef SOURCE_C_CORRELATIONCROISEE_H_
 #define SOURCE_C_CORRELATIONCROISEE_H_
 
+#define LONGUEURTRAME 10
+
 int Sum(int* Tableau1, int* Tableau2, int Longueur)
 {
     int i;
@@ -24,56 +26,56 @@ int* CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2)
     int i;
     int Kmin1, Kmax1, Kmin2, Kmax2;
     int LongueurS;
+    int CORR[LONGUEURTRAME*2-1];
+    int *newx1, *newx2;
 
     // Ajout de zéros pour compler les espaces manquants
-    // On détermine aussi la longueur du signal de sortie
-    if (Longueur1 > Longueur2)
+    if (Longueur1 > LONGUEURTRAME || Longueur2 > LONGUEURTRAME)
     {
-        for (i = Longueur2; i <= Longueur1; i++)
+        // Le signal d'entrée est plus long que prévue
+        return 0;
+    }
+    if (Longueur2 < LONGUEURTRAME)
+    {
+        for (i = Longueur2; i <= LONGUEURTRAME; i++)
         {
             x2[i] = 0;
         }
-        LongueurS = Longueur1*2-1;
     }
-    else if (Longueur1 < Longueur2)
+    if (Longueur1 < LONGUEURTRAME)
     {
-        for (i = Longueur1; i <= Longueur2; i++)
+        for (i = Longueur1; i <= LONGUEURTRAME; i++)
         {
             x1[i] = 0;
         }
-        LongueurS = Longueur2*2-1;
     }
-    else
-    {
-        LongueurS = Longueur1*2-1;
-    }
-    int C[LongueurS];
     // On assigne les index de débuts pour les 2 signaux
 
-    Kmin1 = 1;
-    Kmax1 = 1;
+    Kmin1 = 0;
+    Kmax1 = 0;
 
-    Kmin2 = LongueurS/2;
-    Kmax = Kmin2;
+    Kmin2 = LONGUEURTRAME-1;
+    Kmax2 = Kmin2;
 
-    for (i = 0; i < LongueurS; i++)
+    for (i = 0; i < LONGUEURTRAME*2-1; i++)
     {
         newx1 = &x1[Kmin1];
         newx2 = &x2[Kmin2];
 
-        C[i] = Sum(newx1,newx2,Kmin1-Kmax1);
+        CORR[i] = Sum(newx1,newx2,(Kmin1-Kmax1+1));
 
-        if(i < LongueurS/2)
+        if(i < (LONGUEURTRAME*2-1)/2)
         {
             Kmax1 = Kmax1 + 1;
             Kmin2 = Kmin2 - 1;
         }
-        else if (i >= LongueurS/2)
+        else if (i >= (LONGUEURTRAME*2-1)/2)
         {
             Kmin1 = Kmin1 + 1;
             Kmax2 = Kmax2 - 1;
         }
     }
+    return CORR;
 
 
 }
