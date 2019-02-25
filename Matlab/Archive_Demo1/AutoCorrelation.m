@@ -11,8 +11,8 @@ clc
 clear all
 close all
 
-x1 = [1 0 1 0];
-x2 = [0 1 0];
+x1 = [1 2 3 4 5 5 4 3 2 1];
+x2 = [1 1 1 1 1 1];
 
 
 %[x,fe] = audioread('Tropical_JG_2019-02-23_09-33-49.wav');

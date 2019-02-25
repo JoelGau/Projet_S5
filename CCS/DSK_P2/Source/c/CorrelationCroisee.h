@@ -2,7 +2,7 @@
  * CorrelationCroisee.h
  *
  *  Created on: 24 févr. 2019
- *     Authors: jgaud
+ *     Authors: jgaud, mstpi
  */
 
 #ifndef SOURCE_C_CORRELATIONCROISEE_H_
@@ -37,14 +37,14 @@ int* CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2)
     }
     if (Longueur2 < LONGUEURTRAME)
     {
-        for (i = Longueur2; i <= LONGUEURTRAME; i++)
+        for (i = Longueur2; i < LONGUEURTRAME; i++)
         {
             x2[i] = 0;
         }
     }
     if (Longueur1 < LONGUEURTRAME)
     {
-        for (i = Longueur1; i <= LONGUEURTRAME; i++)
+        for (i = Longueur1; i < LONGUEURTRAME; i++)
         {
             x1[i] = 0;
         }
@@ -62,7 +62,7 @@ int* CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2)
         newx1 = &x1[Kmin1];
         newx2 = &x2[Kmin2];
 
-        CORR[i] = Sum(newx1,newx2,(Kmin1-Kmax1+1));
+        CORR[i] = Sum(newx1,newx2,(Kmax1-Kmin1+1));
 
         if(i < (LONGUEURTRAME*2-1)/2)
         {
