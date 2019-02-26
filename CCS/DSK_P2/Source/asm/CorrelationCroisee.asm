@@ -2,9 +2,6 @@
 
 	.data
 
-SET_AMR .set 0x00060001
-LONGUEURTRAME .set 0x00000014
-
 
 _SumASM
 	.asmfunc
@@ -13,11 +10,11 @@ _SumASM
 	;B4 ; Index tableau2
 	;A6 ; Index longueur boucle
 
-	; Protection du contexte
+	; Enregistrer le contexte
 	STW B0, *B15--[2]
 	STW B5, *B15--[2]
-	STW B6, *B15--[2]	;Push tous les registres utilisés lors de la fonction
-	STW A5, *B15--[2]	;**Pas nécessaire pour A4, B4, A6 car ce sont les registres de passage de paramètres
+	STW B6, *B15--[2]
+	STW A5, *B15--[2]
 	STW A7, *B15--[2]
 
 

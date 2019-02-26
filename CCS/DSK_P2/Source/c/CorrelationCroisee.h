@@ -23,20 +23,17 @@ int Sum(int* Tableau1, int* Tableau2, int Longueur)
     return Sum;
 }
 
-int* CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2)
+bool CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2, int* CORR)
 {
-    //
     int i;
     int Kmin1, Kmax1, Kmin2, Kmax2;
-    int LongueurS;
-    int CORR[LONGUEURTRAME*2-1];
     int *newx1, *newx2;
 
     // Ajout de zéros pour compler les espaces manquants
     if (Longueur1 > LONGUEURTRAME || Longueur2 > LONGUEURTRAME)
     {
         // Le signal d'entrée est plus long que prévue
-        return 0;
+        return 0; //erreur
     }
     if (Longueur2 < LONGUEURTRAME)
     {
@@ -78,7 +75,7 @@ int* CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2)
             Kmax2 = Kmax2 - 1;
         }
     }
-    return CORR;
+    return 1; //Succès
 
 }
 
