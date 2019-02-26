@@ -10,6 +10,8 @@
 
 #define LONGUEURTRAME 10
 
+int SumASM(int* Tableau1, int* Tableau2, int Longueur);
+
 int Sum(int* Tableau1, int* Tableau2, int Longueur)
 {
     int i;
@@ -23,6 +25,7 @@ int Sum(int* Tableau1, int* Tableau2, int Longueur)
 
 int* CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2)
 {
+    //
     int i;
     int Kmin1, Kmax1, Kmin2, Kmax2;
     int LongueurS;
@@ -62,7 +65,7 @@ int* CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2)
         newx1 = &x1[Kmin1];
         newx2 = &x2[Kmin2];
 
-        CORR[i] = Sum(newx1,newx2,(Kmax1-Kmin1+1));
+        CORR[i] = SumASM(newx1,newx2,(Kmax1-Kmin1+1));
 
         if(i < (LONGUEURTRAME*2-1)/2)
         {
@@ -77,9 +80,19 @@ int* CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2)
     }
     return CORR;
 
-
 }
 
+/*bool CompareSignal(int* x1, int* x2)
+{
+    // Cette fonction retourne 0 si les 2 signaux comparés sont semblable.
+    // Cette fonction retourne 1 si les 2 signaux sont différents.
+    int i = 0;
+    for (i = 0; i < LONGUEURSIGNAL; i = i + LONGUEURTRAME)
+    {
+
+    }
+
+}*/
 
 
 #endif /* SOURCE_C_CORRELATIONCROISEE_H_ */
