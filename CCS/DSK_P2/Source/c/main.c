@@ -45,7 +45,7 @@ int main(void)
 {
     // Ce main est seulement pour la démo 1
     int i = 0;
-    int Corr[LONGUEURTRAME];
+    int Corr[LONGUEURTRAME*2-1];
     bool dip0, dip1, dip2, dip3;
     ALL_LED_OFF();
     while (true)
@@ -59,21 +59,24 @@ int main(void)
         {
             case ATTENTE:
                 DSK6713_LED_on(0);
-                while(!dip0);
                 if (dip1)
                 {
                     CorrelationCroisee(Sort, LONGUEURTRAME, Sref, LONGUEURTRAME, Corr);
+                    State = COMPUTING;
+                    DSK6713_LED_off(0);
                 }
-                if (dip2)
+                else if (dip2)
                 {
                     CorrelationCroisee(Sref, LONGUEURTRAME, Sref, LONGUEURTRAME, Corr);
+                    State = COMPUTING;
+                    DSK6713_LED_off(0);
                 }
-                if (dip3)
+                else if (dip3)
                 {
                     CorrelationCroisee(Scus, LONGUEURTRAME, Sref, LONGUEURTRAME, Corr);
+                    State = COMPUTING;
+                    DSK6713_LED_off(0);
                 }
-                State = COMPUTING;
-                DSK6713_LED_off(0);
                 break;
             case COMPUTING:
                 if (AdditionInt(Corr, LONGUEURTRAME*2-1) == 0)
@@ -88,15 +91,16 @@ int main(void)
                 {
                     State = AUTRE;
                 }
+                break;
             case ORTHO:
                 DSK6713_LED_on(1);
-                DSK6713_wait(5000);
-                DSK6713_LED_off(2);
+                DSK6713_waitusec(5000000);
+                DSK6713_LED_off(1);
                 State = ATTENTE;
                 break;
             case AUTO:
                 DSK6713_LED_on(2);
-                DSK6713_wait(5000);
+                DSK6713_waitusec(5000000);
                 DSK6713_LED_off(2);
                 State = ATTENTE;
                 break;
@@ -105,11 +109,13 @@ int main(void)
                 while(i<10)
                 {
                     ALL_LED_OFF();
-                    DSK6713_wait(250);
+                    DSK6713_wait(2500000);
                     ALL_LED_ON();
-                    DSK6713_wait(250);
+                    DSK6713_wait(2500000);
                     i++;
                 }
+                ALL_LED_OFF();
+                State = ATTENTE;
                 break;
             default:
                 return 1;
