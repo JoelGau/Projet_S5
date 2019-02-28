@@ -4,14 +4,26 @@
  *  Created on: 25 févr. 2019
  *      Author: jgaud
  */
+#include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
 #include <dsk6713.h>
+#include <dsk6713_dip.h>
+#include <dsk6713_led.h>
 
-#define CPLD_USER_REG 0x90080000
+#include "CorrelationCroisee.h"
 
-void En_Attente ();
-void LED_1_ON();
+#define ATTENTE 0
+#define ORTHO 1
+#define AUTO 2
+#define COMPUTING 3
+#define AUTRE 4
+
+int State = ATTENTE;
+
+int Sref[LONGUEURTRAME] = {1,2,3,4,5,5,4,3,2,1};
+int Sort[LONGUEURTRAME] = {0,0,0,0,0,0,0,0,0,0};
+int Scus[LONGUEURTRAME] = {-1,0,1,0,-1,0,1,0,-1,0};
 
 void ALL_LED_OFF()
 {
@@ -20,52 +32,87 @@ void ALL_LED_OFF()
     DSK6713_LED_off(2);
     DSK6713_LED_off(3);
 }
-
-void En_Attente (){
+void ALL_LED_ON()
+{
     DSK6713_LED_on(0);
+    DSK6713_LED_on(1);
+    DSK6713_LED_on(2);
+    DSK6713_LED_on(3);
 }
 
-void cinqsecondes(){
-    int i=0;
-    while(i<100000000)
-    {
-        i++;
-    }
-}
 
-void main(void)
+int main(void)
 {
     // Ce main est seulement pour la démo 1
-    int Bidon_index_correlation =0;
+    int i = 0;
+    int Corr[LONGUEURTRAME];
+    bool dip0, dip1, dip2, dip3;
     ALL_LED_OFF();
-    while (1){
-        En_Attente();
-        // Envoie du signal orthogonal au signal de référence appuyant sur la DIP switch 0
-        if(((*(unsigned int*)CPLD_USER_REG) & 0x10) == 0x00)
-        {
-            ALL_LED_OFF();
-            DSK6713_LED_on(1);
-            cinqsecondes();
-            // Implémentation de l'enregistrement
-            DSK6713_LED_off(1);
+    while (true)
+    {
+        dip0 = DSK6713_DIP_get(0);
+        dip1 = DSK6713_DIP_get(1);
+        dip2 = DSK6713_DIP_get(2);
+        dip3 = DSK6713_DIP_get(3);
 
-        }
-        // Activation de la comparaison avec la DIP switch 1
-        else if(((*(unsigned int*)CPLD_USER_REG) & 0x20) == 0x00)
+        switch (State)
         {
-            ALL_LED_OFF();
-            // Implémentation de la comparaison
-
-           if(Bidon_index_correlation == 0){
-               DSK6713_LED_on(2);
-               cinqsecondes();
-               DSK6713_LED_off(2);
-           }
-           else{
-               DSK6713_LED_on(3);
-               cinqsecondes();
-               DSK6713_LED_off(3);
-           }
+            case ATTENTE:
+                DSK6713_LED_on(0);
+                while(!dip0);
+                if (dip1)
+                {
+                    CorrelationCroisee(Sort, LONGUEURTRAME, Sref, LONGUEURTRAME, Corr);
+                }
+                if (dip2)
+                {
+                    CorrelationCroisee(Sref, LONGUEURTRAME, Sref, LONGUEURTRAME, Corr);
+                }
+                if (dip3)
+                {
+                    CorrelationCroisee(Scus, LONGUEURTRAME, Sref, LONGUEURTRAME, Corr);
+                }
+                State = COMPUTING;
+                DSK6713_LED_off(0);
+                break;
+            case COMPUTING:
+                if (AdditionInt(Corr, LONGUEURTRAME*2-1) == 0)
+                {
+                    State = ORTHO;
+                }
+                else if (AdditionInt(Corr, LONGUEURTRAME*2-1) == 900)
+                {
+                    State = AUTO;
+                }
+                else
+                {
+                    State = AUTRE;
+                }
+            case ORTHO:
+                DSK6713_LED_on(1);
+                DSK6713_wait(5000);
+                DSK6713_LED_off(2);
+                State = ATTENTE;
+                break;
+            case AUTO:
+                DSK6713_LED_on(2);
+                DSK6713_wait(5000);
+                DSK6713_LED_off(2);
+                State = ATTENTE;
+                break;
+            case AUTRE:
+                i = 0;
+                while(i<10)
+                {
+                    ALL_LED_OFF();
+                    DSK6713_wait(250);
+                    ALL_LED_ON();
+                    DSK6713_wait(250);
+                    i++;
+                }
+                break;
+            default:
+                return 1;
         }
     }
 

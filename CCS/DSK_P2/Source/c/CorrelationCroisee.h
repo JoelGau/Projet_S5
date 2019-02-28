@@ -79,17 +79,17 @@ bool CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2, int* COR
 
 }
 
-/*bool CompareSignal(int* x1, int* x2)
+int AdditionInt(int* x1, int longueur)
 {
-    // Cette fonction retourne 0 si les 2 signaux comparés sont semblable.
-    // Cette fonction retourne 1 si les 2 signaux sont différents.
-    int i = 0;
-    for (i = 0; i < LONGUEURSIGNAL; i = i + LONGUEURTRAME)
+    // Cette fonction retourne la somme du tableau
+    int i;
+    int Sum = 0;
+    for (i = 0; i < longueur; i++)
     {
-
+        Sum = Sum + x1[i];
     }
-
-}*/
+    return Sum;
+}
 
 
 #endif /* SOURCE_C_CORRELATIONCROISEE_H_ */
