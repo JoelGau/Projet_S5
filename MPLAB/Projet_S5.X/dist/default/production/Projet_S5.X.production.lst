@@ -1,0 +1,2404 @@
+
+
+Microchip Technology PIC18 LITE Macro Assembler V1.38 build -256452561 
+                                                                                               Tue Feb 26 18:13:28 2019
+
+Microchip Technology Omniscient Code Generator v1.38 (Free mode) build 201607010351
+     1                           	processor	18F67J94
+     2                           	fnconf	rparam,??,?,0
+     3                           	opt	pw 120
+     4                           	opt	lm
+     5                           	psect	smallconst,global,reloc=2,class=SMALLCONST,delta=1
+     6                           	psect	cinit,global,reloc=2,class=CODE,delta=1
+     7                           	psect	bssCOMRAM,global,class=COMRAM,space=1,delta=1
+     8                           	psect	cstackCOMRAM,global,class=COMRAM,space=1,delta=1
+     9                           	psect	text0,global,reloc=2,class=CODE,delta=1
+    10                           	psect	text1,global,reloc=2,class=CODE,delta=1
+    11                           	psect	text2,global,reloc=2,class=CODE,delta=1
+    12                           	psect	text3,global,reloc=2,class=CODE,delta=1
+    13                           	psect	text4,global,reloc=2,class=CODE,delta=1
+    14                           	psect	text5,global,reloc=2,class=CODE,delta=1
+    15                           	psect	text6,global,reloc=2,class=CODE,delta=1
+    16                           	psect	text7,global,reloc=2,class=CODE,delta=1
+    17                           	psect	text8,global,reloc=2,class=CODE,delta=1
+    18                           	psect	text9,global,reloc=2,class=CODE,delta=1
+    19                           	psect	text10,global,reloc=2,class=CODE,delta=1
+    20                           	psect	text11,global,reloc=2,class=CODE,delta=1
+    21                           	psect	text12,global,reloc=2,class=CODE,delta=1
+    22                           	psect	intcode,global,reloc=2,class=CODE,delta=1
+    23                           	psect	text14,global,reloc=2,class=CODE,delta=1
+    24                           	psect	intsave_regs,global,class=BIGRAM,space=1,delta=1
+    25                           	psect	rparam,global,class=COMRAM,space=1,delta=1
+    26                           	psect	temp,global,ovrld,common,class=COMRAM,space=1,delta=1
+    27  0000                     _RPINR12_13	set	3632
+    28  0000                     _RPOR22_23	set	3613
+    29  0000                     _RPOR24_25	set	3614
+    30  0000                     _SSP2BUF	set	3843
+    31  0000                     _SSP2CON1	set	3865
+    32  0000                     _SSP2CON3	set	3897
+    33  0000                     _SSP2STAT	set	3866
+    34  0000                     _SSP2STATbits	set	3866
+    35  0000                     _INTCONbits	set	4082
+    36  0000                     _LATDbits	set	3980
+    37  0000                     _LATE	set	3981
+    38  0000                     _OSCCON	set	4051
+    39  0000                     _PORTE	set	3972
+    40  0000                     _T0CONbits	set	4053
+    41  0000                     _TRISCbits	set	3988
+    42  0000                     _TRISDbits	set	3989
+    43  0000                     _TRISE	set	3990
+    44                           
+    45                           	psect	smallconst
+    46  000E00                     __psmallconst:
+    47                           	opt stack 0
+    48  000E00  00                 	db	0
+    49  000E01  20                 	db	32
+    50  000E02  20                 	db	32
+    51  000E03  20                 	db	32
+    52  000E04  20                 	db	32
+    53  000E05  20                 	db	32
+    54  000E06  20                 	db	32
+    55  000E07  20                 	db	32
+    56  000E08  20                 	db	32
+    57  000E09  20                 	db	32
+    58  000E0A  20                 	db	32
+    59  000E0B  20                 	db	32
+    60  000E0C  20                 	db	32
+    61  000E0D  20                 	db	32
+    62  000E0E  20                 	db	32
+    63  000E0F  20                 	db	32
+    64  000E10  20                 	db	32
+    65  000E11  20                 	db	32
+    66  000E12  20                 	db	32
+    67  000E13  20                 	db	32
+    68  000E14  20                 	db	32
+    69  000E15  00                 	db	0
+    70  000E16                     STR_1:
+    71  000E16  20                 	db	32
+    72  000E17  20                 	db	32
+    73  000E18  20                 	db	32
+    74  000E19  20                 	db	32
+    75  000E1A  20                 	db	32
+    76  000E1B  20                 	db	32
+    77  000E1C  45                 	db	69	;'E'
+    78  000E1D  5A                 	db	90	;'Z'
+    79  000E1E  2D                 	db	45
+    80  000E1F  77                 	db	119	;'w'
+    81  000E20  65                 	db	101	;'e'
+    82  000E21  65                 	db	101	;'e'
+    83  000E22  64                 	db	100	;'d'
+    84  000E23  20                 	db	32
+    85  000E24  20                 	db	32
+    86  000E25  20                 	db	32
+    87  000E26  20                 	db	32
+    88  000E27  20                 	db	32
+    89  000E28  20                 	db	32
+    90  000E29  20                 	db	32
+    91  000E2A  00                 	db	0
+    92  000E2B  2D                 	db	45
+    93  000E2C  00                 	db	0
+    94  000E2D  00                 	db	0	; dummy byte at the end
+    95  0000                     
+    96                           ; #config settings
+    97                           
+    98                           	psect	cinit
+    99  0011F0                     __pcinit:
+   100                           	opt stack 0
+   101  0011F0                     start_initialization:
+   102                           	opt stack 0
+   103  0011F0                     __initialization:
+   104                           	opt stack 0
+   105                           
+   106                           ; Clear objects allocated to COMRAM (3 bytes)
+   107  0011F0  6A24               	clrf	(__pbssCOMRAM+2)& (0+255),c
+   108  0011F2  6A23               	clrf	(__pbssCOMRAM+1)& (0+255),c
+   109  0011F4  6A22               	clrf	__pbssCOMRAM& (0+255),c
+   110  0011F6                     end_of_initialization:
+   111                           	opt stack 0
+   112  0011F6                     __end_of__initialization:
+   113                           	opt stack 0
+   114  0011F6  9025               	bcf	int$flags,0,c	;clear compiler interrupt flag (level 1)
+   115  0011F8  9225               	bcf	int$flags,1,c	;clear compiler interrupt flag (level 2)
+   116  0011FA  0100               	movlb	0
+   117  0011FC  EFAB  F007         	goto	_main	;jump to C main() function
+   118                           
+   119                           	psect	bssCOMRAM
+   120  000022                     __pbssCOMRAM:
+   121                           	opt stack 0
+   122  000022                     _cntTimer:
+   123                           	opt stack 0
+   124  000022                     	ds	2
+   125  000024                     _column:
+   126                           	opt stack 0
+   127  000024                     	ds	1
+   128                           
+   129                           	psect	cstackCOMRAM
+   130  000001                     __pcstackCOMRAM:
+   131                           	opt stack 0
+   132  000001                     mux@E:
+   133                           	opt stack 0
+   134                           
+   135                           ; 1 bytes @ 0x0
+   136  000001                     	ds	1
+   137  000002                     ??_mux:
+   138                           
+   139                           ; 1 bytes @ 0x1
+   140  000002                     	ds	2
+   141  000004                     mux@temp_low:
+   142                           	opt stack 0
+   143                           
+   144                           ; 1 bytes @ 0x3
+   145  000004                     	ds	1
+   146  000005                     mux@temp_high:
+   147                           	opt stack 0
+   148                           
+   149                           ; 1 bytes @ 0x4
+   150  000005                     	ds	1
+   151  000006                     mux@col:
+   152                           	opt stack 0
+   153                           
+   154                           ; 1 bytes @ 0x5
+   155  000006                     	ds	1
+   156  000007                     ??_mux_keyboard:
+   157                           
+   158                           ; 1 bytes @ 0x6
+   159  000007                     	ds	14
+   160  000015                     ??_fliplr:
+   161  000015                     ??_initialisation_PORT:
+   162  000015                     spi_Send_Read@byte:
+   163                           	opt stack 0
+   164  000015                     readKeyboard@E:
+   165                           	opt stack 0
+   166                           
+   167                           ; 1 bytes @ 0x14
+   168  000015                     	ds	1
+   169  000016                     readBusyFlag@retValue:
+   170                           	opt stack 0
+   171  000016                     readKeyboard@value:
+   172                           	opt stack 0
+   173                           
+   174                           ; 1 bytes @ 0x15
+   175  000016                     	ds	1
+   176  000017                     displayCtrl@cursor:
+   177                           	opt stack 0
+   178  000017                     fliplr@input:
+   179                           	opt stack 0
+   180                           
+   181                           ; 1 bytes @ 0x16
+   182  000017                     	ds	1
+   183  000018                     displayCtrl@blink:
+   184                           	opt stack 0
+   185  000018                     putchLCD@input:
+   186                           	opt stack 0
+   187                           
+   188                           ; 1 bytes @ 0x17
+   189  000018                     	ds	1
+   190  000019                     displayCtrl@display:
+   191                           	opt stack 0
+   192  000019                     putStringLCD@input:
+   193                           	opt stack 0
+   194                           
+   195                           ; 2 bytes @ 0x18
+   196  000019                     	ds	1
+   197  00001A                     displayCtrl@BCD:
+   198                           	opt stack 0
+   199                           
+   200                           ; 1 bytes @ 0x19
+   201  00001A                     	ds	1
+   202  00001B                     ??_putStringLCD:
+   203                           
+   204                           ; 1 bytes @ 0x1A
+   205  00001B                     	ds	2
+   206  00001D                     putStringLCD@i:
+   207                           	opt stack 0
+   208                           
+   209                           ; 2 bytes @ 0x1C
+   210  00001D                     	ds	2
+   211  00001F                     main@KBdata:
+   212                           	opt stack 0
+   213                           
+   214                           ; 1 bytes @ 0x1E
+   215  00001F                     	ds	1
+   216  000020                     main@lastValue:
+   217                           	opt stack 0
+   218                           
+   219                           ; 1 bytes @ 0x1F
+   220  000020                     	ds	1
+   221  000021                     main@value:
+   222                           	opt stack 0
+   223                           
+   224                           ; 1 bytes @ 0x20
+   225  000021                     	ds	1
+   226                           
+   227 ;;
+   228 ;;Main: autosize = 0, tempsize = 0, incstack = 0, save=0
+   229 ;;
+   230 ;; *************** function _main *****************
+   231 ;; Defined at:
+   232 ;;		line 21 in file "main.c"
+   233 ;; Parameters:    Size  Location     Type
+   234 ;;		None
+   235 ;; Auto vars:     Size  Location     Type
+   236 ;;  value           1   32[COMRAM] unsigned char 
+   237 ;;  lastValue       1   31[COMRAM] unsigned char 
+   238 ;;  KBdata          1   30[COMRAM] unsigned char 
+   239 ;; Return value:  Size  Location     Type
+   240 ;;                  1    wreg      void 
+   241 ;; Registers used:
+   242 ;;		wreg, fsr0l, fsr0h, status,2, status,0, tblptrl, tblptrh, tblptru, cstack
+   243 ;; Tracked objects:
+   244 ;;		On entry : 0/0
+   245 ;;		On exit  : 0/0
+   246 ;;		Unchanged: 0/0
+   247 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+   248 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   249 ;;      Locals:         3       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   250 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   251 ;;      Totals:         3       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   252 ;;Total ram usage:        3 bytes
+   253 ;; Hardware stack levels required when called:    6
+   254 ;; This function calls:
+   255 ;;		_clearDisplay
+   256 ;;		_displayCtrl
+   257 ;;		_initialisation_LCD
+   258 ;;		_initialisation_keyboard
+   259 ;;		_putStringLCD
+   260 ;;		_putchLCD
+   261 ;;		_readKeyboard
+   262 ;; This function is called by:
+   263 ;;		Startup code after reset
+   264 ;; This function uses a non-reentrant model
+   265 ;;
+   266                           
+   267                           	psect	text0
+   268  000F56                     __ptext0:
+   269                           	opt stack 0
+   270  000F56                     _main:
+   271                           	opt stack 25
+   272                           
+   273                           ;main.c: 23: unsigned char value = 0xFF;
+   274                           
+   275                           ;incstack = 0
+   276  000F56  6821               	setf	main@value,c
+   277                           
+   278                           ;main.c: 24: unsigned char lastValue = 0xFF;
+   279  000F58  6820               	setf	main@lastValue,c
+   280                           
+   281                           ;main.c: 26: unsigned char KBdata = 0;
+   282  000F5A  0E00               	movlw	0
+   283  000F5C  6E1F               	movwf	main@KBdata,c
+   284                           
+   285                           ;main.c: 27: initialisation_LCD();
+   286  000F5E  ECD4  F008         	call	_initialisation_LCD	;wreg free
+   287                           
+   288                           ;main.c: 28: clearDisplay();
+   289  000F62  ECB3  F008         	call	_clearDisplay	;wreg free
+   290                           
+   291                           ;main.c: 30: putStringLCD("      EZ-weed       ");
+   292  000F66  0E16               	movlw	low STR_1
+   293  000F68  6E19               	movwf	putStringLCD@input,c
+   294  000F6A  0E0E               	movlw	high STR_1
+   295  000F6C  6E1A               	movwf	putStringLCD@input+1,c
+   296  000F6E  EC70  F007         	call	_putStringLCD	;wreg free
+   297                           
+   298                           ;main.c: 32: initialisation_keyboard();
+   299  000F72  ECC4  F008         	call	_initialisation_keyboard	;wreg free
+   300                           
+   301                           ;main.c: 33: displayCtrl(1,0,0);
+   302  000F76  0E00               	movlw	0
+   303  000F78  6E17               	movwf	displayCtrl@cursor,c
+   304  000F7A  0E00               	movlw	0
+   305  000F7C  6E18               	movwf	displayCtrl@blink,c
+   306  000F7E  0E01               	movlw	1
+   307  000F80  EC3A  F008         	call	_displayCtrl
+   308  000F84                     l1143:
+   309                           
+   310                           ;main.c: 36: {
+   311                           ;main.c: 37: KBdata = PORTE;
+   312  000F84  CF84 F01F          	movff	3972,main@KBdata	;volatile
+   313                           
+   314                           ;main.c: 39: value = readKeyboard(KBdata);
+   315  000F88  501F               	movf	main@KBdata,w,c
+   316  000F8A  EC17  F007         	call	_readKeyboard
+   317  000F8E  6E21               	movwf	main@value,c
+   318                           
+   319                           ;main.c: 41: if(value != 0xFF && value != lastValue)
+   320  000F90  2821               	incf	main@value,w,c
+   321  000F92  B4D8               	btfsc	status,2,c
+   322  000F94  D00E               	goto	l1159
+   323  000F96  5020               	movf	main@lastValue,w,c
+   324  000F98  1821               	xorwf	main@value,w,c
+   325  000F9A  B4D8               	btfsc	status,2,c
+   326  000F9C  D00A               	goto	l1159
+   327                           
+   328                           ;main.c: 42: {
+   329                           ;main.c: 43: putchLCD(value);
+   330  000F9E  5021               	movf	main@value,w,c
+   331  000FA0  EC9B  F008         	call	_putchLCD
+   332                           
+   333                           ;main.c: 44: lastValue = value;
+   334  000FA4  C021  F020         	movff	main@value,main@lastValue
+   335                           
+   336                           ;main.c: 45: value = 0xFF;
+   337  000FA8  6821               	setf	main@value,c
+   338                           
+   339                           ;main.c: 46: cntTimer = 0;
+   340  000FAA  0E00               	movlw	0
+   341  000FAC  6E23               	movwf	_cntTimer+1,c
+   342  000FAE  0E00               	movlw	0
+   343  000FB0  6E22               	movwf	_cntTimer,c
+   344  000FB2                     l1159:
+   345                           
+   346                           ;main.c: 47: }
+   347                           ;main.c: 48: if(cntTimer > 16)
+   348  000FB2  BE23               	btfsc	_cntTimer+1,7,c
+   349  000FB4  D7E7               	goto	l1143
+   350  000FB6  5023               	movf	_cntTimer+1,w,c
+   351  000FB8  E104               	bnz	u290
+   352  000FBA  0E11               	movlw	17
+   353  000FBC  5C22               	subwf	_cntTimer,w,c
+   354  000FBE  A0D8               	btfss	status,0,c
+   355  000FC0  D7E1               	goto	l1143
+   356  000FC2                     u290:
+   357                           
+   358                           ;main.c: 49: lastValue = 0xFF;
+   359  000FC2  6820               	setf	main@lastValue,c
+   360  000FC4  D7DF               	goto	l1143
+   361  000FC6                     __end_of_main:
+   362                           	opt stack 0
+   363                           status	equ	0xFD8
+   364                           
+   365 ;; *************** function _readKeyboard *****************
+   366 ;; Defined at:
+   367 ;;		line 28 in file "keyboard.c"
+   368 ;; Parameters:    Size  Location     Type
+   369 ;;  E               1    wreg     unsigned char 
+   370 ;; Auto vars:     Size  Location     Type
+   371 ;;  E               1   20[COMRAM] unsigned char 
+   372 ;;  value           1   21[COMRAM] unsigned char 
+   373 ;; Return value:  Size  Location     Type
+   374 ;;                  1    wreg      unsigned char 
+   375 ;; Registers used:
+   376 ;;		wreg, status,2, status,0
+   377 ;; Tracked objects:
+   378 ;;		On entry : 0/0
+   379 ;;		On exit  : 0/0
+   380 ;;		Unchanged: 0/0
+   381 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+   382 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   383 ;;      Locals:         2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   384 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   385 ;;      Totals:         2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   386 ;;Total ram usage:        2 bytes
+   387 ;; Hardware stack levels used:    1
+   388 ;; Hardware stack levels required when called:    2
+   389 ;; This function calls:
+   390 ;;		Nothing
+   391 ;; This function is called by:
+   392 ;;		_main
+   393 ;; This function uses a non-reentrant model
+   394 ;;
+   395                           
+   396                           	psect	text1
+   397  000E2E                     __ptext1:
+   398                           	opt stack 0
+   399  000E2E                     _readKeyboard:
+   400                           	opt stack 28
+   401                           
+   402                           ;incstack = 0
+   403                           ;readKeyboard@E stored from wreg
+   404  000E2E  6E15               	movwf	readKeyboard@E,c
+   405                           
+   406                           ;keyboard.c: 30: unsigned char value;
+   407                           ;keyboard.c: 31: switch(E)
+   408  000E30  D023               	goto	l947
+   409  000E32                     l913:
+   410                           
+   411                           ;keyboard.c: 34: value = 0x31;
+   412  000E32  0E31               	movlw	49
+   413  000E34  D01D               	goto	L15
+   414  000E36                     l915:
+   415                           
+   416                           ;keyboard.c: 37: value = 0x32;
+   417  000E36  0E32               	movlw	50
+   418  000E38  D01B               	goto	L15
+   419  000E3A                     l917:
+   420                           
+   421                           ;keyboard.c: 40: value = 0x33;
+   422  000E3A  0E33               	movlw	51
+   423  000E3C  D019               	goto	L15
+   424  000E3E                     l919:
+   425                           
+   426                           ;keyboard.c: 43: value = 0x46;
+   427  000E3E  0E46               	movlw	70
+   428  000E40  D017               	goto	L15
+   429  000E42                     l921:
+   430                           
+   431                           ;keyboard.c: 47: value = 0x34;
+   432  000E42  0E34               	movlw	52
+   433  000E44  D015               	goto	L15
+   434  000E46                     l923:
+   435                           
+   436                           ;keyboard.c: 50: value = 0x35;
+   437  000E46  0E35               	movlw	53
+   438  000E48  D013               	goto	L15
+   439  000E4A                     l925:
+   440                           
+   441                           ;keyboard.c: 53: value = 0x36;
+   442  000E4A  0E36               	movlw	54
+   443  000E4C  D011               	goto	L15
+   444  000E4E                     l927:
+   445                           
+   446                           ;keyboard.c: 56: value = 0x45;
+   447  000E4E  0E45               	movlw	69
+   448  000E50  D00F               	goto	L15
+   449  000E52                     l929:
+   450                           
+   451                           ;keyboard.c: 60: value = 0x37;
+   452  000E52  0E37               	movlw	55
+   453  000E54  D00D               	goto	L15
+   454  000E56                     l931:
+   455                           
+   456                           ;keyboard.c: 63: value = 0x38;
+   457  000E56  0E38               	movlw	56
+   458  000E58  D00B               	goto	L15
+   459  000E5A                     l933:
+   460                           
+   461                           ;keyboard.c: 66: value = 0x39;
+   462  000E5A  0E39               	movlw	57
+   463  000E5C  D009               	goto	L15
+   464  000E5E                     l935:
+   465                           
+   466                           ;keyboard.c: 69: value = 0x44;
+   467  000E5E  0E44               	movlw	68
+   468  000E60  D007               	goto	L15
+   469  000E62                     l937:
+   470                           
+   471                           ;keyboard.c: 73: value = 0x41;
+   472  000E62  0E41               	movlw	65
+   473  000E64  D005               	goto	L15
+   474  000E66                     l939:
+   475                           
+   476                           ;keyboard.c: 76: value = 0x30;
+   477  000E66  0E30               	movlw	48
+   478  000E68  D003               	goto	L15
+   479  000E6A                     l941:
+   480                           
+   481                           ;keyboard.c: 79: value = 0x42;
+   482  000E6A  0E42               	movlw	66
+   483  000E6C  D001               	goto	L15
+   484  000E6E                     l943:
+   485                           
+   486                           ;keyboard.c: 82: value = 0x43;
+   487  000E6E  0E43               	movlw	67
+   488  000E70                     L15:
+   489  000E70  6E16               	movwf	readKeyboard@value,c
+   490                           
+   491                           ;keyboard.c: 83: break;
+   492  000E72  D034               	goto	l155
+   493  000E74                     l171:
+   494                           
+   495                           ;keyboard.c: 86: value = 0xFF;
+   496  000E74  6816               	setf	readKeyboard@value,c
+   497                           
+   498                           ;keyboard.c: 88: }
+   499                           
+   500                           ;keyboard.c: 87: break;
+   501  000E76  D032               	goto	l155
+   502  000E78                     l947:
+   503  000E78  5015               	movf	readKeyboard@E,w,c
+   504                           
+   505                           ; Switch size 1, requested type "space"
+   506                           ; Number of cases is 16, Range of values is 119 to 238
+   507                           ; switch strategies available:
+   508                           ; Name         Instructions Cycles
+   509                           ; simple_byte           49    25 (average)
+   510                           ;	Chosen strategy is simple_byte
+   511  000E7A  0A77               	xorlw	119	; case 119
+   512  000E7C  B4D8               	btfsc	status,2,c
+   513  000E7E  D7F7               	goto	l943
+   514  000E80  0A0C               	xorlw	12	; case 123
+   515  000E82  B4D8               	btfsc	status,2,c
+   516  000E84  D7F2               	goto	l941
+   517  000E86  0A06               	xorlw	6	; case 125
+   518  000E88  B4D8               	btfsc	status,2,c
+   519  000E8A  D7ED               	goto	l939
+   520  000E8C  0A03               	xorlw	3	; case 126
+   521  000E8E  B4D8               	btfsc	status,2,c
+   522  000E90  D7E8               	goto	l937
+   523  000E92  0AC9               	xorlw	201	; case 183
+   524  000E94  B4D8               	btfsc	status,2,c
+   525  000E96  D7E3               	goto	l935
+   526  000E98  0A0C               	xorlw	12	; case 187
+   527  000E9A  B4D8               	btfsc	status,2,c
+   528  000E9C  D7DE               	goto	l933
+   529  000E9E  0A06               	xorlw	6	; case 189
+   530  000EA0  B4D8               	btfsc	status,2,c
+   531  000EA2  D7D9               	goto	l931
+   532  000EA4  0A03               	xorlw	3	; case 190
+   533  000EA6  B4D8               	btfsc	status,2,c
+   534  000EA8  D7D4               	goto	l929
+   535  000EAA  0A69               	xorlw	105	; case 215
+   536  000EAC  B4D8               	btfsc	status,2,c
+   537  000EAE  D7CF               	goto	l927
+   538  000EB0  0A0C               	xorlw	12	; case 219
+   539  000EB2  B4D8               	btfsc	status,2,c
+   540  000EB4  D7CA               	goto	l925
+   541  000EB6  0A06               	xorlw	6	; case 221
+   542  000EB8  B4D8               	btfsc	status,2,c
+   543  000EBA  D7C5               	goto	l923
+   544  000EBC  0A03               	xorlw	3	; case 222
+   545  000EBE  B4D8               	btfsc	status,2,c
+   546  000EC0  D7C0               	goto	l921
+   547  000EC2  0A39               	xorlw	57	; case 231
+   548  000EC4  B4D8               	btfsc	status,2,c
+   549  000EC6  D7BB               	goto	l919
+   550  000EC8  0A0C               	xorlw	12	; case 235
+   551  000ECA  B4D8               	btfsc	status,2,c
+   552  000ECC  D7B6               	goto	l917
+   553  000ECE  0A06               	xorlw	6	; case 237
+   554  000ED0  B4D8               	btfsc	status,2,c
+   555  000ED2  D7B1               	goto	l915
+   556  000ED4  0A03               	xorlw	3	; case 238
+   557  000ED6  B4D8               	btfsc	status,2,c
+   558  000ED8  D7AC               	goto	l913
+   559  000EDA  D7CC               	goto	l171
+   560  000EDC                     l155:
+   561                           
+   562                           ;keyboard.c: 89: return value;
+   563  000EDC  5016               	movf	readKeyboard@value,w,c
+   564  000EDE  0012               	return		;funcret
+   565  000EE0                     __end_of_readKeyboard:
+   566                           	opt stack 0
+   567                           status	equ	0xFD8
+   568                           
+   569 ;; *************** function _putStringLCD *****************
+   570 ;; Defined at:
+   571 ;;		line 48 in file "LCD.c"
+   572 ;; Parameters:    Size  Location     Type
+   573 ;;  input           2   24[COMRAM] PTR const unsigned char 
+   574 ;;		 -> putNumberLCD@stringAffichage(2), STR_3(2), STR_2(21), STR_1(21), 
+   575 ;; Auto vars:     Size  Location     Type
+   576 ;;  i               2   28[COMRAM] int 
+   577 ;; Return value:  Size  Location     Type
+   578 ;;                  1    wreg      void 
+   579 ;; Registers used:
+   580 ;;		wreg, fsr0l, fsr0h, status,2, status,0, tblptrl, tblptrh, tblptru, cstack
+   581 ;; Tracked objects:
+   582 ;;		On entry : 0/0
+   583 ;;		On exit  : 0/0
+   584 ;;		Unchanged: 0/0
+   585 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+   586 ;;      Params:         2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   587 ;;      Locals:         2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   588 ;;      Temps:          2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   589 ;;      Totals:         6       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   590 ;;Total ram usage:        6 bytes
+   591 ;; Hardware stack levels used:    1
+   592 ;; Hardware stack levels required when called:    5
+   593 ;; This function calls:
+   594 ;;		_putchLCD
+   595 ;; This function is called by:
+   596 ;;		_main
+   597 ;;		_clearRow
+   598 ;;		_putNumberLCD
+   599 ;; This function uses a non-reentrant model
+   600 ;;
+   601                           
+   602                           	psect	text2
+   603  000EE0                     __ptext2:
+   604                           	opt stack 0
+   605  000EE0                     _putStringLCD:
+   606                           	opt stack 25
+   607                           
+   608                           ;LCD.c: 50: int i;
+   609                           ;LCD.c: 51: for (i = 0; input[i] != '\0'; i++)
+   610                           
+   611                           ;incstack = 0
+   612  000EE0  0E00               	movlw	0
+   613  000EE2  6E1E               	movwf	putStringLCD@i+1,c
+   614  000EE4  0E00               	movlw	0
+   615  000EE6  6E1D               	movwf	putStringLCD@i,c
+   616  000EE8  D01B               	goto	l1107
+   617  000EEA                     l1103:
+   618                           
+   619                           ;LCD.c: 52: {
+   620                           ;LCD.c: 53: putchLCD(input[i]);
+   621  000EEA  501D               	movf	putStringLCD@i,w,c
+   622  000EEC  2419               	addwf	putStringLCD@input,w,c
+   623  000EEE  6E1B               	movwf	??_putStringLCD& (0+255),c
+   624  000EF0  501E               	movf	putStringLCD@i+1,w,c
+   625  000EF2  201A               	addwfc	putStringLCD@input+1,w,c
+   626  000EF4  6E1C               	movwf	(??_putStringLCD+1)& (0+255),c
+   627  000EF6  C01B  FFF6         	movff	??_putStringLCD,tblptrl
+   628  000EFA  C01C  FFF7         	movff	??_putStringLCD+1,tblptrh
+   629  000EFE  0E00               	movlw	low (__smallconst shr (0+16))
+   630  000F00  6EF8               	movwf	tblptru,c
+   631  000F02  0E0D               	movlw	(high __ramtop+-1)
+   632  000F04  64F7               	cpfsgt	tblptrh,c
+   633  000F06  D003               	bra	u237
+   634  000F08  0008               	tblrd		*
+   635  000F0A  50F5               	movf	tablat,w,c
+   636  000F0C  D005               	bra	u230
+   637  000F0E                     u237:
+   638  000F0E  CFF6 FFE9          	movff	tblptrl,fsr0l
+   639  000F12  CFF7 FFEA          	movff	tblptrh,fsr0h
+   640  000F16  50EF               	movf	indf0,w,c
+   641  000F18                     u230:
+   642  000F18  EC9B  F008         	call	_putchLCD
+   643  000F1C  4A1D               	infsnz	putStringLCD@i,f,c
+   644  000F1E  2A1E               	incf	putStringLCD@i+1,f,c
+   645  000F20                     l1107:
+   646  000F20  501D               	movf	putStringLCD@i,w,c
+   647  000F22  2419               	addwf	putStringLCD@input,w,c
+   648  000F24  6E1B               	movwf	??_putStringLCD& (0+255),c
+   649  000F26  501E               	movf	putStringLCD@i+1,w,c
+   650  000F28  201A               	addwfc	putStringLCD@input+1,w,c
+   651  000F2A  6E1C               	movwf	(??_putStringLCD+1)& (0+255),c
+   652  000F2C  C01B  FFF6         	movff	??_putStringLCD,tblptrl
+   653  000F30  C01C  FFF7         	movff	??_putStringLCD+1,tblptrh
+   654  000F34  0E00               	movlw	low (__smallconst shr (0+16))
+   655  000F36  6EF8               	movwf	tblptru,c
+   656  000F38  0E0D               	movlw	(high __ramtop+-1)
+   657  000F3A  64F7               	cpfsgt	tblptrh,c
+   658  000F3C  D003               	bra	u247
+   659  000F3E  0008               	tblrd		*
+   660  000F40  50F5               	movf	tablat,w,c
+   661  000F42  D005               	bra	u240
+   662  000F44                     u247:
+   663  000F44  CFF6 FFE9          	movff	tblptrl,fsr0l
+   664  000F48  CFF7 FFEA          	movff	tblptrh,fsr0h
+   665  000F4C  50EF               	movf	indf0,w,c
+   666  000F4E                     u240:
+   667  000F4E  0900               	iorlw	0
+   668  000F50  B4D8               	btfsc	status,2,c
+   669  000F52  0012               	return	
+   670  000F54  D7CA               	goto	l1103
+   671  000F56                     __end_of_putStringLCD:
+   672                           	opt stack 0
+   673                           tblptru	equ	0xFF8
+   674                           tblptrh	equ	0xFF7
+   675                           tblptrl	equ	0xFF6
+   676                           tablat	equ	0xFF5
+   677                           indf0	equ	0xFEF
+   678                           fsr0h	equ	0xFEA
+   679                           fsr0l	equ	0xFE9
+   680                           status	equ	0xFD8
+   681                           
+   682 ;; *************** function _putchLCD *****************
+   683 ;; Defined at:
+   684 ;;		line 57 in file "LCD.c"
+   685 ;; Parameters:    Size  Location     Type
+   686 ;;  input           1    wreg     unsigned char 
+   687 ;; Auto vars:     Size  Location     Type
+   688 ;;  input           1   23[COMRAM] unsigned char 
+   689 ;; Return value:  Size  Location     Type
+   690 ;;                  1    wreg      void 
+   691 ;; Registers used:
+   692 ;;		wreg, status,2, status,0, cstack
+   693 ;; Tracked objects:
+   694 ;;		On entry : 0/0
+   695 ;;		On exit  : 0/0
+   696 ;;		Unchanged: 0/0
+   697 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+   698 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   699 ;;      Locals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   700 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   701 ;;      Totals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   702 ;;Total ram usage:        1 bytes
+   703 ;; Hardware stack levels used:    1
+   704 ;; Hardware stack levels required when called:    4
+   705 ;; This function calls:
+   706 ;;		_fliplr
+   707 ;;		_readBusyFlag
+   708 ;;		_spi_Send_Read
+   709 ;; This function is called by:
+   710 ;;		_main
+   711 ;;		_putStringLCD
+   712 ;; This function uses a non-reentrant model
+   713 ;;
+   714                           
+   715                           	psect	text3
+   716  001136                     __ptext3:
+   717                           	opt stack 0
+   718  001136                     _putchLCD:
+   719                           	opt stack 26
+   720                           
+   721                           ;incstack = 0
+   722                           ;putchLCD@input stored from wreg
+   723  001136  6E18               	movwf	putchLCD@input,c
+   724                           
+   725                           ;LCD.c: 59: input = fliplr(input);
+   726  001138  5018               	movf	putchLCD@input,w,c
+   727  00113A  EC11  F008         	call	_fliplr
+   728  00113E  6E18               	movwf	putchLCD@input,c
+   729  001140                     l839:
+   730  001140  ECE2  F008         	call	_readBusyFlag	;wreg free
+   731  001144  0900               	iorlw	0
+   732  001146  A4D8               	btfss	status,2,c
+   733  001148  D7FB               	goto	l839
+   734                           
+   735                           ;LCD.c: 62: LATDbits.LATD3 = 0;
+   736  00114A  968C               	bcf	3980,3,c	;volatile
+   737                           
+   738                           ;LCD.c: 63: spi_Send_Read(0xFA);
+   739  00114C  0EFA               	movlw	250
+   740  00114E  ECEF  F008         	call	_spi_Send_Read
+   741                           
+   742                           ;LCD.c: 64: spi_Send_Read(input & 0xF0);
+   743  001152  5018               	movf	putchLCD@input,w,c
+   744  001154  0BF0               	andlw	240
+   745  001156  ECEF  F008         	call	_spi_Send_Read
+   746                           
+   747                           ;LCD.c: 65: spi_Send_Read(input << 4);
+   748  00115A  3818               	swapf	putchLCD@input,w,c
+   749  00115C  0BF0               	andlw	240
+   750  00115E  ECEF  F008         	call	_spi_Send_Read
+   751                           
+   752                           ;LCD.c: 66: LATDbits.LATD3 = 1;
+   753  001162  868C               	bsf	3980,3,c	;volatile
+   754  001164  0012               	return		;funcret
+   755  001166                     __end_of_putchLCD:
+   756                           	opt stack 0
+   757                           tblptru	equ	0xFF8
+   758                           tblptrh	equ	0xFF7
+   759                           tblptrl	equ	0xFF6
+   760                           tablat	equ	0xFF5
+   761                           indf0	equ	0xFEF
+   762                           fsr0h	equ	0xFEA
+   763                           fsr0l	equ	0xFE9
+   764                           status	equ	0xFD8
+   765                           
+   766 ;; *************** function _fliplr *****************
+   767 ;; Defined at:
+   768 ;;		line 69 in file "LCD.c"
+   769 ;; Parameters:    Size  Location     Type
+   770 ;;  input           1    wreg     unsigned char 
+   771 ;; Auto vars:     Size  Location     Type
+   772 ;;  input           1   22[COMRAM] unsigned char 
+   773 ;; Return value:  Size  Location     Type
+   774 ;;                  1    wreg      unsigned char 
+   775 ;; Registers used:
+   776 ;;		wreg, status,2, status,0
+   777 ;; Tracked objects:
+   778 ;;		On entry : 0/0
+   779 ;;		On exit  : 0/0
+   780 ;;		Unchanged: 0/0
+   781 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+   782 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   783 ;;      Locals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   784 ;;      Temps:          2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   785 ;;      Totals:         3       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   786 ;;Total ram usage:        3 bytes
+   787 ;; Hardware stack levels used:    1
+   788 ;; Hardware stack levels required when called:    2
+   789 ;; This function calls:
+   790 ;;		Nothing
+   791 ;; This function is called by:
+   792 ;;		_putchLCD
+   793 ;;		_moveCursor
+   794 ;; This function uses a non-reentrant model
+   795 ;;
+   796                           
+   797                           	psect	text4
+   798  001022                     __ptext4:
+   799                           	opt stack 0
+   800  001022                     _fliplr:
+   801                           	opt stack 27
+   802                           
+   803                           ;incstack = 0
+   804                           ;fliplr@input stored from wreg
+   805  001022  6E17               	movwf	fliplr@input,c
+   806                           
+   807                           ;LCD.c: 72: input = (input & 0xF0) >> 4 | (input & 0x0F) << 4;
+   808  001024  C017  F015         	movff	fliplr@input,??_fliplr
+   809  001028  0E0F               	movlw	15
+   810  00102A  1615               	andwf	??_fliplr,f,c
+   811  00102C  3A15               	swapf	??_fliplr,f,c
+   812  00102E  0EF0               	movlw	240
+   813  001030  1615               	andwf	??_fliplr,f,c
+   814  001032  3817               	swapf	fliplr@input,w,c
+   815  001034  0B0F               	andlw	15
+   816  001036  0B0F               	andlw	15
+   817  001038  1015               	iorwf	??_fliplr,w,c
+   818  00103A  6E17               	movwf	fliplr@input,c
+   819                           
+   820                           ;LCD.c: 73: input = (input & 0xCC) >> 2 | (input & 0x33) << 2;
+   821  00103C  C017  F015         	movff	fliplr@input,??_fliplr
+   822  001040  0E33               	movlw	51
+   823  001042  1615               	andwf	??_fliplr,f,c
+   824  001044  90D8               	bcf	status,0,c
+   825  001046  3615               	rlcf	??_fliplr,f,c
+   826  001048  90D8               	bcf	status,0,c
+   827  00104A  3615               	rlcf	??_fliplr,f,c
+   828  00104C  4017               	rrncf	fliplr@input,w,c
+   829  00104E  42E8               	rrncf	wreg,f,c
+   830  001050  0B3F               	andlw	63
+   831  001052  0B33               	andlw	51
+   832  001054  1015               	iorwf	??_fliplr,w,c
+   833  001056  6E17               	movwf	fliplr@input,c
+   834                           
+   835                           ;LCD.c: 74: input = (input & 0xAA) >> 1 | (input & 0x55) << 1;
+   836  001058  C017  F015         	movff	fliplr@input,??_fliplr
+   837  00105C  0E55               	movlw	85
+   838  00105E  1615               	andwf	??_fliplr,f,c
+   839  001060  90D8               	bcf	status,0,c
+   840  001062  3415               	rlcf	??_fliplr,w,c
+   841  001064  6E16               	movwf	(??_fliplr+1)& (0+255),c
+   842  001066  90D8               	bcf	status,0,c
+   843  001068  3017               	rrcf	fliplr@input,w,c
+   844  00106A  0B55               	andlw	85
+   845  00106C  1016               	iorwf	??_fliplr+1,w,c
+   846  00106E  6E17               	movwf	fliplr@input,c
+   847                           
+   848                           ;LCD.c: 76: return input;
+   849  001070  5017               	movf	fliplr@input,w,c
+   850  001072  0012               	return	
+   851  001074                     __end_of_fliplr:
+   852                           	opt stack 0
+   853                           tblptru	equ	0xFF8
+   854                           tblptrh	equ	0xFF7
+   855                           tblptrl	equ	0xFF6
+   856                           tablat	equ	0xFF5
+   857                           indf0	equ	0xFEF
+   858                           fsr0h	equ	0xFEA
+   859                           fsr0l	equ	0xFE9
+   860                           wreg	equ	0xFE8
+   861                           status	equ	0xFD8
+   862                           
+   863 ;; *************** function _initialisation_keyboard *****************
+   864 ;; Defined at:
+   865 ;;		line 12 in file "keyboard.c"
+   866 ;; Parameters:    Size  Location     Type
+   867 ;;		None
+   868 ;; Auto vars:     Size  Location     Type
+   869 ;;		None
+   870 ;; Return value:  Size  Location     Type
+   871 ;;                  1    wreg      void 
+   872 ;; Registers used:
+   873 ;;		wreg, status,2
+   874 ;; Tracked objects:
+   875 ;;		On entry : 0/0
+   876 ;;		On exit  : 0/0
+   877 ;;		Unchanged: 0/0
+   878 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+   879 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   880 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   881 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   882 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   883 ;;Total ram usage:        0 bytes
+   884 ;; Hardware stack levels used:    1
+   885 ;; Hardware stack levels required when called:    2
+   886 ;; This function calls:
+   887 ;;		Nothing
+   888 ;; This function is called by:
+   889 ;;		_main
+   890 ;; This function uses a non-reentrant model
+   891 ;;
+   892                           
+   893                           	psect	text5
+   894  001188                     __ptext5:
+   895                           	opt stack 0
+   896  001188                     _initialisation_keyboard:
+   897                           	opt stack 28
+   898                           
+   899                           ;keyboard.c: 14: INTCONbits.GIE = 1;
+   900                           
+   901                           ;incstack = 0
+   902  001188  8EF2               	bsf	intcon,7,c	;volatile
+   903                           
+   904                           ;keyboard.c: 15: T0CONbits.TMR0ON = 1;
+   905  00118A  8ED5               	bsf	4053,7,c	;volatile
+   906                           
+   907                           ;keyboard.c: 16: T0CONbits.T08BIT = 1;
+   908  00118C  8CD5               	bsf	4053,6,c	;volatile
+   909                           
+   910                           ;keyboard.c: 17: T0CONbits.T0CS = 0b01;
+   911  00118E  50D5               	movf	4053,w,c	;volatile
+   912  001190  0BCF               	andlw	-49
+   913  001192  0910               	iorlw	16
+   914  001194  6ED5               	movwf	4053,c	;volatile
+   915                           
+   916                           ;keyboard.c: 18: T0CONbits.PSA = 0;
+   917  001196  96D5               	bcf	4053,3,c	;volatile
+   918                           
+   919                           ;keyboard.c: 19: T0CONbits.T0PS = 0b101;
+   920  001198  50D5               	movf	4053,w,c	;volatile
+   921  00119A  0BF8               	andlw	-8
+   922  00119C  0905               	iorlw	5
+   923  00119E  6ED5               	movwf	4053,c	;volatile
+   924                           
+   925                           ;keyboard.c: 21: INTCONbits.TMR0IE = 1;
+   926  0011A0  8AF2               	bsf	intcon,5,c	;volatile
+   927                           
+   928                           ;keyboard.c: 23: TRISE = 0b11110000;
+   929  0011A2  0EF0               	movlw	240
+   930  0011A4  6E96               	movwf	3990,c	;volatile
+   931  0011A6  0012               	return		;funcret
+   932  0011A8                     __end_of_initialisation_keyboard:
+   933                           	opt stack 0
+   934                           tblptru	equ	0xFF8
+   935                           tblptrh	equ	0xFF7
+   936                           tblptrl	equ	0xFF6
+   937                           tablat	equ	0xFF5
+   938                           intcon	equ	0xFF2
+   939                           indf0	equ	0xFEF
+   940                           fsr0h	equ	0xFEA
+   941                           fsr0l	equ	0xFE9
+   942                           wreg	equ	0xFE8
+   943                           status	equ	0xFD8
+   944                           
+   945 ;; *************** function _initialisation_LCD *****************
+   946 ;; Defined at:
+   947 ;;		line 149 in file "LCD.c"
+   948 ;; Parameters:    Size  Location     Type
+   949 ;;		None
+   950 ;; Auto vars:     Size  Location     Type
+   951 ;;		None
+   952 ;; Return value:  Size  Location     Type
+   953 ;;                  1    wreg      void 
+   954 ;; Registers used:
+   955 ;;		wreg, status,2, status,0, cstack
+   956 ;; Tracked objects:
+   957 ;;		On entry : 0/0
+   958 ;;		On exit  : 0/0
+   959 ;;		Unchanged: 0/0
+   960 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+   961 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   962 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   963 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   964 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+   965 ;;Total ram usage:        0 bytes
+   966 ;; Hardware stack levels used:    1
+   967 ;; Hardware stack levels required when called:    5
+   968 ;; This function calls:
+   969 ;;		_clearDisplay
+   970 ;;		_displayCtrl
+   971 ;;		_initialisation_PORT
+   972 ;;		_initialisation_SPI
+   973 ;; This function is called by:
+   974 ;;		_main
+   975 ;; This function uses a non-reentrant model
+   976 ;;
+   977                           
+   978                           	psect	text6
+   979  0011A8                     __ptext6:
+   980                           	opt stack 0
+   981  0011A8                     _initialisation_LCD:
+   982                           	opt stack 25
+   983                           
+   984                           ;LCD.c: 151: initialisation_PORT();
+   985                           
+   986                           ;incstack = 0
+   987  0011A8  EC5C  F008         	call	_initialisation_PORT	;wreg free
+   988                           
+   989                           ;LCD.c: 152: initialisation_SPI();
+   990  0011AC  EC7C  F008         	call	_initialisation_SPI	;wreg free
+   991                           
+   992                           ;LCD.c: 153: clearDisplay();
+   993  0011B0  ECB3  F008         	call	_clearDisplay	;wreg free
+   994                           
+   995                           ;LCD.c: 154: displayCtrl(1,1,0);
+   996  0011B4  0E01               	movlw	1
+   997  0011B6  6E17               	movwf	displayCtrl@cursor,c
+   998  0011B8  0E00               	movlw	0
+   999  0011BA  6E18               	movwf	displayCtrl@blink,c
+  1000  0011BC  0E01               	movlw	1
+  1001  0011BE  EC3A  F008         	call	_displayCtrl
+  1002  0011C2  0012               	return		;funcret
+  1003  0011C4                     __end_of_initialisation_LCD:
+  1004                           	opt stack 0
+  1005                           tblptru	equ	0xFF8
+  1006                           tblptrh	equ	0xFF7
+  1007                           tblptrl	equ	0xFF6
+  1008                           tablat	equ	0xFF5
+  1009                           intcon	equ	0xFF2
+  1010                           indf0	equ	0xFEF
+  1011                           fsr0h	equ	0xFEA
+  1012                           fsr0l	equ	0xFE9
+  1013                           wreg	equ	0xFE8
+  1014                           status	equ	0xFD8
+  1015                           
+  1016 ;; *************** function _initialisation_SPI *****************
+  1017 ;; Defined at:
+  1018 ;;		line 112 in file "LCD.c"
+  1019 ;; Parameters:    Size  Location     Type
+  1020 ;;		None
+  1021 ;; Auto vars:     Size  Location     Type
+  1022 ;;		None
+  1023 ;; Return value:  Size  Location     Type
+  1024 ;;                  1    wreg      void 
+  1025 ;; Registers used:
+  1026 ;;		wreg, status,2, status,0
+  1027 ;; Tracked objects:
+  1028 ;;		On entry : 0/0
+  1029 ;;		On exit  : 0/0
+  1030 ;;		Unchanged: 0/0
+  1031 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+  1032 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1033 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1034 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1035 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1036 ;;Total ram usage:        0 bytes
+  1037 ;; Hardware stack levels used:    1
+  1038 ;; Hardware stack levels required when called:    2
+  1039 ;; This function calls:
+  1040 ;;		Nothing
+  1041 ;; This function is called by:
+  1042 ;;		_initialisation_LCD
+  1043 ;; This function uses a non-reentrant model
+  1044 ;;
+  1045                           
+  1046                           	psect	text7
+  1047  0010F8                     __ptext7:
+  1048                           	opt stack 0
+  1049  0010F8                     _initialisation_SPI:
+  1050                           	opt stack 27
+  1051                           
+  1052                           ;LCD.c: 116: RPOR24_25 |= 0x04;
+  1053                           
+  1054                           ;incstack = 0
+  1055  0010F8  010E               	movlb	14	; () banked
+  1056  0010FA  851E               	bsf	30,2,b	;volatile
+  1057                           
+  1058                           ; BSR set to: 14
+  1059                           ;LCD.c: 117: RPOR24_25 &= 0xF4;
+  1060  0010FC  0EF4               	movlw	244
+  1061  0010FE  010E               	movlb	14	; () banked
+  1062  001100  171E               	andwf	30,f,b	;volatile
+  1063                           
+  1064                           ; BSR set to: 14
+  1065                           ;LCD.c: 119: RPOR22_23 |= 0x05;
+  1066  001102  0E05               	movlw	5
+  1067  001104  010E               	movlb	14	; () banked
+  1068  001106  131D               	iorwf	29,f,b	;volatile
+  1069                           
+  1070                           ; BSR set to: 14
+  1071                           ;LCD.c: 120: RPOR22_23 &= 0xF5;
+  1072  001108  0EF5               	movlw	245
+  1073  00110A  010E               	movlb	14	; () banked
+  1074  00110C  171D               	andwf	29,f,b	;volatile
+  1075                           
+  1076                           ; BSR set to: 14
+  1077                           ;LCD.c: 122: RPINR12_13 |= 0x50;
+  1078  00110E  0E50               	movlw	80
+  1079  001110  010E               	movlb	14	; () banked
+  1080  001112  1330               	iorwf	48,f,b	;volatile
+  1081                           
+  1082                           ; BSR set to: 14
+  1083                           ;LCD.c: 123: RPINR12_13 &= 0x5F;
+  1084  001114  0E5F               	movlw	95
+  1085  001116  010E               	movlb	14	; () banked
+  1086  001118  1730               	andwf	48,f,b	;volatile
+  1087                           
+  1088                           ; BSR set to: 14
+  1089                           ;LCD.c: 126: SSP2CON1 &= 0xF1;
+  1090  00111A  0EF1               	movlw	241
+  1091  00111C  010F               	movlb	15	; () banked
+  1092  00111E  1719               	andwf	25,f,b	;volatile
+  1093                           
+  1094                           ; BSR set to: 15
+  1095                           ;LCD.c: 127: SSP2CON1 |= 0x31;
+  1096  001120  0E31               	movlw	49
+  1097  001122  010F               	movlb	15	; () banked
+  1098  001124  1319               	iorwf	25,f,b	;volatile
+  1099                           
+  1100                           ; BSR set to: 15
+  1101                           ;LCD.c: 128: SSP2STAT |= 0x80;
+  1102  001126  010F               	movlb	15	; () banked
+  1103  001128  8F1A               	bsf	26,7,b	;volatile
+  1104                           
+  1105                           ; BSR set to: 15
+  1106                           ;LCD.c: 129: SSP2STAT &= ~0x40;
+  1107  00112A  010F               	movlb	15	; () banked
+  1108  00112C  9D1A               	bcf	26,6,b	;volatile
+  1109                           
+  1110                           ; BSR set to: 15
+  1111                           ;LCD.c: 130: SSP2CON3 &= 0x8F;
+  1112  00112E  0E8F               	movlw	143
+  1113  001130  010F               	movlb	15	; () banked
+  1114  001132  1739               	andwf	57,f,b	;volatile
+  1115                           
+  1116                           ; BSR set to: 15
+  1117  001134  0012               	return		;funcret
+  1118  001136                     __end_of_initialisation_SPI:
+  1119                           	opt stack 0
+  1120                           tblptru	equ	0xFF8
+  1121                           tblptrh	equ	0xFF7
+  1122                           tblptrl	equ	0xFF6
+  1123                           tablat	equ	0xFF5
+  1124                           intcon	equ	0xFF2
+  1125                           indf0	equ	0xFEF
+  1126                           fsr0h	equ	0xFEA
+  1127                           fsr0l	equ	0xFE9
+  1128                           wreg	equ	0xFE8
+  1129                           status	equ	0xFD8
+  1130                           
+  1131 ;; *************** function _initialisation_PORT *****************
+  1132 ;; Defined at:
+  1133 ;;		line 134 in file "LCD.c"
+  1134 ;; Parameters:    Size  Location     Type
+  1135 ;;		None
+  1136 ;; Auto vars:     Size  Location     Type
+  1137 ;;		None
+  1138 ;; Return value:  Size  Location     Type
+  1139 ;;                  1    wreg      void 
+  1140 ;; Registers used:
+  1141 ;;		wreg, status,2, status,0
+  1142 ;; Tracked objects:
+  1143 ;;		On entry : 0/0
+  1144 ;;		On exit  : 0/0
+  1145 ;;		Unchanged: 0/0
+  1146 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+  1147 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1148 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1149 ;;      Temps:          1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1150 ;;      Totals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1151 ;;Total ram usage:        1 bytes
+  1152 ;; Hardware stack levels used:    1
+  1153 ;; Hardware stack levels required when called:    2
+  1154 ;; This function calls:
+  1155 ;;		Nothing
+  1156 ;; This function is called by:
+  1157 ;;		_initialisation_LCD
+  1158 ;; This function uses a non-reentrant model
+  1159 ;;
+  1160                           
+  1161                           	psect	text8
+  1162  0010B8                     __ptext8:
+  1163                           	opt stack 0
+  1164  0010B8                     _initialisation_PORT:
+  1165                           	opt stack 27
+  1166                           
+  1167                           ;LCD.c: 136: OSCCON = OSCCON | 0b01110000;
+  1168                           
+  1169                           ; BSR set to: 15
+  1170                           ;incstack = 0
+  1171  0010B8  50D3               	movf	4051,w,c	;volatile
+  1172  0010BA  0970               	iorlw	112
+  1173  0010BC  6ED3               	movwf	4051,c	;volatile
+  1174                           
+  1175                           ;LCD.c: 137: TRISDbits.TRISD4 = 0;
+  1176  0010BE  9895               	bcf	3989,4,c	;volatile
+  1177                           
+  1178                           ;LCD.c: 138: TRISDbits.TRISD2 = 0;
+  1179  0010C0  9495               	bcf	3989,2,c	;volatile
+  1180                           
+  1181                           ;LCD.c: 139: TRISDbits.TRISD3 = 0;
+  1182  0010C2  9695               	bcf	3989,3,c	;volatile
+  1183                           
+  1184                           ;LCD.c: 140: TRISDbits.TRISD1 = 1;
+  1185  0010C4  8295               	bsf	3989,1,c	;volatile
+  1186                           
+  1187                           ;LCD.c: 141: TRISCbits.TRISC0 = 0;
+  1188  0010C6  9094               	bcf	3988,0,c	;volatile
+  1189                           
+  1190                           ;LCD.c: 142: LATDbits.LATD3 = 1;
+  1191  0010C8  868C               	bsf	3980,3,c	;volatile
+  1192                           
+  1193                           ;LCD.c: 143: __nop();
+  1194  0010CA  F000               	nop	
+  1195                           
+  1196                           ;LCD.c: 144: _delay((unsigned long)((33)*(8000000/4000.0)));
+  1197  0010CC  0E56               	movlw	86
+  1198  0010CE  6E15               	movwf	??_initialisation_PORT& (0+255),c
+  1199  0010D0  0EB6               	movlw	182
+  1200  0010D2                     u367:
+  1201  0010D2  2EE8               	decfsz	wreg,f,c
+  1202  0010D4  D7FE               	goto	u367
+  1203  0010D6  2E15               	decfsz	??_initialisation_PORT& (0+255),f,c
+  1204  0010D8  D7FC               	goto	u367
+  1205                           
+  1206                           ;LCD.c: 145: _delay((unsigned long)((33)*(8000000/4000.0)));
+  1207  0010DA  0E56               	movlw	86
+  1208  0010DC  6E15               	movwf	??_initialisation_PORT& (0+255),c
+  1209  0010DE  0EB6               	movlw	182
+  1210  0010E0                     u377:
+  1211  0010E0  2EE8               	decfsz	wreg,f,c
+  1212  0010E2  D7FE               	goto	u377
+  1213  0010E4  2E15               	decfsz	??_initialisation_PORT& (0+255),f,c
+  1214  0010E6  D7FC               	goto	u377
+  1215                           
+  1216                           ;LCD.c: 146: _delay((unsigned long)((33)*(8000000/4000.0)));
+  1217  0010E8  0E56               	movlw	86
+  1218  0010EA  6E15               	movwf	??_initialisation_PORT& (0+255),c
+  1219  0010EC  0EB6               	movlw	182
+  1220  0010EE                     u387:
+  1221  0010EE  2EE8               	decfsz	wreg,f,c
+  1222  0010F0  D7FE               	goto	u387
+  1223  0010F2  2E15               	decfsz	??_initialisation_PORT& (0+255),f,c
+  1224  0010F4  D7FC               	goto	u387
+  1225  0010F6  0012               	return		;funcret
+  1226  0010F8                     __end_of_initialisation_PORT:
+  1227                           	opt stack 0
+  1228                           tblptru	equ	0xFF8
+  1229                           tblptrh	equ	0xFF7
+  1230                           tblptrl	equ	0xFF6
+  1231                           tablat	equ	0xFF5
+  1232                           intcon	equ	0xFF2
+  1233                           indf0	equ	0xFEF
+  1234                           fsr0h	equ	0xFEA
+  1235                           fsr0l	equ	0xFE9
+  1236                           wreg	equ	0xFE8
+  1237                           status	equ	0xFD8
+  1238                           
+  1239 ;; *************** function _displayCtrl *****************
+  1240 ;; Defined at:
+  1241 ;;		line 30 in file "LCD.c"
+  1242 ;; Parameters:    Size  Location     Type
+  1243 ;;  display         1    wreg     unsigned char 
+  1244 ;;  cursor          1   22[COMRAM] unsigned char 
+  1245 ;;  blink           1   23[COMRAM] unsigned char 
+  1246 ;; Auto vars:     Size  Location     Type
+  1247 ;;  display         1   24[COMRAM] unsigned char 
+  1248 ;;  BCD             1   25[COMRAM] unsigned char 
+  1249 ;; Return value:  Size  Location     Type
+  1250 ;;                  1    wreg      void 
+  1251 ;; Registers used:
+  1252 ;;		wreg, status,2, status,0, cstack
+  1253 ;; Tracked objects:
+  1254 ;;		On entry : 0/0
+  1255 ;;		On exit  : 0/0
+  1256 ;;		Unchanged: 0/0
+  1257 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+  1258 ;;      Params:         2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1259 ;;      Locals:         2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1260 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1261 ;;      Totals:         4       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1262 ;;Total ram usage:        4 bytes
+  1263 ;; Hardware stack levels used:    1
+  1264 ;; Hardware stack levels required when called:    4
+  1265 ;; This function calls:
+  1266 ;;		_readBusyFlag
+  1267 ;;		_spi_Send_Read
+  1268 ;; This function is called by:
+  1269 ;;		_main
+  1270 ;;		_initialisation_LCD
+  1271 ;; This function uses a non-reentrant model
+  1272 ;;
+  1273                           
+  1274                           	psect	text9
+  1275  001074                     __ptext9:
+  1276                           	opt stack 0
+  1277  001074                     _displayCtrl:
+  1278                           	opt stack 25
+  1279                           
+  1280                           ;incstack = 0
+  1281                           ;displayCtrl@display stored from wreg
+  1282  001074  6E19               	movwf	displayCtrl@display,c
+  1283                           
+  1284                           ;LCD.c: 32: char BCD = blink;
+  1285  001076  C018  F01A         	movff	displayCtrl@blink,displayCtrl@BCD
+  1286                           
+  1287                           ;LCD.c: 33: BCD <<= 1;
+  1288  00107A  90D8               	bcf	status,0,c
+  1289  00107C  361A               	rlcf	displayCtrl@BCD,f,c
+  1290                           
+  1291                           ;LCD.c: 34: BCD += cursor;
+  1292  00107E  5017               	movf	displayCtrl@cursor,w,c
+  1293  001080  261A               	addwf	displayCtrl@BCD,f,c
+  1294                           
+  1295                           ;LCD.c: 35: BCD <<= 1;
+  1296  001082  90D8               	bcf	status,0,c
+  1297  001084  361A               	rlcf	displayCtrl@BCD,f,c
+  1298                           
+  1299                           ;LCD.c: 36: BCD += display;
+  1300  001086  5019               	movf	displayCtrl@display,w,c
+  1301  001088  261A               	addwf	displayCtrl@BCD,f,c
+  1302                           
+  1303                           ;LCD.c: 37: BCD <<= 1;
+  1304  00108A  90D8               	bcf	status,0,c
+  1305  00108C  361A               	rlcf	displayCtrl@BCD,f,c
+  1306                           
+  1307                           ;LCD.c: 38: BCD += 1;
+  1308  00108E  2A1A               	incf	displayCtrl@BCD,f,c
+  1309                           
+  1310                           ;LCD.c: 39: BCD <<= 4;
+  1311  001090  3A1A               	swapf	displayCtrl@BCD,f,c
+  1312  001092  0EF0               	movlw	240
+  1313  001094  161A               	andwf	displayCtrl@BCD,f,c
+  1314  001096                     l1093:
+  1315  001096  ECE2  F008         	call	_readBusyFlag	;wreg free
+  1316  00109A  0900               	iorlw	0
+  1317  00109C  A4D8               	btfss	status,2,c
+  1318  00109E  D7FB               	goto	l1093
+  1319                           
+  1320                           ;LCD.c: 42: LATDbits.LATD3 = 0;
+  1321  0010A0  968C               	bcf	3980,3,c	;volatile
+  1322                           
+  1323                           ;LCD.c: 43: spi_Send_Read(0xF8);
+  1324  0010A2  0EF8               	movlw	248
+  1325  0010A4  ECEF  F008         	call	_spi_Send_Read
+  1326                           
+  1327                           ;LCD.c: 44: spi_Send_Read(BCD);
+  1328  0010A8  501A               	movf	displayCtrl@BCD,w,c
+  1329  0010AA  ECEF  F008         	call	_spi_Send_Read
+  1330                           
+  1331                           ;LCD.c: 45: spi_Send_Read(0x00);
+  1332  0010AE  0E00               	movlw	0
+  1333  0010B0  ECEF  F008         	call	_spi_Send_Read
+  1334                           
+  1335                           ;LCD.c: 46: LATDbits.LATD3 = 1;
+  1336  0010B4  868C               	bsf	3980,3,c	;volatile
+  1337  0010B6  0012               	return		;funcret
+  1338  0010B8                     __end_of_displayCtrl:
+  1339                           	opt stack 0
+  1340                           tblptru	equ	0xFF8
+  1341                           tblptrh	equ	0xFF7
+  1342                           tblptrl	equ	0xFF6
+  1343                           tablat	equ	0xFF5
+  1344                           intcon	equ	0xFF2
+  1345                           indf0	equ	0xFEF
+  1346                           fsr0h	equ	0xFEA
+  1347                           fsr0l	equ	0xFE9
+  1348                           wreg	equ	0xFE8
+  1349                           status	equ	0xFD8
+  1350                           
+  1351 ;; *************** function _clearDisplay *****************
+  1352 ;; Defined at:
+  1353 ;;		line 18 in file "LCD.c"
+  1354 ;; Parameters:    Size  Location     Type
+  1355 ;;		None
+  1356 ;; Auto vars:     Size  Location     Type
+  1357 ;;		None
+  1358 ;; Return value:  Size  Location     Type
+  1359 ;;                  1    wreg      void 
+  1360 ;; Registers used:
+  1361 ;;		wreg, status,2, status,0, cstack
+  1362 ;; Tracked objects:
+  1363 ;;		On entry : 0/0
+  1364 ;;		On exit  : 0/0
+  1365 ;;		Unchanged: 0/0
+  1366 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+  1367 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1368 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1369 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1370 ;;      Totals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1371 ;;Total ram usage:        0 bytes
+  1372 ;; Hardware stack levels used:    1
+  1373 ;; Hardware stack levels required when called:    4
+  1374 ;; This function calls:
+  1375 ;;		_readBusyFlag
+  1376 ;;		_spi_Send_Read
+  1377 ;; This function is called by:
+  1378 ;;		_main
+  1379 ;;		_initialisation_LCD
+  1380 ;; This function uses a non-reentrant model
+  1381 ;;
+  1382                           
+  1383                           	psect	text10
+  1384  001166                     __ptext10:
+  1385                           	opt stack 0
+  1386  001166                     _clearDisplay:
+  1387                           	opt stack 25
+  1388  001166                     l817:
+  1389  001166  ECE2  F008         	call	_readBusyFlag	;wreg free
+  1390  00116A  0900               	iorlw	0
+  1391  00116C  A4D8               	btfss	status,2,c
+  1392  00116E  D7FB               	goto	l817
+  1393                           
+  1394                           ;LCD.c: 22: LATDbits.LATD3 = 0;
+  1395  001170  968C               	bcf	3980,3,c	;volatile
+  1396                           
+  1397                           ;LCD.c: 23: spi_Send_Read(0xF8);
+  1398  001172  0EF8               	movlw	248
+  1399  001174  ECEF  F008         	call	_spi_Send_Read
+  1400                           
+  1401                           ;LCD.c: 24: spi_Send_Read(0x80);
+  1402  001178  0E80               	movlw	128
+  1403  00117A  ECEF  F008         	call	_spi_Send_Read
+  1404                           
+  1405                           ;LCD.c: 25: spi_Send_Read(0x00);
+  1406  00117E  0E00               	movlw	0
+  1407  001180  ECEF  F008         	call	_spi_Send_Read
+  1408                           
+  1409                           ;LCD.c: 26: LATDbits.LATD3 = 1;
+  1410  001184  868C               	bsf	3980,3,c	;volatile
+  1411  001186  0012               	return		;funcret
+  1412  001188                     __end_of_clearDisplay:
+  1413                           	opt stack 0
+  1414                           tblptru	equ	0xFF8
+  1415                           tblptrh	equ	0xFF7
+  1416                           tblptrl	equ	0xFF6
+  1417                           tablat	equ	0xFF5
+  1418                           intcon	equ	0xFF2
+  1419                           indf0	equ	0xFEF
+  1420                           fsr0h	equ	0xFEA
+  1421                           fsr0l	equ	0xFE9
+  1422                           wreg	equ	0xFE8
+  1423                           status	equ	0xFD8
+  1424                           
+  1425 ;; *************** function _readBusyFlag *****************
+  1426 ;; Defined at:
+  1427 ;;		line 93 in file "LCD.c"
+  1428 ;; Parameters:    Size  Location     Type
+  1429 ;;		None
+  1430 ;; Auto vars:     Size  Location     Type
+  1431 ;;  retValue        1   21[COMRAM] unsigned char 
+  1432 ;; Return value:  Size  Location     Type
+  1433 ;;                  1    wreg      unsigned char 
+  1434 ;; Registers used:
+  1435 ;;		wreg, status,2, status,0, cstack
+  1436 ;; Tracked objects:
+  1437 ;;		On entry : 0/0
+  1438 ;;		On exit  : 0/0
+  1439 ;;		Unchanged: 0/0
+  1440 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+  1441 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1442 ;;      Locals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1443 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1444 ;;      Totals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1445 ;;Total ram usage:        1 bytes
+  1446 ;; Hardware stack levels used:    1
+  1447 ;; Hardware stack levels required when called:    3
+  1448 ;; This function calls:
+  1449 ;;		_spi_Send_Read
+  1450 ;; This function is called by:
+  1451 ;;		_clearDisplay
+  1452 ;;		_displayCtrl
+  1453 ;;		_putchLCD
+  1454 ;;		_moveCursor
+  1455 ;; This function uses a non-reentrant model
+  1456 ;;
+  1457                           
+  1458                           	psect	text11
+  1459  0011C4                     __ptext11:
+  1460                           	opt stack 0
+  1461  0011C4                     _readBusyFlag:
+  1462                           	opt stack 26
+  1463                           
+  1464                           ;LCD.c: 95: unsigned char retValue;
+  1465                           ;LCD.c: 97: LATDbits.LATD3 = 0;
+  1466                           
+  1467                           ;incstack = 0
+  1468  0011C4  968C               	bcf	3980,3,c	;volatile
+  1469                           
+  1470                           ;LCD.c: 98: spi_Send_Read(0xFC);
+  1471  0011C6  0EFC               	movlw	252
+  1472  0011C8  ECEF  F008         	call	_spi_Send_Read
+  1473                           
+  1474                           ;LCD.c: 99: retValue = spi_Send_Read(0x00);
+  1475  0011CC  0E00               	movlw	0
+  1476  0011CE  ECEF  F008         	call	_spi_Send_Read
+  1477  0011D2  6E16               	movwf	readBusyFlag@retValue,c
+  1478                           
+  1479                           ;LCD.c: 100: LATDbits.LATD3 = 1;
+  1480  0011D4  868C               	bsf	3980,3,c	;volatile
+  1481                           
+  1482                           ;LCD.c: 101: _delay((unsigned long)((1)*(8000000/4000000.0)));
+  1483  0011D6  D000               	nop2		;2 cycle nop
+  1484                           
+  1485                           ;LCD.c: 102: return (retValue & 1);
+  1486  0011D8  5016               	movf	readBusyFlag@retValue,w,c
+  1487  0011DA  0B01               	andlw	1
+  1488  0011DC  0012               	return	
+  1489  0011DE                     __end_of_readBusyFlag:
+  1490                           	opt stack 0
+  1491                           tblptru	equ	0xFF8
+  1492                           tblptrh	equ	0xFF7
+  1493                           tblptrl	equ	0xFF6
+  1494                           tablat	equ	0xFF5
+  1495                           intcon	equ	0xFF2
+  1496                           indf0	equ	0xFEF
+  1497                           fsr0h	equ	0xFEA
+  1498                           fsr0l	equ	0xFE9
+  1499                           wreg	equ	0xFE8
+  1500                           status	equ	0xFD8
+  1501                           
+  1502 ;; *************** function _spi_Send_Read *****************
+  1503 ;; Defined at:
+  1504 ;;		line 11 in file "LCD.c"
+  1505 ;; Parameters:    Size  Location     Type
+  1506 ;;  byte            1    wreg     unsigned char 
+  1507 ;; Auto vars:     Size  Location     Type
+  1508 ;;  byte            1   20[COMRAM] unsigned char 
+  1509 ;; Return value:  Size  Location     Type
+  1510 ;;                  1    wreg      unsigned char 
+  1511 ;; Registers used:
+  1512 ;;		wreg, status,2
+  1513 ;; Tracked objects:
+  1514 ;;		On entry : 0/0
+  1515 ;;		On exit  : 0/0
+  1516 ;;		Unchanged: 0/0
+  1517 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+  1518 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1519 ;;      Locals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1520 ;;      Temps:          0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1521 ;;      Totals:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1522 ;;Total ram usage:        1 bytes
+  1523 ;; Hardware stack levels used:    1
+  1524 ;; Hardware stack levels required when called:    2
+  1525 ;; This function calls:
+  1526 ;;		Nothing
+  1527 ;; This function is called by:
+  1528 ;;		_clearDisplay
+  1529 ;;		_displayCtrl
+  1530 ;;		_putchLCD
+  1531 ;;		_readBusyFlag
+  1532 ;;		_moveCursor
+  1533 ;; This function uses a non-reentrant model
+  1534 ;;
+  1535                           
+  1536                           	psect	text12
+  1537  0011DE                     __ptext12:
+  1538                           	opt stack 0
+  1539  0011DE                     _spi_Send_Read:
+  1540                           	opt stack 27
+  1541                           
+  1542                           ;incstack = 0
+  1543                           ;spi_Send_Read@byte stored from wreg
+  1544  0011DE  6E15               	movwf	spi_Send_Read@byte,c
+  1545                           
+  1546                           ;LCD.c: 13: SSP2BUF = byte;
+  1547  0011E0  C015  FF03         	movff	spi_Send_Read@byte,3843	;volatile
+  1548  0011E4                     l73:
+  1549  0011E4  010F               	movlb	15	; () banked
+  1550  0011E6  A11A               	btfss	26,0,b	;volatile
+  1551  0011E8  D7FD               	goto	l73
+  1552                           
+  1553                           ; BSR set to: 15
+  1554                           ;LCD.c: 15: return SSP2BUF;
+  1555  0011EA  010F               	movlb	15	; () banked
+  1556  0011EC  5103               	movf	3,w,b	;volatile
+  1557                           
+  1558                           ; BSR set to: 15
+  1559  0011EE  0012               	return		;funcret
+  1560  0011F0                     __end_of_spi_Send_Read:
+  1561                           	opt stack 0
+  1562                           tblptru	equ	0xFF8
+  1563                           tblptrh	equ	0xFF7
+  1564                           tblptrl	equ	0xFF6
+  1565                           tablat	equ	0xFF5
+  1566                           intcon	equ	0xFF2
+  1567                           indf0	equ	0xFEF
+  1568                           fsr0h	equ	0xFEA
+  1569                           fsr0l	equ	0xFE9
+  1570                           wreg	equ	0xFE8
+  1571                           status	equ	0xFD8
+  1572                           
+  1573 ;; *************** function _mux_keyboard *****************
+  1574 ;; Defined at:
+  1575 ;;		line 53 in file "main.c"
+  1576 ;; Parameters:    Size  Location     Type
+  1577 ;;		None
+  1578 ;; Auto vars:     Size  Location     Type
+  1579 ;;		None
+  1580 ;; Return value:  Size  Location     Type
+  1581 ;;                  1    wreg      void 
+  1582 ;; Registers used:
+  1583 ;;		wreg, status,2, status,0, cstack
+  1584 ;; Tracked objects:
+  1585 ;;		On entry : 0/0
+  1586 ;;		On exit  : 0/0
+  1587 ;;		Unchanged: 0/0
+  1588 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+  1589 ;;      Params:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1590 ;;      Locals:         0       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1591 ;;      Temps:         14       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1592 ;;      Totals:        14       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1593 ;;Total ram usage:       14 bytes
+  1594 ;; Hardware stack levels used:    1
+  1595 ;; Hardware stack levels required when called:    1
+  1596 ;; This function calls:
+  1597 ;;		_mux
+  1598 ;; This function is called by:
+  1599 ;;		Interrupt level 2
+  1600 ;; This function uses a non-reentrant model
+  1601 ;;
+  1602                           
+  1603                           	psect	intcode
+  1604  000008                     __pintcode:
+  1605                           	opt stack 0
+  1606  000008                     _mux_keyboard:
+  1607                           	opt stack 25
+  1608                           
+  1609                           ; BSR set to: 15
+  1610                           ;incstack = 0
+  1611  000008  8225               	bsf	btemp,1,c	;set compiler interrupt flag (level 2)
+  1612  00000A  CFFA F007          	movff	pclath,??_mux_keyboard
+  1613  00000E  CFFB F008          	movff	pclatu,??_mux_keyboard+1
+  1614  000012  CFE9 F009          	movff	fsr0l,??_mux_keyboard+2
+  1615  000016  CFEA F00A          	movff	fsr0h,??_mux_keyboard+3
+  1616  00001A  CFE1 F00B          	movff	fsr1l,??_mux_keyboard+4
+  1617  00001E  CFE2 F00C          	movff	fsr1h,??_mux_keyboard+5
+  1618  000022  CFD9 F00D          	movff	fsr2l,??_mux_keyboard+6
+  1619  000026  CFDA F00E          	movff	fsr2h,??_mux_keyboard+7
+  1620  00002A  CFF3 F00F          	movff	prodl,??_mux_keyboard+8
+  1621  00002E  CFF4 F010          	movff	prodh,??_mux_keyboard+9
+  1622  000032  CFF6 F011          	movff	tblptrl,??_mux_keyboard+10
+  1623  000036  CFF7 F012          	movff	tblptrh,??_mux_keyboard+11
+  1624  00003A  CFF8 F013          	movff	tblptru,??_mux_keyboard+12
+  1625  00003E  CFF5 F014          	movff	tablat,??_mux_keyboard+13
+  1626                           
+  1627                           ;main.c: 55: if(INTCONbits.TMR0IF == 1)
+  1628  000042  A4F2               	btfss	intcon,2,c	;volatile
+  1629  000044  D009               	goto	i2l36
+  1630                           
+  1631                           ;main.c: 56: {
+  1632                           ;main.c: 57: column = mux(column, PORTE);
+  1633  000046  CF84 F001          	movff	3972,mux@E	;volatile
+  1634  00004A  5024               	movf	_column,w,c
+  1635  00004C  ECE3  F007         	call	_mux
+  1636  000050  6E24               	movwf	_column,c
+  1637                           
+  1638                           ;main.c: 58: cntTimer++;
+  1639  000052  4A22               	infsnz	_cntTimer,f,c
+  1640  000054  2A23               	incf	_cntTimer+1,f,c
+  1641                           
+  1642                           ;main.c: 59: INTCONbits.TMR0IF = 0;
+  1643  000056  94F2               	bcf	intcon,2,c	;volatile
+  1644  000058                     i2l36:
+  1645  000058  C014  FFF5         	movff	??_mux_keyboard+13,tablat
+  1646  00005C  C013  FFF8         	movff	??_mux_keyboard+12,tblptru
+  1647  000060  C012  FFF7         	movff	??_mux_keyboard+11,tblptrh
+  1648  000064  C011  FFF6         	movff	??_mux_keyboard+10,tblptrl
+  1649  000068  C010  FFF4         	movff	??_mux_keyboard+9,prodh
+  1650  00006C  C00F  FFF3         	movff	??_mux_keyboard+8,prodl
+  1651  000070  C00E  FFDA         	movff	??_mux_keyboard+7,fsr2h
+  1652  000074  C00D  FFD9         	movff	??_mux_keyboard+6,fsr2l
+  1653  000078  C00C  FFE2         	movff	??_mux_keyboard+5,fsr1h
+  1654  00007C  C00B  FFE1         	movff	??_mux_keyboard+4,fsr1l
+  1655  000080  C00A  FFEA         	movff	??_mux_keyboard+3,fsr0h
+  1656  000084  C009  FFE9         	movff	??_mux_keyboard+2,fsr0l
+  1657  000088  C008  FFFB         	movff	??_mux_keyboard+1,pclatu
+  1658  00008C  C007  FFFA         	movff	??_mux_keyboard,pclath
+  1659  000090  9225               	bcf	btemp,1,c	;clear compiler interrupt flag (level 2)
+  1660  000092  0011               	retfie		f
+  1661  000094                     __end_of_mux_keyboard:
+  1662                           	opt stack 0
+  1663                           pclatu	equ	0xFFB
+  1664                           pclath	equ	0xFFA
+  1665                           tblptru	equ	0xFF8
+  1666                           tblptrh	equ	0xFF7
+  1667                           tblptrl	equ	0xFF6
+  1668                           tablat	equ	0xFF5
+  1669                           prodh	equ	0xFF4
+  1670                           prodl	equ	0xFF3
+  1671                           intcon	equ	0xFF2
+  1672                           indf0	equ	0xFEF
+  1673                           fsr0h	equ	0xFEA
+  1674                           fsr0l	equ	0xFE9
+  1675                           wreg	equ	0xFE8
+  1676                           fsr1h	equ	0xFE2
+  1677                           fsr1l	equ	0xFE1
+  1678                           fsr2h	equ	0xFDA
+  1679                           fsr2l	equ	0xFD9
+  1680                           status	equ	0xFD8
+  1681                           
+  1682 ;; *************** function _mux *****************
+  1683 ;; Defined at:
+  1684 ;;		line 92 in file "keyboard.c"
+  1685 ;; Parameters:    Size  Location     Type
+  1686 ;;  col             1    wreg     unsigned char 
+  1687 ;;  E               1    0[COMRAM] unsigned char 
+  1688 ;; Auto vars:     Size  Location     Type
+  1689 ;;  col             1    5[COMRAM] unsigned char 
+  1690 ;;  temp_high       1    4[COMRAM] unsigned char 
+  1691 ;;  temp_low        1    3[COMRAM] unsigned char 
+  1692 ;; Return value:  Size  Location     Type
+  1693 ;;                  1    wreg      unsigned char 
+  1694 ;; Registers used:
+  1695 ;;		wreg, status,2, status,0
+  1696 ;; Tracked objects:
+  1697 ;;		On entry : 0/0
+  1698 ;;		On exit  : 0/0
+  1699 ;;		Unchanged: 0/0
+  1700 ;; Data sizes:     COMRAM   BANK0   BANK1   BANK2   BANK3   BANK4   BANK5   BANK6   BANK7   BANK8   BANK9  BANK10  BANK1
+      +1  BANK12  BANK13
+  1701 ;;      Params:         1       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1702 ;;      Locals:         3       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1703 ;;      Temps:          2       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1704 ;;      Totals:         6       0       0       0       0       0       0       0       0       0       0       0       
+      +0       0       0
+  1705 ;;Total ram usage:        6 bytes
+  1706 ;; Hardware stack levels used:    1
+  1707 ;; This function calls:
+  1708 ;;		Nothing
+  1709 ;; This function is called by:
+  1710 ;;		_mux_keyboard
+  1711 ;; This function uses a non-reentrant model
+  1712 ;;
+  1713                           
+  1714                           	psect	text14
+  1715  000FC6                     __ptext14:
+  1716                           	opt stack 0
+  1717  000FC6                     _mux:
+  1718                           	opt stack 25
+  1719                           
+  1720                           ;incstack = 0
+  1721                           ;mux@col stored from wreg
+  1722  000FC6  6E06               	movwf	mux@col,c
+  1723                           
+  1724                           ;keyboard.c: 94: unsigned char temp_low, temp_high;
+  1725                           ;keyboard.c: 95: switch(col)
+  1726  000FC8  D009               	goto	i2l1121
+  1727  000FCA                     i2l1111:
+  1728                           
+  1729                           ;keyboard.c: 98: {
+  1730                           ;keyboard.c: 99: col = 1;
+  1731  000FCA  0E01               	movlw	1
+  1732  000FCC  D005               	goto	L18
+  1733  000FCE                     i2l1113:
+  1734                           
+  1735                           ;keyboard.c: 103: {
+  1736                           ;keyboard.c: 104: col = 2;
+  1737  000FCE  0E02               	movlw	2
+  1738  000FD0  D003               	goto	L18
+  1739  000FD2                     i2l1115:
+  1740                           
+  1741                           ;keyboard.c: 108: {
+  1742                           ;keyboard.c: 109: col = 3;
+  1743  000FD2  0E03               	movlw	3
+  1744  000FD4  D001               	goto	L18
+  1745  000FD6                     i2l1117:
+  1746                           
+  1747                           ;keyboard.c: 113: {
+  1748                           ;keyboard.c: 114: col = 0;
+  1749  000FD6  0E00               	movlw	0
+  1750  000FD8                     L18:
+  1751  000FD8  6E06               	movwf	mux@col,c
+  1752                           
+  1753                           ;keyboard.c: 116: }
+  1754                           ;keyboard.c: 117: }
+  1755                           
+  1756                           ;keyboard.c: 115: break;
+  1757  000FDA  D00D               	goto	i2l1123
+  1758  000FDC                     i2l1121:
+  1759  000FDC  5006               	movf	mux@col,w,c
+  1760                           
+  1761                           ; Switch size 1, requested type "space"
+  1762                           ; Number of cases is 4, Range of values is 0 to 3
+  1763                           ; switch strategies available:
+  1764                           ; Name         Instructions Cycles
+  1765                           ; simple_byte           13     7 (average)
+  1766                           ;	Chosen strategy is simple_byte
+  1767  000FDE  0A00               	xorlw	0	; case 0
+  1768  000FE0  B4D8               	btfsc	status,2,c
+  1769  000FE2  D7F3               	goto	i2l1111
+  1770  000FE4  0A01               	xorlw	1	; case 1
+  1771  000FE6  B4D8               	btfsc	status,2,c
+  1772  000FE8  D7F2               	goto	i2l1113
+  1773  000FEA  0A03               	xorlw	3	; case 2
+  1774  000FEC  B4D8               	btfsc	status,2,c
+  1775  000FEE  D7F1               	goto	i2l1115
+  1776  000FF0  0A01               	xorlw	1	; case 3
+  1777  000FF2  B4D8               	btfsc	status,2,c
+  1778  000FF4  D7F0               	goto	i2l1117
+  1779  000FF6                     i2l1123:
+  1780                           
+  1781                           ;keyboard.c: 118: temp_low = ~(0b00000001 << col);
+  1782  000FF6  C006  F002         	movff	mux@col,??_mux
+  1783  000FFA  0E01               	movlw	1
+  1784  000FFC  6E03               	movwf	(??_mux+1)& (0+255),c
+  1785  000FFE  2A02               	incf	??_mux,f,c
+  1786  001000  D002               	goto	i2u26_44
+  1787  001002                     i2u26_45:
+  1788  001002  90D8               	bcf	status,0,c
+  1789  001004  3603               	rlcf	??_mux+1,f,c
+  1790  001006                     i2u26_44:
+  1791  001006  2E02               	decfsz	??_mux,f,c
+  1792  001008  D7FC               	goto	i2u26_45
+  1793  00100A  5003               	movf	??_mux+1,w,c
+  1794  00100C  0AFF               	xorlw	255
+  1795  00100E  6E04               	movwf	mux@temp_low,c
+  1796                           
+  1797                           ;keyboard.c: 119: temp_high = (E & 0b11110000)|0b00001111;
+  1798  001010  5001               	movf	mux@E,w,c
+  1799  001012  0BF0               	andlw	240
+  1800  001014  090F               	iorlw	15
+  1801  001016  6E05               	movwf	mux@temp_high,c
+  1802                           
+  1803                           ;keyboard.c: 120: LATE = temp_high & temp_low;
+  1804  001018  5005               	movf	mux@temp_high,w,c
+  1805  00101A  1404               	andwf	mux@temp_low,w,c
+  1806  00101C  6E8D               	movwf	3981,c	;volatile
+  1807                           
+  1808                           ;keyboard.c: 121: return col;
+  1809  00101E  5006               	movf	mux@col,w,c
+  1810  001020  0012               	return	
+  1811  001022                     __end_of_mux:
+  1812                           	opt stack 0
+  1813                           pclatu	equ	0xFFB
+  1814                           pclath	equ	0xFFA
+  1815                           tblptru	equ	0xFF8
+  1816                           tblptrh	equ	0xFF7
+  1817                           tblptrl	equ	0xFF6
+  1818                           tablat	equ	0xFF5
+  1819                           prodh	equ	0xFF4
+  1820                           prodl	equ	0xFF3
+  1821                           intcon	equ	0xFF2
+  1822                           indf0	equ	0xFEF
+  1823                           fsr0h	equ	0xFEA
+  1824                           fsr0l	equ	0xFE9
+  1825                           wreg	equ	0xFE8
+  1826                           fsr1h	equ	0xFE2
+  1827                           fsr1l	equ	0xFE1
+  1828                           fsr2h	equ	0xFDA
+  1829                           fsr2l	equ	0xFD9
+  1830                           status	equ	0xFD8
+  1831                           pclatu	equ	0xFFB
+  1832                           pclath	equ	0xFFA
+  1833                           tblptru	equ	0xFF8
+  1834                           tblptrh	equ	0xFF7
+  1835                           tblptrl	equ	0xFF6
+  1836                           tablat	equ	0xFF5
+  1837                           prodh	equ	0xFF4
+  1838                           prodl	equ	0xFF3
+  1839                           intcon	equ	0xFF2
+  1840                           indf0	equ	0xFEF
+  1841                           fsr0h	equ	0xFEA
+  1842                           fsr0l	equ	0xFE9
+  1843                           wreg	equ	0xFE8
+  1844                           fsr1h	equ	0xFE2
+  1845                           fsr1l	equ	0xFE1
+  1846                           fsr2h	equ	0xFDA
+  1847                           fsr2l	equ	0xFD9
+  1848                           status	equ	0xFD8
+  1849                           
+  1850                           	psect	rparam
+  1851  0000                     pclatu	equ	0xFFB
+  1852                           pclath	equ	0xFFA
+  1853                           tblptru	equ	0xFF8
+  1854                           tblptrh	equ	0xFF7
+  1855                           tblptrl	equ	0xFF6
+  1856                           tablat	equ	0xFF5
+  1857                           prodh	equ	0xFF4
+  1858                           prodl	equ	0xFF3
+  1859                           intcon	equ	0xFF2
+  1860                           indf0	equ	0xFEF
+  1861                           fsr0h	equ	0xFEA
+  1862                           fsr0l	equ	0xFE9
+  1863                           wreg	equ	0xFE8
+  1864                           fsr1h	equ	0xFE2
+  1865                           fsr1l	equ	0xFE1
+  1866                           fsr2h	equ	0xFDA
+  1867                           fsr2l	equ	0xFD9
+  1868                           status	equ	0xFD8
+  1869                           
+  1870                           	psect	temp
+  1871  000025                     btemp:
+  1872                           	opt stack 0
+  1873  000025                     	ds	1
+  1874  0000                     int$flags	set	btemp
+  1875                           pclatu	equ	0xFFB
+  1876                           pclath	equ	0xFFA
+  1877                           tblptru	equ	0xFF8
+  1878                           tblptrh	equ	0xFF7
+  1879                           tblptrl	equ	0xFF6
+  1880                           tablat	equ	0xFF5
+  1881                           prodh	equ	0xFF4
+  1882                           prodl	equ	0xFF3
+  1883                           intcon	equ	0xFF2
+  1884                           indf0	equ	0xFEF
+  1885                           fsr0h	equ	0xFEA
+  1886                           fsr0l	equ	0xFE9
+  1887                           wreg	equ	0xFE8
+  1888                           fsr1h	equ	0xFE2
+  1889                           fsr1l	equ	0xFE1
+  1890                           fsr2h	equ	0xFDA
+  1891                           fsr2l	equ	0xFD9
+  1892                           status	equ	0xFD8
+
+
+Data Sizes:
+    Strings     44
+    Constant    0
+    Data        0
+    BSS         3
+    Persistent  0
+    Stack       0
+
+Auto Spaces:
+    Space          Size  Autos    Used
+    COMRAM           94     33      36
+    BANK0           160      0       0
+    BANK1           256      0       0
+    BANK2           256      0       0
+    BANK3           256      0       0
+    BANK4           256      0       0
+    BANK5           256      0       0
+    BANK6           256      0       0
+    BANK7           256      0       0
+    BANK8           256      0       0
+    BANK9           256      0       0
+    BANK10          256      0       0
+    BANK11          256      0       0
+    BANK12          256      0       0
+    BANK13          250      0       0
+
+Pointer List with Targets:
+
+    putStringLCD@input	PTR const unsigned char  size(2) Largest target is 21
+		 -> putNumberLCD@stringAffichage(COMRAM[2]), STR_3(CODE[2]), STR_2(CODE[21]), STR_1(CODE[21]), 
+
+
+Critical Paths under _main in COMRAM
+
+    _main->_putStringLCD
+    _putStringLCD->_putchLCD
+    _putchLCD->_fliplr
+    _initialisation_LCD->_displayCtrl
+    _displayCtrl->_readBusyFlag
+    _clearDisplay->_readBusyFlag
+    _readBusyFlag->_spi_Send_Read
+
+Critical Paths under _mux_keyboard in COMRAM
+
+    _mux_keyboard->_mux
+
+Critical Paths under _main in BANK0
+
+    None.
+
+Critical Paths under _mux_keyboard in BANK0
+
+    None.
+
+Critical Paths under _main in BANK1
+
+    None.
+
+Critical Paths under _mux_keyboard in BANK1
+
+    None.
+
+Critical Paths under _main in BANK2
+
+    None.
+
+Critical Paths under _mux_keyboard in BANK2
+
+    None.
+
+Critical Paths under _main in BANK3
+
+    None.
+
+Critical Paths under _mux_keyboard in BANK3
+
+    None.
+
+Critical Paths under _main in BANK4
+
+    None.
+
+Critical Paths under _mux_keyboard in BANK4
+
+    None.
+
+Critical Paths under _main in BANK5
+
+    None.
+
+Critical Paths under _mux_keyboard in BANK5
+
+    None.
+
+Critical Paths under _main in BANK6
+
+    None.
+
+Critical Paths under _mux_keyboard in BANK6
+
+    None.
+
+Critical Paths under _main in BANK7
+
+    None.
+
+Critical Paths under _mux_keyboard in BANK7
+
+    None.
+
+Critical Paths under _main in BANK8
+
+    None.
+
+Critical Paths under _mux_keyboard in BANK8
+
+    None.
+
+Critical Paths under _main in BANK9
+
+    None.
+
+Critical Paths under _mux_keyboard in BANK9
+
+    None.
+
+Critical Paths under _main in BANK10
+
+    None.
+
+Critical Paths under _mux_keyboard in BANK10
+
+    None.
+
+Critical Paths under _main in BANK11
+
+    None.
+
+Critical Paths under _mux_keyboard in BANK11
+
+    None.
+
+Critical Paths under _main in BANK12
+
+    None.
+
+Critical Paths under _mux_keyboard in BANK12
+
+    None.
+
+Critical Paths under _main in BANK13
+
+    None.
+
+Critical Paths under _mux_keyboard in BANK13
+
+    None.
+
+Call Graph Tables:
+
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (0) _main                                                 3     3      0    1790
+                                             30 COMRAM     3     3      0
+                       _clearDisplay
+                        _displayCtrl
+                 _initialisation_LCD
+            _initialisation_keyboard
+                       _putStringLCD
+                           _putchLCD
+                       _readKeyboard
+ ---------------------------------------------------------------------------------
+ (1) _readKeyboard                                         2     2      0      30
+                                             20 COMRAM     2     2      0
+ ---------------------------------------------------------------------------------
+ (1) _putStringLCD                                         6     4      2     541
+                                             24 COMRAM     6     4      2
+                           _putchLCD
+ ---------------------------------------------------------------------------------
+ (1) _putchLCD                                             1     1      0     195
+                                             23 COMRAM     1     1      0
+                             _fliplr
+                       _readBusyFlag
+                      _spi_Send_Read
+ ---------------------------------------------------------------------------------
+ (2) _fliplr                                               3     3      0     105
+                                             20 COMRAM     3     3      0
+ ---------------------------------------------------------------------------------
+ (1) _initialisation_keyboard                              0     0      0       0
+ ---------------------------------------------------------------------------------
+ (1) _initialisation_LCD                                   0     0      0     442
+                       _clearDisplay
+                        _displayCtrl
+                _initialisation_PORT
+                 _initialisation_SPI
+ ---------------------------------------------------------------------------------
+ (2) _initialisation_SPI                                   0     0      0       0
+ ---------------------------------------------------------------------------------
+ (2) _initialisation_PORT                                  1     1      0       0
+                                             20 COMRAM     1     1      0
+ ---------------------------------------------------------------------------------
+ (2) _displayCtrl                                          4     2      2     397
+                                             22 COMRAM     4     2      2
+                       _readBusyFlag
+                      _spi_Send_Read
+ ---------------------------------------------------------------------------------
+ (2) _clearDisplay                                         0     0      0      45
+                       _readBusyFlag
+                      _spi_Send_Read
+ ---------------------------------------------------------------------------------
+ (2) _readBusyFlag                                         1     1      0      30
+                                             21 COMRAM     1     1      0
+                      _spi_Send_Read
+ ---------------------------------------------------------------------------------
+ (2) _spi_Send_Read                                        1     1      0      15
+                                             20 COMRAM     1     1      0
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 2
+ ---------------------------------------------------------------------------------
+ (Depth) Function   	        Calls       Base Space   Used Autos Params    Refs
+ ---------------------------------------------------------------------------------
+ (5) _mux_keyboard                                        14    14      0     202
+                                              6 COMRAM    14    14      0
+                                _mux
+ ---------------------------------------------------------------------------------
+ (6) _mux                                                  6     5      1     202
+                                              0 COMRAM     6     5      1
+ ---------------------------------------------------------------------------------
+ Estimated maximum stack depth 6
+ ---------------------------------------------------------------------------------
+
+ Call Graph Graphs:
+
+ _main (ROOT)
+   _clearDisplay
+     _readBusyFlag
+       _spi_Send_Read
+     _spi_Send_Read
+   _displayCtrl
+     _readBusyFlag
+       _spi_Send_Read
+     _spi_Send_Read
+   _initialisation_LCD
+     _clearDisplay
+       _readBusyFlag
+         _spi_Send_Read
+       _spi_Send_Read
+     _displayCtrl
+       _readBusyFlag
+         _spi_Send_Read
+       _spi_Send_Read
+     _initialisation_PORT
+     _initialisation_SPI
+   _initialisation_keyboard
+   _putStringLCD
+     _putchLCD
+       _fliplr
+       _readBusyFlag
+         _spi_Send_Read
+       _spi_Send_Read
+   _putchLCD
+     _fliplr
+     _readBusyFlag
+       _spi_Send_Read
+     _spi_Send_Read
+   _readKeyboard
+
+ _mux_keyboard (ROOT)
+   _mux
+
+ Address spaces:
+Name               Size   Autos  Total    Cost      Usage
+BIGRAM             DF9      0       0      33        0.0%
+BITBANK12          100      0       0      29        0.0%
+BANK12             100      0       0      30        0.0%
+BITBANK11          100      0       0      27        0.0%
+BANK11             100      0       0      28        0.0%
+BITBANK10          100      0       0      25        0.0%
+BANK10             100      0       0      26        0.0%
+BITBANK9           100      0       0      23        0.0%
+BANK9              100      0       0      24        0.0%
+BITBANK8           100      0       0      21        0.0%
+BANK8              100      0       0      22        0.0%
+BITBANK7           100      0       0      19        0.0%
+BANK7              100      0       0      20        0.0%
+BITBANK6           100      0       0      17        0.0%
+BANK6              100      0       0      18        0.0%
+BITBANK5           100      0       0      15        0.0%
+BANK5              100      0       0      16        0.0%
+BITBANK4           100      0       0      13        0.0%
+BANK4              100      0       0      14        0.0%
+BITBANK3           100      0       0      11        0.0%
+BANK3              100      0       0      12        0.0%
+BITBANK2           100      0       0       9        0.0%
+BANK2              100      0       0      10        0.0%
+BITBANK1           100      0       0       6        0.0%
+BANK1              100      0       0       7        0.0%
+BITBANK13           FA      0       0      31        0.0%
+BANK13              FA      0       0      32        0.0%
+BITBANK0            A0      0       0       4        0.0%
+BANK0               A0      0       0       5        0.0%
+BITCOMRAM           5E      0       0       0        0.0%
+COMRAM              5E     21      24       1       38.3%
+BITSFR_3             0      0       0      40        0.0%
+SFR_3                0      0       0      40        0.0%
+BITSFR_2             0      0       0      40        0.0%
+SFR_2                0      0       0      40        0.0%
+BITSFR_1             0      0       0      40        0.0%
+SFR_1                0      0       0      40        0.0%
+BITSFR               0      0       0      40        0.0%
+SFR                  0      0       0      40        0.0%
+STACK                0      0       0       2        0.0%
+NULL                 0      0       0       0        0.0%
+ABS                  0      0      24       8        0.0%
+DATA                 0      0      24       3        0.0%
+CODE                 0      0       0       0        0.0%
+
+
+Microchip Technology PIC18 Macro Assembler V1.38 build -256452561 
+Symbol Table                                                                                   Tue Feb 26 18:13:28 2019
+
+                    ?_displayCtrl 0017                                l73 11E4  
+                    _putStringLCD 0EE0  __size_of_initialisation_keyboard 0020  
+                             l171 0E74                               l155 0EDC  
+                             l817 1166                               l921 0E42  
+                             l913 0E32                               l931 0E56  
+                             l923 0E46                               l915 0E36  
+                             l941 0E6A                               l933 0E5A  
+                             l925 0E4A                               l917 0E3A  
+                             l839 1140                               l943 0E6E  
+                             l935 0E5E                               l927 0E4E  
+                             l919 0E3E                               l937 0E62  
+                             l929 0E52                               l939 0E66  
+                             l947 0E78                               u230 0F18  
+                             u240 0F4E                               u237 0F0E  
+                             u247 0F44                               u290 0FC2  
+                             u367 10D2                               u377 10E0  
+                             u387 10EE                               _mux 0FC6  
+                             wreg 000FE8                              l1103 0EEA  
+                            l1107 0F20                              l1143 0F84  
+                            l1093 1096                              l1159 0FB2  
+                            ?_mux 0001                              STR_1 0E16  
+                            STR_2 0E01                              STR_3 0E2B  
+                            _LATE 000F8D                              i2l36 0058  
+                            _main 0F56                              fsr0h 000FEA  
+                            fsr1h 000FE2                              indf0 000FEF  
+                            fsr0l 000FE9                              fsr2h 000FDA  
+                            fsr1l 000FE1                              fsr2l 000FD9  
+                            btemp 0025                              pclat 000FFA  
+                            mux@E 0001                              prodh 000FF4  
+                            prodl 000FF3                              start 0094  
+                    ___param_bank 000010              __end_of_clearDisplay 1188  
+                           ??_mux 0002                       fliplr@input 0017  
+               putStringLCD@input 0019                             ?_main 0001  
+                           _PORTE 000F84                             _TRISE 000F96  
+     __size_of_initialisation_LCD 001C       __size_of_initialisation_SPI 003E  
+                           tablat 000FF5                             status 000FD8  
+                 __initialization 11F0                      __end_of_main 0FC6  
+                          ??_main 001F                     __activetblptr 000003  
+                   ?_readBusyFlag 0001                     ?_readKeyboard 0001  
+               spi_Send_Read@byte 0015                            i2l1111 0FCA  
+                          i2l1113 0FCE                            i2l1121 0FDC  
+                          i2l1115 0FD2                            i2l1123 0FF6  
+                          i2l1117 0FD6                     main@lastValue 0020  
+                          _OSCCON 000FD3                     putchLCD@input 0018  
+    __size_of_initialisation_PORT 0040                            _column 0024  
+                          _fliplr 1022           _initialisation_keyboard 1188  
+            __size_of_displayCtrl 0044                    ??_readBusyFlag 0016  
+                  ??_readKeyboard 0015                      __mediumconst 0000  
+                          mux@col 0006                            tblptrh 000FF7  
+                          tblptrl 000FF6                            tblptru 000FF8  
+                __end_of_putchLCD 1166                        __accesstop 0060  
+         __end_of__initialization 11F6             __size_of_clearDisplay 0022  
+                   ___rparam_used 000001                    __pcstackCOMRAM 0001  
+                    _clearDisplay 1166                     putStringLCD@i 001D  
+       ??_initialisation_keyboard 0015             __end_of_spi_Send_Read 11F0  
+                         ?_fliplr 0001                 displayCtrl@cursor 0017  
+                         i2u26_44 1006                           i2u26_45 1002  
+                         _SSP2BUF 000F03              __end_of_readBusyFlag 11DE  
+            __end_of_readKeyboard 0EE0                           __Hparam 0000  
+                         __Lparam 0000                         ?_putchLCD 0001  
+                    __psmallconst 0E00                   __size_of_fliplr 0052  
+                  displayCtrl@BCD 001A                           __pcinit 11F0  
+                         __ramtop 0E00                           __ptext0 0F56  
+                         __ptext1 0E2E                           __ptext2 0EE0  
+                         __ptext3 1136                           __ptext4 1022  
+                         __ptext5 1188                           __ptext6 11A8  
+                         __ptext7 10F8                           __ptext8 10B8  
+                         __ptext9 1074                         _T0CONbits 000FD5  
+                     mux@temp_low 0004                      __size_of_mux 005C  
+      __end_of_initialisation_LCD 11C4        __end_of_initialisation_SPI 1136  
+ __end_of_initialisation_keyboard 11A8              end_of_initialization 11F6  
+             _initialisation_PORT 10B8                        ??_putchLCD 0018  
+            ?_initialisation_PORT 0001                         _RPOR22_23 000E1D  
+                       _RPOR24_25 000E1E              readBusyFlag@retValue 0016  
+                      main@KBdata 001F                         _TRISCbits 000F94  
+                       _TRISDbits 000F95                     ?_mux_keyboard 0001  
+                   ??_displayCtrl 0019             ??_initialisation_PORT 0015  
+                   ?_putStringLCD 0019                    __end_of_fliplr 1074  
+             start_initialization 11F0                    ??_mux_keyboard 0007  
+                     __end_of_mux 1022             __size_of_readBusyFlag 001A  
+           __size_of_readKeyboard 00B2                 readKeyboard@value 0016  
+                  ??_putStringLCD 001B                          ??_fliplr 0015  
+             __end_of_displayCtrl 10B8                      _readBusyFlag 11C4  
+                     __pbssCOMRAM 0022                      _readKeyboard 0E2E  
+                       __pintcode 0008                  displayCtrl@blink 0018  
+               __size_of_putchLCD 0030                       __smallconst 0E00  
+              displayCtrl@display 0019            __size_of_spi_Send_Read 0012  
+                        _LATDbits 000F8C                _initialisation_LCD 11A8  
+              _initialisation_SPI 10F8          ?_initialisation_keyboard 0001  
+            __end_of_mux_keyboard 0094               ?_initialisation_LCD 0001  
+             ?_initialisation_SPI 0001                          _SSP2CON1 000F19  
+                        _SSP2CON3 000F39                       _displayCtrl 1074  
+                        _SSP2STAT 000F1A                         main@value 0021  
+            ??_initialisation_LCD 001B              ??_initialisation_SPI 0015  
+            __end_of_putStringLCD 0F56                     readKeyboard@E 0015  
+                        __Hrparam 0000                          __Lrparam 0000  
+                   _spi_Send_Read 11DE                     ?_clearDisplay 0001  
+                        __ptext10 1166                          __ptext11 11C4  
+                        __ptext12 11DE                          __ptext14 0FC6  
+                        _cntTimer 0022                      mux@temp_high 0005  
+                   __size_of_main 0070       __end_of_initialisation_PORT 10F8  
+                  ?_spi_Send_Read 0001                          int$flags 0025  
+                        _putchLCD 1136                      _SSP2STATbits 000F1A  
+                      _INTCONbits 000FF2                    ??_clearDisplay 0017  
+                        intlevel2 0000             __size_of_mux_keyboard 008C  
+                      _RPINR12_13 000E30             __size_of_putStringLCD 0076  
+                    _mux_keyboard 0008                   ??_spi_Send_Read 0015  
