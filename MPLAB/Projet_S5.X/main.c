@@ -12,6 +12,7 @@
 
 #include "LCD.h"
 #include "keyboard.h"
+#include "servo.h"
 
 /*
  * 
