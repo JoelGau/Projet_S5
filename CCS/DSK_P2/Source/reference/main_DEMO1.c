@@ -4,14 +4,27 @@
  *  Created on: 25 févr. 2019
  *      Author: jgaud
  */
-#include <stdbool.h>
-#include <stdio.h>
-#include <math.h>
-#include <dsk6713.h>
-#include <dsk6713_dip.h>
-#include <dsk6713_led.h>
 
+// Used modules headers
+#include "SPI_driver.h"
+#include "Audio_driver.h"
+#include "C6713Helper_UdeS.h"
 #include "CorrelationCroisee.h"
+
+// standard libraries
+#include <stdio.h>   // get standard I/O functions (as printf)
+#include <stddef.h>  // get null and size_t definition
+#include <stdbool.h> // get boolean, true and false definition
+#include <math.h>
+
+#include <csl.h>
+#include <csl_gpio.h>
+#include <csl_mcbsp.h>
+#include <csl_irq.h>
+#include <dsk6713_led.h>
+#include <dsk6713_aic23.h>
+#include <dsk6713.h>
+#include "dsk6713_dip.h"
 
 #define ATTENTE 0
 #define ORTHO 1

@@ -1,3 +1,6 @@
 Altium/hw-SerreAutomatisee/History/
 *.SchDocPreview
 *.PrjPcbStructure
+CCS/.jxbrowser-data/
+CCS/.metadata/
+CCS/DSK_P2/Debug/

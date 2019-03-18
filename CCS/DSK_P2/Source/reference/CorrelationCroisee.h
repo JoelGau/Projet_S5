@@ -23,7 +23,7 @@ int Sum(int* Tableau1, int* Tableau2, int Longueur)
     return Sum;
 }
 
-bool CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2, int* CORR)
+int CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2, int* CORR)
 {
     int i;
     int Kmin1, Kmax1, Kmin2, Kmax2;

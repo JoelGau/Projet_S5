@@ -1,21 +1,21 @@
 *Vectors_intr.asm Vector file for interrupt INT11
    .global _vectors			;global symbols
-   .global _c_int00
+   .global _c_int00			;reset
    .global _vector1
    .global _vector2
    .global _vector3
-   .global _lectureADC
-   .global _vector5
+   .global _intTLC1550
+   .global _intSPI
    .global _vector6
    .global _vector7
    .global _vector8
    .global _vector9	  
    .global _vector10 
-   .global _audio  			;for INT11
+   .global _intAIC		; AIC
    .global _vector12  
    .global _vector13   
-   .global _echantillonageADC
-   .global _interruptionLED
+   .global _vector14
+   .global _vector15
 
    .ref _c_int00				;entry address
 
@@ -41,15 +41,15 @@ _vector0:   VEC_ENTRY _c_int00   	;RESET
 _vector1:   VEC_ENTRY _vec_dummy  	;NMI
 _vector2:   VEC_ENTRY _vec_dummy  	;RSVD
 _vector3:   VEC_ENTRY _vec_dummy
-_vector4:   VEC_ENTRY _lectureADC
-_vector5:   VEC_ENTRY _vec_dummy
+_vector4:   VEC_ENTRY _intTLC1550
+_vector5:   VEC_ENTRY _intSPI		;Comm in
 _vector6:   VEC_ENTRY _vec_dummy
 _vector7:   VEC_ENTRY _vec_dummy
 _vector8:   VEC_ENTRY _vec_dummy
 _vector9:   VEC_ENTRY _vec_dummy
 _vector10:  VEC_ENTRY _vec_dummy
-_vector11:  VEC_ENTRY _audio    	;ISR address
+_vector11:  VEC_ENTRY _intAIC    	; AIC
 _vector12:  VEC_ENTRY _vec_dummy
 _vector13:  VEC_ENTRY _vec_dummy
-_vector14:  VEC_ENTRY _echantillonageADC
-_vector15:  VEC_ENTRY _interruptionLED
+_vector14:  VEC_ENTRY _vec_dummy
+_vector15:  VEC_ENTRY _vec_dummy

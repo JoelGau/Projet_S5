@@ -77,7 +77,7 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
-						<entry excluding="Source/reference/main.c|Source/reference/Vectors_intr.asm|Source/reference/C6713Helper_UdeS.c|Source/reference/assembleur.asm|Source/reference/Fonctions_LEDs.asm|assembleur.asm|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
+						<entry excluding="Source/reference/main.c|assembleur.asm|main.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name=""/>
 					</sourceEntries>
 				</configuration>
 			</storageModule>
