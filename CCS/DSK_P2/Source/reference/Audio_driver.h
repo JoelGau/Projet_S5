@@ -48,8 +48,7 @@
 /***************************************************************************
 	Global variables declaration :
 ***************************************************************************/
-extern int Son_out;
-extern int Son_in;
+extern int Son_lu;
 extern int FlagAIC;
 // look at example for EXTERN pattern
 
@@ -62,11 +61,6 @@ extern int FlagAIC;
 
 // Function description here ...
 EXTERN void Audio_init(void);
-
-EXTERN void Reception_Companding(void);
-EXTERN void Reception_Sans_Companding(void);
-EXTERN void Envoie_Companding(void);
-EXTERN void Envoie_Sans_Companding(void);
 
 // ajoutez vos prototype de fonction ici
 

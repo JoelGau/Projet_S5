@@ -46,8 +46,7 @@ extern far unsigned short ulaw2int(char);
 ****************************************************************************/
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 
-int Son_out = 0;
-int Son_in = 0;
+int Son_lu = 0;
 int FlagAIC = 0;
 // Use static keyword here
 
@@ -70,32 +69,13 @@ void Audio_init(void)
     return;
 }
 
-void Reception_Companding(void){
-    Son_in = ulaw2int(Son_in);
-    Son_in |= (Son_in << 16); // copier le 16 bits sur 32 bits
-}
-
-void Reception_Sans_Companding(void){
-    Son_in &= SPI_READ_DATA; // Enlever données inutiles
-    Son_in <<= 8;
-    Son_in |= (Son_in << 16); // copier le 16 bits sur 32 bits
-}
-
-void Envoie_Companding(void){
-    Son_out = int2ulaw(Son_out);
-}
-
-void Envoie_Sans_Companding(void){
-    Son_out = (Son_out & 0xFF00) >> 8;
-}
 /****************************************************************************
 	ISR :
 ****************************************************************************/
 
 interrupt void intAIC(void)
 {
-    Son_out = input_sample();
-    output_sample(Son_in);
+    Son_lu = input_sample();
     FlagAIC = 1;
 }
 
