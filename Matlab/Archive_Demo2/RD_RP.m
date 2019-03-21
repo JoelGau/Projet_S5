@@ -22,10 +22,14 @@ clear all
 %[x_48,fe_48] = audioread('.\Signaux\Tropical_SV_2019-02-26_10-13-00.wav');
 
 % Désertique
-%[x_48,fe_48] = audioread('.\Signaux\Desertique_JG_2019-03-18_09-39-59.wav');
+%[x_48,fe_48] = audioread('.\Signaux\Desertique_JG_2019-03-19_09-50-59.wav');
 
 % Alimentaire
-%[x_48,fe_48] = audioread('.\Signaux\Alimentaire_JG_2019-03-18_09-41-04.wav');
+%[x_48,fe_48] = audioread('.\Signaux\Alimentaire_JG_2019-03-19_09-49-53.wav');
+
+% EZWEED
+[x_48,fe_48] = audioread('.\Signaux\EZWEED_JG_2019-03-19_19-50-39.wav');
+
 
 % Diminution de la fréquence d'échantillonage à 16 kHz
 x_16 = downsample(x_48(:,1),4);
@@ -41,20 +45,13 @@ Longueur_Signal = length(x_16);
 % Filtre FIR pour enveloppe
 b = fir1(400,pi./1000);
 
-% enveloppe2 = filter(b,[1],abs(x_16));
-% figure(1)
-% hold on
-% plot(x_16,'r')
-% plot(enveloppe2,'b')
-% hold off
-
 % X_FFT = complex(zeros(1,1024),zeros(1,round(Longueur_Signal./512)));
 X_FFT = ones(LONGUEUR_TRAME./2,round(Longueur_Signal./512)).*complex(0,0);
 k = 1;
 Computing = 0;
 F_hm = hamming(LONGUEUR_TRAME);
 
-for i = [1:INTERVALLE_TRAME:Longueur_Signal-LONGUEUR_TRAME]
+for i = [1:LONGUEUR_TRAME:Longueur_Signal-LONGUEUR_TRAME]
     
     % Fenetrage du signal d'entrée (x) -> x_hm
     x_fn = x_16(i:i + LONGUEUR_TRAME-1);
@@ -63,7 +60,7 @@ for i = [1:INTERVALLE_TRAME:Longueur_Signal-LONGUEUR_TRAME]
     % Detection de seuil
     if not(Computing)
         enveloppe = filter(b,[1],abs(x_fn));
-        if (max(enveloppe) > 0.3) % valeur arbitraire (normalisée)
+        if (max(enveloppe) > 0.1) % valeur arbitraire (normalisée)
            Computing = 1; 
         end
     else
@@ -79,13 +76,17 @@ for i = [1:INTERVALLE_TRAME:Longueur_Signal-LONGUEUR_TRAME]
     end
 end
 
-freq = loc.*fe_16./pi;
+freq = loc.*fe_16./(LONGUEUR_TRAME);
+d_freq = diff(freq);
 
 %figure(1)
 %surf([1:72;1:72;1:72],freq,pks)
 
 figure(1)
+subplot(2,1,1)
 plot([1:k-1],freq)
+subplot(2,1,2)
+plot([1:k-2],d_freq)
 
 
 
