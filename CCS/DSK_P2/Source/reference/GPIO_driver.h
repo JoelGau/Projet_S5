@@ -19,8 +19,6 @@
 #include <stdbool.h> // get boolean, true and false definition
 
 
-extern int FlagTLC1550;
-
 // Function description here ...
 void GPIO_init(void);
 void ActiverPompe(void);

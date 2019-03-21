@@ -64,7 +64,7 @@ int FlagAIC = 0;
 // Function description here ...
 void Audio_init(void)
 {
-    comm_intr(DSK6713_AIC23_FREQ_8KHZ,DSK6713_AIC23_INPUT_MIC); // Configurer l'AIC à 8kHz et l'entrée comme étant le mic
+    comm_intr(DSK6713_AIC23_FREQ_16KHZ,DSK6713_AIC23_INPUT_MIC); // Configurer l'AIC à 8kHz et l'entrée comme étant le mic
     DSK6713_waitusec(100000); // attendre pour s'assurer que la config de l'AIC se fait correctement
     return;
 }

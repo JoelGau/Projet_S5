@@ -6,6 +6,7 @@
  */
 
 // Used modules headers
+#include "EMIF_driver.h"
 #include "SPI_driver.h"
 #include "Audio_driver.h"
 #include "C6713Helper_UdeS.h"

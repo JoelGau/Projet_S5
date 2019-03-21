@@ -11,13 +11,12 @@
 #include <stdbool.h> // get boolean, true and false definition
 #include <csl.h>
 #include <csl_gpio.h>
-#include <csl_mcbsp.h>
 #include <csl_irq.h>
 #include <dsk6713.h>
 
 GPIO_Handle hGpio;
 extern far void vectors();   // Vecteurs d'interruption
-int FlagTLC1550 = 0;
+
 
 
 void GPIO_init(void){
@@ -36,7 +35,7 @@ void GPIO_init(void){
     GPIO_pinWrite(hGpio,GPIO_PIN8,1);
     GPIO_pinWrite(hGpio,GPIO_PIN10,1);
 
-    // Settings of IRQ -> GPIO lié à int4 et 5
+    // Settings of IRQ -> GPIO4 lié à int4 et GPIO5 lié à int5
     IRQ_setVecs(vectors);
     IRQ_map(IRQ_EVT_EXTINT4,4);
     IRQ_map(IRQ_EVT_EXTINT5,5);
@@ -64,8 +63,4 @@ void DesactiverLumiere(void){
 /****************************************************************************
     ISR :
 ****************************************************************************/
-void interrupt intTLC1550(void){
-    FlagTLC1550 = 1;
-    return;
-}
 
