@@ -1,22 +1,12 @@
-%% RD_EZWEED
+%% getEZWEED
 % Programmeurs:             JG,
-% Date de création:         2019-03-21
+% Date de création:         2019-03-23
 % Dernière modification:    2019-03-23
 % Description:              
-% Ce programme traite des signaux "EZWEED". Le but de ce script est de
-% déterminer un logique pour détecter le mot "EZWEED".
+% Ce script sert à tester la fonctionnalité de EZWEED.m
 %% Core
-clc
-clear all
-close all
 
-% EZWEED
-[x_48,fe_48] = audioread('.\Signaux\EZWEED_JG_2019-03-19_19-50-39.wav');
-
-% Diminution de la fréquence d'échantillonage à 16 kHz
-x_16 = downsample(x_48(:,1),4);
-fe_16 = fe_48/4;
-
+function getEZWEED(x_16,fe_16)
 % Constante
 IDLE = 0;
 COMPUTING = 1;
@@ -117,4 +107,5 @@ for i = [1:1:Longueur_Signal]
             display('?');
         end
     end
+end
 end
