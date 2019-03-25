@@ -1,9 +1,9 @@
 %% getEZWEED
 % Programmeurs:             JG,
 % Date de création:         2019-03-23
-% Dernière modification:    2019-03-23
+% Dernière modification:    2019-03-24
 % Description:              
-% Ce script sert à tester la fonctionnalité de EZWEED.m
+% Voici la fonction qui évalue si le mot EZWEED est dit.
 %% Core
 
 function getEZWEED(x_16,fe_16)
@@ -12,7 +12,8 @@ IDLE = 0;
 COMPUTING = 1;
 RESULT = 2;
 
-SEUIL = 0.1;
+SEUIL_haut = 0.1;
+SEUIL_bas = 0.01;
 
 % Filtre FIR pour enveloppe
 b = fir1(50,pi./1000);
@@ -24,9 +25,9 @@ Longueur_Signal = length(x_16);
 % Définition de constantes
 LONGUEUR_TRAME = 1024;
 LONGUEUR_TRAME_HALF = LONGUEUR_TRAME./2;
-F0min = 10;
-F0max = 15;
-Acceptabilite = 0.5;
+F0min = 20;
+F0max = 25;
+Acceptabilite = 0.4;
 F_hm = hamming(LONGUEUR_TRAME);
 
 IDLE = 0;
@@ -62,14 +63,14 @@ for i = [1:1:Longueur_Signal]
         %% IDLE
         % Détection de seuil
         enveloppe = filter(b,[1],abs(Enregistrement));
-        if (max(enveloppe) > SEUIL) % valeur arbitraire (normalisée)
+        if (max(enveloppe) > SEUIL_haut) % valeur arbitraire (normalisée)
            State = COMPUTING;
         end
     elseif (State == COMPUTING)
         %% Computing
         % Detection de fin
         enveloppe = filter(b,[1],abs(Enregistrement));
-        if (max(enveloppe) < SEUIL) % valeur arbitraire (normalisée)
+        if (max(enveloppe) < SEUIL_bas) % valeur arbitraire (normalisée)
            State = RESULT;
         end
         
@@ -89,7 +90,7 @@ for i = [1:1:Longueur_Signal]
             end
 
             % Détection de la F0
-            [pks,loc] = findpeaks(newX,'NPeaks',1);
+            [pks,loc] = max(newX);
             if not(isempty(loc))
                 if ((loc >= F0min) && (loc <= F0max))
                     CompteF0 = CompteF0 + 1;
@@ -101,11 +102,12 @@ for i = [1:1:Longueur_Signal]
     elseif (State == RESULT)
         %% RESULT
         % On indique si le mot à été détecté
-        if (CompteF0./CompteTotal > Acceptabilite)
-            display('Vous avez dit EZWEED');
+        if ((CompteF0./CompteTotal) > Acceptabilite)
+            disp('Vous avez dit EZWEED');
         else
-            display('?');
+            disp('?');
         end
+        break;
     end
 end
 end
