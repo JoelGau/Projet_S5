@@ -1,27 +1,54 @@
 %% getF0
 % Programmeurs:             JG,
 % Date de création:         2019-03-18
-% Dernière modification:    2019-03-18
+% Dernière modification:    2019-03-30
 % Description:              
-% Cette fonction est fortement inspirée de l'algorithme des professeurs
-% (findErrAccordage.c) pour la problématique de l'APP6.
+% Cette fonction trouve la distance entre 2 peaks (ce qui correspond à la
+% fréquence fondamentale du signal autocorrélée), et retourne la fréquence
+% fondamentale conséquente.
 %% Core
-function [F0] = getF0(xx, fmax, FS, L_TAMPON) 
-	% Variables pour limiter la recherche dans l'autocorrélation
-	delaiMin = FS/fmax;
-
-	% Recherche du délai de la fréquence fondamentale
-	amp_MAX = 0;
-	for delai = 1:1:L_TAMPON
-		if (xx(delai) > amp_MAX) % Si l'amplitude courrante de l'autocorrélation est 
-								 % plus grande que les amplitudes précédentes
-			amp_MAX =  xx(delai);	
-			delaiF0 = delai;  		% Enregistrement du délai actuel
+function [F0] = getF0(autocorr, LONGUEUR_TRAME, FS)
+    % Comme l'autocorrélation est symétrique, on traite seulement la m
+    % moitié du signal.
+    
+    % Constantes d'états
+    FIRST_MAX = 0;
+    FIRST_ZERO = 1;
+    SECOND_ZERO = 2;
+    SECOND_MAX = 3;
+    
+    amp_max = 0;
+    state = FIRST_MAX;
+    for i = 1:1:LONGUEUR_TRAME
+        if (state == FIRST_MAX)
+            % Trouver le premier maximum
+            if (autocorr(i) > amp_max)
+               amp_max = autocorr(i); 
+            else
+               FirstPeak = i - 1; 
+               state = FIRST_ZERO;
+            end
+        elseif (state == FIRST_ZERO)
+            % Passer en dessous de zero
+            if (autocorr(i) < 0)
+               state = SECOND_ZERO; 
+            end
+        elseif (state == SECOND_ZERO)
+            % Passer au dessus de zero
+            if (autocorr(i) > 0)
+               state = SECOND_MAX; 
+            end
+        elseif (state == SECOND_MAX)
+            % Trouver le deuxième maximum
+            if (autocorr(i) > amp_max)
+               amp_max = autocorr(i); 
+            else
+               SecondPeak = i - 1; 
+               break;
+            end
         end
     end
-	if (delaiF0 >= delaiMin)
-		F0 = FS/delaiF0; 	% Calcul de la fréquence fondamentale
-	else
-		F0 = 0;						% Aucune note ne semble être jouée
-    end
+    % Calcul de la F0
+    T = (SecondPeak - FirstPeak)./FS;
+    F0 = 1./T;
 end

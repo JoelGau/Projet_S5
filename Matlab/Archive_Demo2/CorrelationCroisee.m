@@ -1,7 +1,7 @@
 %% CorrelationCroisee
 % Programmeurs:             JG, MSP
 % Date de création:         2019-02-23
-% Dernière modification:    2019-02-23
+% Dernière modification:    2019-02-30
 % Description:              
 % Cette fonction prend en input 2 signaux de même longueur. Elle renvoit en
 % output la corrélation croisée des 2 signaux. Ce code devrait être assez
@@ -35,7 +35,6 @@ function [C] = CorrelationCroisee(x1,x2)
     for i = 1:Lc
         newx1 = x1(Kmin1:Kmax1);
         newx2 = x2(Kmin2:Kmax2);
-        n = length(newx1);
         C(i) = sum(newx1.*newx2);
         if (i < round(Lc./2))
             Kmax1 = Kmax1 + 1;
