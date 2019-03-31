@@ -35,8 +35,8 @@
 ****************************************************************************/
 
 extern far void vectors();   // Vecteurs d'interruption
-extern int Son_in;
-extern int Son_out;
+extern int Data_in;
+extern int Data_out;
 
 /****************************************************************************
 	Private macros and constants :
@@ -138,7 +138,6 @@ MCBSP_Config MCBSP0_SPI_Cfg = {
 
 void SPI_init(void)
 {
-
     MCBSP_config(DSK6713_AIC23_CONTROLHANDLE, &MCBSP0_SPI_Cfg); //mettre en place la nouvelle configuration du MCBSP
     MCBSP_start(DSK6713_AIC23_CONTROLHANDLE,MCBSP_XMIT_START | MCBSP_RCV_START | MCBSP_SRGR_START | MCBSP_SRGR_FRAMESYNC, 256); //à quoi servent "XMIT_START", "RCV_START", "SRGR_START"?
 
@@ -156,13 +155,12 @@ void lire_MCBSP(void){
     while(!MCBSP_xrdy(DSK6713_AIC23_CONTROLHANDLE)); //attendre que les 16 coups de clock correspondant au MCBSP_write soient terminés
     MCBSP_write(DSK6713_AIC23_CONTROLHANDLE,0x00);
     while(!MCBSP_rrdy(DSK6713_AIC23_CONTROLHANDLE)); //attendre que les 16 coups de clock correspondant au MCBSP_read soient terminés
-    Son_in = MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
+    Data_in = MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
 }
 
 void ecrire_MCBSP(void){
     while(!MCBSP_xrdy(DSK6713_AIC23_CONTROLHANDLE)); //attendre que les 16 coups de clock correspondant au MCBSP_write soient terminés
-    MCBSP_write(DSK6713_AIC23_CONTROLHANDLE, Son_out | SPI_WRITE_DATA);
-
+    MCBSP_write(DSK6713_AIC23_CONTROLHANDLE, Data_out | SPI_WRITE_DATA);
 }
 
 /****************************************************************************
