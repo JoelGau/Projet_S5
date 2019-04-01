@@ -26,6 +26,7 @@
 #include <dsk6713_aic23.h>
 #include <dsk6713.h>
 #include "dsk6713_dip.h"
+#include "getEZWEED.h"
 
 #define ATTENTE 0
 #define ORTHO 1
@@ -59,9 +60,15 @@ void main(void)
 {
     // Ce main est en cours de conception, à modifier
     ALL_LED_OFF();
+    getEZWEED_Audio_init();
+    getEZWEED_init();
+    int i = 0, j = 0;
     while (true)
     {
-
+        for (i = 0; i<10; i++)
+        {
+            j = i;
+        }
 
     }
 

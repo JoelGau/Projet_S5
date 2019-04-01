@@ -5,7 +5,7 @@
 #define CONSTANTES_H_
 
 #ifndef PI
-const float PI = 3.14159265358979;
+#define PI = 3.14159265358979;
 #endif
 
 #ifndef FS
@@ -18,6 +18,10 @@ const float PI = 3.14159265358979;
 
 #ifndef LONGUEUR_TRAME_HALF
 #define LONGUEUR_TRAME_HALF 512            // Longueur d'une moitié de trame
+#endif
+
+#ifndef SEUIL
+#define SEUIL 0.1
 #endif
 
 #endif /* CONSTANTES_H_ */
