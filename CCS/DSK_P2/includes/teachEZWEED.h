@@ -15,7 +15,7 @@
 #define SECOND_ZERO 2
 #define SECOND_MAX 3
 
-int getF0(int*)
+int getF0(int*);
 
 
 #endif /* INCLUDES_TEACHEZWEED_H_ */

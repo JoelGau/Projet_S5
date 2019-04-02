@@ -33,12 +33,20 @@
 #define AUTO 2
 #define COMPUTING 3
 #define AUTRE 4
+#define LONGUEURTRAME 10
+#define NB_CYCLES_PAR_SEC 225000000     // Nombre de cycles par secondes
 
 int State = ATTENTE;
 
 int Sref[LONGUEURTRAME] = {1,2,3,4,5,5,4,3,2,1};
 int Sort[LONGUEURTRAME] = {0,0,0,0,0,0,0,0,0,0};
 int Scus[LONGUEURTRAME] = {-1,0,1,0,-1,0,1,0,-1,0};
+
+int Son_in;
+int Son_out;
+unsigned short ValLumen = 0;
+unsigned short ValHumidite = 0;
+int FlagTLC1550 = 0;
 
 void ALL_LED_OFF()
 {
@@ -55,21 +63,29 @@ void ALL_LED_ON()
     DSK6713_LED_on(3);
 }
 
+// Attente en sec. (approximatif)
+void attendre(float seconds)
+{
+    int cnt=0;
+    int fin = (int)NB_CYCLES_PAR_SEC*seconds;
+    while (cnt++<fin) {}
+}
 
 void main(void)
 {
     // Ce main est en cours de conception, à modifier
     ALL_LED_OFF();
-    getEZWEED_Audio_init();
-    getEZWEED_init();
-    int i = 0, j = 0;
+    GPIO_init();
+    SPI_init();
+
     while (true)
     {
-        for (i = 0; i<10; i++)
-        {
-            j = i;
-        }
-
+        ActiveADCLuminosite();
+        attendre(0.5);
+        ActiveADCHumidite();
+        attendre(0.5);
+        printf("Luminosite = %u \n",ValLumen);
+        printf("Humidité = %u \n",ValHumidite);
     }
 
 }

@@ -14,9 +14,10 @@
 #include <csl_gpio.h>
 #include <dsk6713.h>
 
-int FlagTLC1550 = 0;
-int SelectionADC = 0;
-short ValeurADC = 0;
+extern int FlagTLC1550;
+int SelectionADC = Lumiere;
+extern unsigned short ValLumen;
+extern unsigned short ValHumidite;
 
 void ActiveADCLuminosite(void){
     *(unsigned int *) ADRESSE_ADC_lumen = 0x0; // Activer ADC luminosité
@@ -34,10 +35,10 @@ void ActiveADCHumidite(void){
 void interrupt intTLC1550(void){
     FlagTLC1550 = 1;
     if(SelectionADC == Lumiere){
-        ValeurADC = *(unsigned short*) ADRESSE_ADC_lumen; //READ une donnée de l’ADC
+        ValLumen = *(unsigned short*) ADRESSE_ADC_lumen; //READ une donnée de l’ADC
     }
     else{
-        ValeurADC = *(unsigned short*) ADRESSE_ADC_humidite; //READ une donnée de l’ADC
+        ValHumidite = *(unsigned short*) ADRESSE_ADC_humidite; //READ une donnée de l’ADC
     }
     return;
 }

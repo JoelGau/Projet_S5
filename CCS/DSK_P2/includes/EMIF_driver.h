@@ -16,7 +16,7 @@
 
 #define ADRESSE_ADC_humidite 0xB0380000 //Capteur humidité
 #define ADRESSE_ADC_lumen 0xB0300000 //Capteur luminosité
-#define Lumiere 0
+#define Lumiere 1
 #define Humidite 0
 
 
