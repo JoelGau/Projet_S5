@@ -7,7 +7,15 @@
 
 #include "teachEZWEED.h"
 #include "CONSTANTES.h"
-#include
+#include "CorrelationCroisee.h"
+
+extern int* Lock;
+extern int *x_fn;             // pointeur vers l'échantillon lue
+
+int moyF0;
+short compteF;
+
+int CORR[LONGUEUR_TRAME];
 
 int getF0(int* autocorr)
 {
@@ -69,9 +77,30 @@ int getF0(int* autocorr)
     return FS/(SecondPeak - FirstPeak); // On retourne la F0 (fréquence réelle, pas normalisée)
 }
 
+void initteachEZWEED()
+{
+    moyF0 = 0;
+    compteF = 0;
+}
+
 void teachEZWEED()
 {
+    if (*Lock == 1)
+    {
+        AutoCorrelation((int*) x_fn, CORR);
+        // Incrémente la moyenne et le compte
+        moyF0 = moyF0 + getF0(CORR);
+        compteF++;
+        *Lock = 0;
+    }
+}
 
+int concludeEZWEED()
+{
+    int LaF0 = moyF0/compteF;
+    moyF0 = 0;
+    compteF = 0;
+    return LaF0;
 }
 
 

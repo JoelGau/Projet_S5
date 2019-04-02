@@ -8,9 +8,7 @@
 // Used modules headers
 #include "EMIF_driver.h"
 #include "SPI_driver.h"
-#include "Audio_driver.h"
 #include "C6713Helper_UdeS.h"
-#include "CorrelationCroisee.h"
 
 // standard libraries
 #include <stdio.h>   // get standard I/O functions (as printf)
@@ -27,18 +25,8 @@
 #include <dsk6713.h>
 #include "dsk6713_dip.h"
 #include "getEZWEED.h"
-
-#define ATTENTE 0
-#define ORTHO 1
-#define AUTO 2
-#define COMPUTING 3
-#define AUTRE 4
-
-int State = ATTENTE;
-
-int Sref[LONGUEURTRAME] = {1,2,3,4,5,5,4,3,2,1};
-int Sort[LONGUEURTRAME] = {0,0,0,0,0,0,0,0,0,0};
-int Scus[LONGUEURTRAME] = {-1,0,1,0,-1,0,1,0,-1,0};
+#include "Audio_Config.h"
+#include "teachEZWEED.h"
 
 void ALL_LED_OFF()
 {
@@ -59,19 +47,23 @@ void ALL_LED_ON()
 void main(void)
 {
     // Ce main est en cours de conception, à modifier
+    int F0;
     ALL_LED_OFF();
-    getEZWEED_Audio_init();
+    Codec_Audio_init();
     getEZWEED_init();
-    int i = 0, j = 0;
-    while (true)
+    initteachEZWEED();
+
+    while (1)
     {
-        for (i = 0; i<10; i++)
+        /*if (DSK6713_DIP_get(0) == 1)
         {
-            j = i;
+            teachEZWEED();
         }
-
+        else if(DSK6713_DIP_get(0) == 0){
+            F0 = concludeEZWEED();
+        }*/
+        getEZWEED();
     }
-
 }
 
 

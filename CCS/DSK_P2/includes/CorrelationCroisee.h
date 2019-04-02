@@ -79,6 +79,36 @@ int CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2, int* CORR
 
 }
 
+int AutoCorrelation(int* x1, int* CORR)
+{
+    // Cette fonction est basée sur CorrelationCroisee. Cependant elle est optimisée
+    // pour faire une autocorrelation. Prendre note qu'elle retourne un tableau de [LONGUEUR_TRAME].
+    int i;
+    int Kmin1, Kmax1, Kmin2, Kmax2;
+    int *newx1, *newx2;
+
+    // On assigne les index de débuts pour les 2 signaux
+
+    Kmin1 = 0;
+    Kmax1 = 0;
+
+    Kmin2 = LONGUEUR_TRAME-1;
+    Kmax2 = Kmin2;
+
+    for (i = 0; i < LONGUEUR_TRAME; i++)
+    {
+        newx1 = &x1[Kmin1];
+        newx2 = &x1[Kmin2];
+
+        CORR[i] = SumASM(newx1,newx2,(Kmax1-Kmin1+1));
+
+        Kmax1 = Kmax1 + 1;
+        Kmin2 = Kmin2 - 1;
+    }
+    return 1; //Succès
+
+}
+
 int AdditionInt(int* x1, int longueur)
 {
     // Cette fonction retourne la somme du tableau

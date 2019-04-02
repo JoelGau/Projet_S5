@@ -43,7 +43,7 @@ _direct1FIR_ASM:
 			MV B7, A4
 
 ; Longueur du filtre, N (ordre + 1, valeur impaire puisque c'est un passe-haut symmétrique)
-			MVK 63, A1
+			MVK 52, A1
 
 ; Initialisation y[n]=0
 			ZERO A11;
