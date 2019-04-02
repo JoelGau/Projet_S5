@@ -8,7 +8,7 @@
 #ifndef SOURCE_C_CORRELATIONCROISEE_H_
 #define SOURCE_C_CORRELATIONCROISEE_H_
 
-#define LONGUEURTRAME 10
+#include "CONSTANTES.h"
 
 int SumASM(int* Tableau1, int* Tableau2, int Longueur);
 
@@ -30,21 +30,21 @@ int CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2, int* CORR
     int *newx1, *newx2;
 
     // Ajout de zéros pour compler les espaces manquants
-    if (Longueur1 > LONGUEURTRAME || Longueur2 > LONGUEURTRAME)
+    if (Longueur1 > LONGUEUR_TRAME || Longueur2 > LONGUEUR_TRAME)
     {
         // Le signal d'entrée est plus long que prévue
         return 0; //erreur
     }
-    if (Longueur2 < LONGUEURTRAME)
+    if (Longueur2 < LONGUEUR_TRAME)
     {
-        for (i = Longueur2; i < LONGUEURTRAME; i++)
+        for (i = Longueur2; i < LONGUEUR_TRAME; i++)
         {
             x2[i] = 0;
         }
     }
-    if (Longueur1 < LONGUEURTRAME)
+    if (Longueur1 < LONGUEUR_TRAME)
     {
-        for (i = Longueur1; i < LONGUEURTRAME; i++)
+        for (i = Longueur1; i < LONGUEUR_TRAME; i++)
         {
             x1[i] = 0;
         }
@@ -54,22 +54,22 @@ int CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2, int* CORR
     Kmin1 = 0;
     Kmax1 = 0;
 
-    Kmin2 = LONGUEURTRAME-1;
+    Kmin2 = LONGUEUR_TRAME-1;
     Kmax2 = Kmin2;
 
-    for (i = 0; i < LONGUEURTRAME*2-1; i++)
+    for (i = 0; i < LONGUEUR_TRAME*2-1; i++)
     {
         newx1 = &x1[Kmin1];
         newx2 = &x2[Kmin2];
 
         CORR[i] = SumASM(newx1,newx2,(Kmax1-Kmin1+1));
 
-        if(i < (LONGUEURTRAME*2-1)/2)
+        if(i < (LONGUEUR_TRAME*2-1)/2)
         {
             Kmax1 = Kmax1 + 1;
             Kmin2 = Kmin2 - 1;
         }
-        else if (i >= (LONGUEURTRAME*2-1)/2)
+        else if (i >= (LONGUEUR_TRAME*2-1)/2)
         {
             Kmin1 = Kmin1 + 1;
             Kmax2 = Kmax2 - 1;

@@ -46,12 +46,14 @@ clc
 clear all
 close all
 
+load('ez.mat')
 LONGUEUR_TRAME = 1024;
 n = 1:1:LONGUEUR_TRAME;
 f = 111;
 fe = 16000;
 
-x_n = sin(2.*pi.*f./fe*n);
+x_n = x_16(40000:40000+LONGUEUR_TRAME-1);
+%x_n = sin(2.*pi.*f./fe*n);
 
 autocorr = CorrelationCroisee(x_n,x_n);
 
