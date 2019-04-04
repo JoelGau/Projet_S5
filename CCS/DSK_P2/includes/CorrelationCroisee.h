@@ -84,7 +84,7 @@ int AutoCorrelation(int* x1, int* CORR)
     // Cette fonction est basée sur CorrelationCroisee. Cependant elle est optimisée
     // pour faire une autocorrelation. Prendre note qu'elle retourne un tableau de [LONGUEUR_TRAME].
     int i;
-    int Kmin1, Kmax1, Kmin2, Kmax2;
+    int Kmin1, Kmax1, Kmin2;
     int *newx1, *newx2;
 
     // On assigne les index de débuts pour les 2 signaux
@@ -93,7 +93,6 @@ int AutoCorrelation(int* x1, int* CORR)
     Kmax1 = 0;
 
     Kmin2 = LONGUEUR_TRAME-1;
-    Kmax2 = Kmin2;
 
     for (i = 0; i < LONGUEUR_TRAME; i++)
     {

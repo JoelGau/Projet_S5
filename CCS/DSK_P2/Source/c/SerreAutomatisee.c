@@ -28,6 +28,10 @@
 #include "Audio_Config.h"
 #include "teachEZWEED.h"
 
+// Variables globales externes
+extern int* Lock;
+extern int F0;
+
 void ALL_LED_OFF()
 {
     DSK6713_LED_off(0);
@@ -47,22 +51,22 @@ void ALL_LED_ON()
 void main(void)
 {
     // Ce main est en cours de conception, à modifier
-    int F0;
+    DSK6713_init();
     ALL_LED_OFF();
     Codec_Audio_init();
     getEZWEED_init();
     initteachEZWEED();
 
+    // Attendre l'initialisation du codec
+    DSK6713_waitusec(1000);
+    *Lock = 0;
+
     while (1)
     {
-        if (DSK6713_DIP_get(0) == 1)
+        if (DSK6713_DIP_get(0) == 0)
         {
             teachEZWEED();
         }
-        else if(DSK6713_DIP_get(0) == 0){
-            F0 = concludeEZWEED();
-        }
-        //getEZWEED();
     }
 }
 

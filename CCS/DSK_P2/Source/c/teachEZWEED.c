@@ -12,6 +12,7 @@
 extern int* Lock;
 extern int *x_fn;             // pointeur vers l'échantillon lue
 
+int F0;
 int moyF0;
 short compteF;
 
@@ -40,7 +41,7 @@ int getF0(int* autocorr)
             }
             else
             {
-                FirstPeak = i - 1;
+                FirstPeak = i + 1;
                 state = FIRST_ZERO;
             }
         }
@@ -58,6 +59,7 @@ int getF0(int* autocorr)
             if (autocorr[i] > 0)
             {
                state = SECOND_MAX;
+               amp_max = 0;
             }
         }
         else if (state == SECOND_MAX)
@@ -69,7 +71,7 @@ int getF0(int* autocorr)
             }
             else
             {
-                SecondPeak = i - 1;
+                SecondPeak = i + 1;
                 break;
             }
         }
@@ -92,6 +94,10 @@ void teachEZWEED()
         moyF0 = moyF0 + getF0(CORR);
         compteF++;
         *Lock = 0;
+        if (compteF >= 10)
+        {
+            F0 = concludeEZWEED();
+        }
     }
 }
 
