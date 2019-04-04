@@ -29,7 +29,7 @@ int getF0(int* autocorr)
     int state = FIRST_MAX;
     short FirstPeak = 0, SecondPeak = 0;
 
-    for (i=0; i<LONGUEUR_TRAME; i++)
+    for (i=LONGUEUR_TRAME-1; i>=0; i--)
     {
         if (state == FIRST_MAX)
         {
@@ -74,7 +74,7 @@ int getF0(int* autocorr)
             }
         }
     }
-    return FS/(SecondPeak - FirstPeak); // On retourne la F0 (fréquence réelle, pas normalisée)
+    return FS/(FirstPeak - SecondPeak); // On retourne la F0 (fréquence réelle, pas normalisée)
 }
 
 void initteachEZWEED()

@@ -39,6 +39,11 @@ extern short *x_fn;
 short X;
 short loc;
 
+/***************************************************************************************************/
+/* Variables globales propres au filtre FIR pour générer l'enveloppe                               */
+/***************************************************************************************************/
+extern int FlagEnveloppe;
+extern int input;
 
 short echLineIn;               // Ampliutde de l'échantillon provenant de l'entrée LINE IN
 short echLineInFilt;           // Ampliutde de l'échantillon filtré
@@ -47,6 +52,9 @@ short echLineInFilt;           // Ampliutde de l'échantillon filtré
 short Enveloppe[TAMPON_L]={0};                // Tampon d'échantillons
 #pragma DATA_ALIGN(Enveloppe, TAMPON_L*2);    // Requis pour l'adressage circulaire en assembleur
 short *pEnveloppe=&Enveloppe[TAMPON_L-1];     // Pointeur sur l'échantillon courant
+/***************************************************************************************************/
+
+/***************************************************************************************************/
 
 extern far void vectors();   // Vecteurs d'interruption
 
@@ -88,26 +96,29 @@ void getEZWEED_init(){
 void getEZWEED(void){
     int index_peak;
     int j = 0;
-    int k = 0;
-    // Calculer l'enveloppe
-    echLineIn = *x_fn;
-    pEnveloppe = direct1FIR_ASM(pEnveloppe,echLineIn, CoeffsFIR, &echLineInFilt);
-    if(*Lock == 1){
-        // Détection de seuil
+
+    // Calculer la prochaine sortie de l'enveloppe
+    if (FlagEnveloppe == 1)
+    {
+        echLineIn = (short) input;
+        pEnveloppe = direct1FIR_ASM(pEnveloppe,echLineIn, CoeffsFIR, &echLineInFilt);
+        FlagEnveloppe = 0;
+    }
+
+    if(*Lock == 1) // La trame est prête à être utilisée
+    {
         if(stateget == IDLE){
+            // Détection de seuil
             if(max(Enveloppe)>SEUIL_HAUT){
                 stateget = COMPUTING;
-                }
             }
-        // Detection de fin
+        }
         if(stateget == COMPUTING){
+            // Detection de fin
             if(max(Enveloppe)<SEUIL_BAS){
                 stateget = RESULT;
             }
-        }
 
-        // Trame prête à être utilisée
-        if (stateget == COMPUTING){
             int a;
             //Fenetrage
             //x_hm = F_hm'.*x_fn;

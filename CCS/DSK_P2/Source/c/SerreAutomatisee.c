@@ -55,14 +55,14 @@ void main(void)
 
     while (1)
     {
-        /*if (DSK6713_DIP_get(0) == 1)
+        if (DSK6713_DIP_get(0) == 1)
         {
             teachEZWEED();
         }
         else if(DSK6713_DIP_get(0) == 0){
             F0 = concludeEZWEED();
-        }*/
-        getEZWEED();
+        }
+        //getEZWEED();
     }
 }
 

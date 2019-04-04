@@ -14,6 +14,8 @@
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
 
+extern far void vectors();   // Vecteurs d'interruption
+
 int n;                          // Index pour les buffers
 int Buffer1[LONGUEUR_TRAME];    // Buffer 1
 int Buffer2[LONGUEUR_TRAME];    // Buffer 1
@@ -21,9 +23,13 @@ int *Enregistrement;            // Pointeur pour les buffers
 int input;
 int *x_fn;
 
+// Flags lecture trame
 int Lock1;  // 0 = unlock, 1 = lock;
 int Lock2;
 int* Lock;
+
+// Flag générer l'enveloppe
+int FlagEnveloppe;
 
 void Codec_Audio_init(void){
 
@@ -39,8 +45,10 @@ interrupt void c_int11(void){
 
     // On commence par écrire dans le bon buffer
     input = input_sample();
-    Enregistrement[n] = input >> 16;
-    output_sample(input);
+    input = input >> 16;
+    FlagEnveloppe = 1;
+    Enregistrement[n] = input;
+    //output_sample(input);
     n++;
 
     if(n >= LONGUEUR_TRAME) // Atteinte de la fin du buffer
@@ -63,7 +71,7 @@ interrupt void c_int11(void){
         }
         n = 0;
     }
-    //output_sample(0);
+    output_sample(0);
 }
 
 
