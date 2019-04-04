@@ -4,9 +4,9 @@
    .global _vector1
    .global _vector2
    .global _vector3
-   .global _intTLC1550
+   .global _intLumen
    .global _intSPI
-   .global _vector6
+   .global _intHumidite
    .global _vector7
    .global _vector8
    .global _vector9	  
@@ -41,9 +41,9 @@ _vector0:   VEC_ENTRY _c_int00   	;RESET
 _vector1:   VEC_ENTRY _vec_dummy  	;NMI
 _vector2:   VEC_ENTRY _vec_dummy  	;RSVD
 _vector3:   VEC_ENTRY _vec_dummy
-_vector4:   VEC_ENTRY _intTLC1550
+_vector4:   VEC_ENTRY _intLumen
 _vector5:   VEC_ENTRY _intSPI		;Comm in
-_vector6:   VEC_ENTRY _vec_dummy
+_vector6:   VEC_ENTRY _intHumidite
 _vector7:   VEC_ENTRY _vec_dummy
 _vector8:   VEC_ENTRY _vec_dummy
 _vector9:   VEC_ENTRY _vec_dummy

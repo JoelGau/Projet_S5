@@ -22,13 +22,15 @@ extern far void vectors();   // Vecteurs d'interruption
 void GPIO_init(void){
     // Settings of GPIO
     hGpio = GPIO_open(GPIO_DEV0,GPIO_OPEN_RESET);
-    GPIO_pinEnable(hGpio,GPIO_PIN4 | GPIO_PIN5 | GPIO_PIN8 | GPIO_PIN10);// activer les GPIOs
+    GPIO_pinEnable(hGpio,GPIO_PIN4 | GPIO_PIN5 | GPIO_PIN6| GPIO_PIN8 | GPIO_PIN10);// activer les GPIOs
 
+    GPIO_pinDirection(hGpio,GPIO_PIN6,GPIO_INPUT);
     GPIO_pinDirection(hGpio,GPIO_PIN4,GPIO_INPUT); //GPIO en input
     GPIO_pinDirection(hGpio,GPIO_PIN5,GPIO_INPUT);
     GPIO_pinDirection(hGpio,GPIO_PIN8,GPIO_OUTPUT); //GPIO en output
     GPIO_pinDirection(hGpio,GPIO_PIN10,GPIO_OUTPUT);
 
+    GPIO_intPolarity(hGpio,GPIO_GPINT6,GPIO_FALLING);
     GPIO_intPolarity(hGpio,GPIO_GPINT4,GPIO_FALLING); //GPIO actif lors d'un rising
     GPIO_intPolarity(hGpio,GPIO_GPINT5,GPIO_FALLING);
 
@@ -37,10 +39,15 @@ void GPIO_init(void){
 
     // Settings of IRQ -> GPIO4 lié à int4 et GPIO5 lié à int5
     IRQ_setVecs(vectors);
+    IRQ_map(IRQ_EVT_EXTINT6,6);
     IRQ_map(IRQ_EVT_EXTINT4,4);
     IRQ_map(IRQ_EVT_EXTINT5,5);
-    IRQ_reset(IRQ_EVT_EXTINT4 | IRQ_EVT_EXTINT5);
-    IRQ_enable(IRQ_EVT_EXTINT4 | IRQ_EVT_EXTINT5);
+    IRQ_reset(IRQ_EVT_EXTINT6);
+    IRQ_reset(IRQ_EVT_EXTINT4);
+    IRQ_reset(IRQ_EVT_EXTINT5);
+    IRQ_enable(IRQ_EVT_EXTINT6);
+    IRQ_enable(IRQ_EVT_EXTINT4);
+    IRQ_enable(IRQ_EVT_EXTINT5);
     IRQ_nmiEnable();
     IRQ_globalEnable();
 }

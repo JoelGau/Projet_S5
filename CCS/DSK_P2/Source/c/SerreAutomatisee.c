@@ -76,15 +76,14 @@ void main(void)
     // Ce main est en cours de conception, à modifier
     ALL_LED_OFF();
     GPIO_init();
-    SPI_init();
 
     while (true)
     {
-        ActiveADCLuminosite();
-        attendre(0.5);
+        //ActiveADCLuminosite();
+        //attendre(0.05);
         ActiveADCHumidite();
-        attendre(0.5);
-        printf("Luminosite = %u \n",ValLumen);
+        attendre(0.05);
+        //printf("Luminosite = %u \n",ValLumen);
         printf("Humidité = %u \n",ValHumidite);
     }
 
