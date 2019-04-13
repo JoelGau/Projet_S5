@@ -35,7 +35,7 @@
 ****************************************************************************/
 
 extern far void vectors();   // Vecteurs d'interruption
-extern int Son_in;
+extern unsigned char rx_msg;
 extern int Son_out;
 
 /****************************************************************************
@@ -133,12 +133,11 @@ MCBSP_Config MCBSP0_SPI_Cfg = {
 /****************************************************************************
 	Public functions :
 ****************************************************************************/
-
+int CPLD_MISC_value;
 // Function description here ...
 
 void SPI_init(void)
 {
-
     MCBSP_config(DSK6713_AIC23_CONTROLHANDLE, &MCBSP0_SPI_Cfg); //mettre en place la nouvelle configuration du MCBSP
     MCBSP_start(DSK6713_AIC23_CONTROLHANDLE,MCBSP_XMIT_START | MCBSP_RCV_START | MCBSP_SRGR_START | MCBSP_SRGR_FRAMESYNC, 256); //à quoi servent "XMIT_START", "RCV_START", "SRGR_START"?
 
@@ -148,20 +147,25 @@ void SPI_init(void)
 
     while(!MCBSP_xrdy(DSK6713_AIC23_CONTROLHANDLE)); //attendre que les 16 coups de clock correspondant au MCBSP_write soient terminés
     MCBSP_write(DSK6713_AIC23_CONTROLHANDLE, SPI_WRITE_CONFIG); // envoyer la config
-
-	return;
 }
 
 void lire_MCBSP(void){
     while(!MCBSP_xrdy(DSK6713_AIC23_CONTROLHANDLE)); //attendre que les 16 coups de clock correspondant au MCBSP_write soient terminés
     MCBSP_write(DSK6713_AIC23_CONTROLHANDLE,0x00);
     while(!MCBSP_rrdy(DSK6713_AIC23_CONTROLHANDLE)); //attendre que les 16 coups de clock correspondant au MCBSP_read soient terminés
-    Son_in = MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
+    DSK6713_waitusec(2000);
+    rx_msg = 0xFF & MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
+    rx_flag = 1;
 }
 
-void ecrire_MCBSP(void){
+void ecrire_MCBSP(unsigned char ch){
     while(!MCBSP_xrdy(DSK6713_AIC23_CONTROLHANDLE)); //attendre que les 16 coups de clock correspondant au MCBSP_write soient terminés
-    MCBSP_write(DSK6713_AIC23_CONTROLHANDLE, Son_out | SPI_WRITE_DATA);
+   //MCBSP_write(DSK6713_AIC23_CONTROLHANDLE, Son_out | SPI_WRITE_DATA);
+    MCBSP_write(DSK6713_AIC23_CONTROLHANDLE, ch | SPI_WRITE_DATA);
+    DSK6713_waitusec(2000);
+    while(!MCBSP_xrdy(DSK6713_AIC23_CONTROLHANDLE));
+    DSK6713_waitusec(2000);
+    MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
 
 }
 

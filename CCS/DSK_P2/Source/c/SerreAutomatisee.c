@@ -36,17 +36,43 @@
 #define LONGUEURTRAME 10
 #define NB_CYCLES_PAR_SEC 225000000     // Nombre de cycles par secondes
 
+unsigned const char A = 0x41;
+unsigned const char B = 0x42;
+unsigned const char E = 0x45;
+unsigned const char H = 0x48;
+unsigned const char L = 0x4C;
+unsigned const char P = 0x50;
+unsigned const char S = 0x53;
+unsigned const char T = 0x54;
+unsigned const char V = 0x56;
+
 int State = ATTENTE;
 
 int Sref[LONGUEURTRAME] = {1,2,3,4,5,5,4,3,2,1};
 int Sort[LONGUEURTRAME] = {0,0,0,0,0,0,0,0,0,0};
 int Scus[LONGUEURTRAME] = {-1,0,1,0,-1,0,1,0,-1,0};
 
-int Son_in;
+unsigned char rx_msg;
+int rx_flag;
 int Son_out;
+int sb = 0;
 unsigned short ValLumen = 0;
-unsigned short ValHumidite = 0;
+unsigned short ValHumidite = 694;
 int FlagTLC1550 = 0;
+
+// Partie Communication
+unsigned char i_rx_msg = 0;
+unsigned char type = 0;
+unsigned char byte1 = 0;
+unsigned char byte2 = 0;
+unsigned char answer = 0;
+unsigned short temperature = 0;
+unsigned short humidite = 0;
+unsigned char volet = 0;
+void readRXData(void);
+void pollUART(unsigned char);
+void infoUART(unsigned char);
+void sendUART(unsigned char);
 
 void ALL_LED_OFF()
 {
@@ -74,21 +100,207 @@ void attendre(float seconds)
 void main(void)
 {
     // Ce main est en cours de conception, à modifier
-    ALL_LED_OFF();
+    DSK6713_init();
     GPIO_init();
-
+    Audio_init();
+    SPI_init();
+    ALL_LED_OFF();
+    //sendUART(0x53); //humidite du sol
+    DSK6713_waitusec(2000);
+    MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
+    DSK6713_waitusec(2000);
+    MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
+    DSK6713_waitusec(2000);
     while (true)
     {
-        //ActiveADCLuminosite();
-        //attendre(0.05);
+        /*
+        ActiveADCLuminosite();
+        attendre(0.05);
         ActiveADCHumidite();
         attendre(0.05);
-        //printf("Luminosite = %u \n",ValLumen);
+        printf("Luminosite = %u \n",ValLumen);
         printf("Humidité = %u \n",ValHumidite);
+        */
+
+        //attendre(5);
+        //printf("write data \n");
+        if(FlagSPI == 1)
+        {
+            lire_MCBSP();
+            FlagSPI = 0;    // Reset Flag à 0
+        }
+        readRXData();
     }
 
 }
 
+void readRXData(void)
+{
+    unsigned char valRX = 0;
+    if(rx_flag){
+        rx_flag = 0;
+        valRX = rx_msg;
+
+        if(valRX == 0x55 && sb == 0){
+            sb = 1;
+        }
+        else if(valRX == 0x55 && sb == 1){
+            i_rx_msg = 1;
+            sb = 0;
+        }
+        else{
+            sb = 0;
+        }
+
+        if(i_rx_msg == 5){
+            if(rx_msg == 0xFF){
+                answer = 1;
+            }
+            else{
+                //putchUART(ACK);
+            }
+            i_rx_msg = 6;
+        }
+        else if(i_rx_msg == 4){
+            byte2 = rx_msg;
+            i_rx_msg = 5;
+        }
+        else if(i_rx_msg == 3){
+            byte1 = rx_msg;
+            i_rx_msg = 4;
+        }
+        else if(i_rx_msg == 2){
+            type = rx_msg;
+            i_rx_msg = 3;
+        }
+        else if(i_rx_msg == 1){
+            i_rx_msg = 2;
+        }
+           /* else if(rx_msg == 0x00){
+                ecrire_MCBSP(0xAA);
+            }*/
+
+    }
+
+    if(i_rx_msg == 6 && answer == 1){
+        sendUART(type);
+        answer = 0;
+    }
+    else if(i_rx_msg == 6 && answer == 0){
+        infoUART(type);
+    }
+}
+
+void pollUART(unsigned char type){
+    switch(type){
+        case 0x41:{
+            break;}
+        case 0x42:{
+            break;}
+        case 0x45:{
+            break;}
+        case 0x48:{
+            ecrire_MCBSP(0x55);
+            ecrire_MCBSP(0x55);
+            ecrire_MCBSP(0x48);
+            ecrire_MCBSP(0x00);
+            ecrire_MCBSP(0x00);
+            ecrire_MCBSP(0xFF);
+            break;}
+        case 0x4C:{
+            break;}
+        case 0x50:{
+            break;}
+        case 0x53:{
+            break;}
+        case 0x54:{
+            ecrire_MCBSP(0x55);
+            ecrire_MCBSP(0x55);
+            ecrire_MCBSP(0x54);
+            ecrire_MCBSP(0x00);
+            ecrire_MCBSP(0x00);
+            ecrire_MCBSP(0xFF);
+            break;}
+        case 0x56:{
+            ecrire_MCBSP(0x55);
+            ecrire_MCBSP(0x55);
+            ecrire_MCBSP(0x56);
+            ecrire_MCBSP(0x00);
+            ecrire_MCBSP(0x00);
+            ecrire_MCBSP(0xFF);
+            break;}
+        default:{
+            break;}
+    }
+    i_rx_msg = 0;
+}
+void infoUART(unsigned char type){
+    switch(type){
+        case 0x41:{
+            break;}
+        case 0x42:{
+            break;}
+        case 0x45:{
+            break;}
+        case 0x48:{
+            humidite = byte1 << 8;
+            humidite = humidite | byte2;
+            break;}
+        case 0x4C:{
+            break;}
+        case 0x50:{
+            break;}
+        case 0x53:{
+            break;}
+        case 0x54:{
+            temperature = byte1 << 8;
+            temperature = temperature | byte2;
+            break;}
+        case 0x56:{
+            volet = byte2;
+            break;}
+        default:{
+            break;}
+    }
+    i_rx_msg = 0;
+}
+void sendUART(unsigned char type){
+    switch(type){
+        case 0x41:{
+            break;}
+        case 0x42:{
+            break;}
+        case 0x45:{
+            ecrire_MCBSP(0x55);
+            ecrire_MCBSP(0x55);
+            ecrire_MCBSP(0x45);
+            ecrire_MCBSP(ValLumen>>8);
+            ecrire_MCBSP(ValLumen&0xFF);
+            ecrire_MCBSP(0x00);
+            break;}
+        case 0x48:{
+            break;}
+        case 0x4C:{
+            break;}
+        case 0x50:{
+            break;}
+        case 0x53:{
+            ecrire_MCBSP(0x55);
+            ecrire_MCBSP(0x55);
+            ecrire_MCBSP(0x53);
+            ecrire_MCBSP(ValHumidite >> 8);
+            ecrire_MCBSP(ValHumidite & 0xFF);
+            ecrire_MCBSP(0x00);
+            break;}
+        case 0x54:{
+            break;}
+        case 0x56:{
+            break;}
+        default:{
+            break;}
+    }
+    i_rx_msg = 0;
+}
 
 
 

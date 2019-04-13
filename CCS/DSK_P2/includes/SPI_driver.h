@@ -21,7 +21,7 @@
 
 
 // #include "something.h"
-#define SPI_WRITE_CONFIG 0xE440
+#define SPI_WRITE_CONFIG 0xE40B
 #define SPI_READ_CONFIG 0x0000
 #define SPI_WRITE_DATA 0x8200
 #define SPI_READ_DATA 0x00FF
@@ -52,6 +52,7 @@
 ***************************************************************************/
 
 extern int FlagSPI;
+extern int rx_flag;
 
 // look at example for EXTERN pattern
 
@@ -64,7 +65,7 @@ extern int FlagSPI;
 // Function description here ...
 EXTERN void SPI_init(void);
 EXTERN void lire_MCBSP(void);
-EXTERN void ecrire_MCBSP(void);
+EXTERN void ecrire_MCBSP(unsigned char);
 
 // ajoutez vos prototype de fonction ici
 
