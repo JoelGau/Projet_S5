@@ -17,17 +17,19 @@
 #include "hamming.dat"
 #include "twiddle.h"
 #include "DSPF_sp_bitrev_cplx.h"
-#include "DSPF_sp_cfftr4_dif.h"
+#include "DSPF_sp_cfftr2_dit.h"
+#include "DSPF_sp_fir_gen.h"
+#include "DSK6713_LED.h"
+
 
 #define IDLE 0
 #define COMPUTING 1
 #define RESULT 2
-#define F0MIN 200
-#define F0MAX 250
+#define SEUIL_HAUT 1000
+#define SEUIL_BAS 500
 
 const float ACCEPTABILITE = 0.4;
-const float SEUIL_HAUT = 0.1;
-const float SEUIL_BAS = 0.01;
+
 
 int Freq_norm_index;
 int stateget;
@@ -35,10 +37,12 @@ int CompteF0 = 0;
 int CompteTotal =0;
 
 extern int *Lock;
-extern short *x_fn;
+extern int *x_fn;
+extern int F0max;
+extern int F0min;
 short X;
 short loc;
-
+short max_enveloppe;
 /***************************************************************************************************/
 /* Variables globales propres au filtre FIR pour générer l'enveloppe                               */
 /***************************************************************************************************/
@@ -73,10 +77,11 @@ float findPeaks(float * mag)
     int i;
     int amp = 0;
     int index = 0;
-    for (i = 0; i < 2*LONGUEUR_TRAME; i=+2)
+    for (i = 0; i < LONGUEUR_TRAME; i=i+2)
     {
         if (mag[i] > amp)
         {
+            amp = mag[i];
             index = i;
         }
     }
@@ -97,45 +102,56 @@ void getEZWEED(void){
     int index_peak;
     int j = 0;
 
+
     // Calculer la prochaine sortie de l'enveloppe
     if (FlagEnveloppe == 1)
     {
-        echLineIn = (short) input;
-        pEnveloppe = direct1FIR_ASM(pEnveloppe,echLineIn, CoeffsFIR, &echLineInFilt);
+        echLineIn = abs((short) input);
+        //DSPF_sp_fir_gen(const float* restrict pEnveloppe, const float* restrict &echLineInFilt, float* restrict r, int LONGUEUR_TRAME, int LONGUEUR_TRAME);
+        pEnveloppe = direct1FIR_ASM(pEnveloppe,abs(echLineIn), CoeffsFIR, &echLineInFilt);
         FlagEnveloppe = 0;
     }
 
     if(*Lock == 1) // La trame est prête à être utilisée
     {
+        max_enveloppe = max(Enveloppe);
+
         if(stateget == IDLE){
             // Détection de seuil
-            if(max(Enveloppe)>SEUIL_HAUT){
+            if(max_enveloppe>SEUIL_HAUT){
                 stateget = COMPUTING;
+
+                *Lock = 0;
+
+                DSK6713_LED_off(1);
+                DSK6713_LED_off(2);
+                DSK6713_LED_on(3);
             }
         }
         if(stateget == COMPUTING){
             // Detection de fin
-            if(max(Enveloppe)<SEUIL_BAS){
+
+            if(max_enveloppe<SEUIL_BAS){
                 stateget = RESULT;
+                DSK6713_LED_off(1);
+                DSK6713_LED_on(2);
+                DSK6713_LED_off(3);
             }
 
             int a;
             //Fenetrage
             //x_hm = F_hm'.*x_fn;
-            for(a=0; a < LONGUEUR_TRAME; a++){
-                x_fn[a] = hamming[a]*x_fn[a];
-            }
 
             // Ajoute la partie imaginaire au signal d entree
 
             for (a=0;a<LONGUEUR_TRAME; a++)
             {
-                X_fn[2*a] = x_fn[a];
+                X_fn[2*a] = hamming[a]*(float)x_fn[a];
                 X_fn[2*a+1] = 0;
             }
 
             //X = fft(x_fn);
-            DSPF_sp_cfftr4_dif(X_fn, w,LONGUEUR_TRAME);
+            DSPF_sp_cfftr2_dit(X_fn, w,LONGUEUR_TRAME);
 
             // Bit rev
             DSPF_sp_bitrev_cplx((double*) X_fn, L, LONGUEUR_TRAME);
@@ -147,10 +163,9 @@ void getEZWEED(void){
             }
 
             index_peak = findPeaks(X_fn);
+            Freq_norm_index = (index_peak*FS)/(2*LONGUEUR_TRAME);
 
-            Freq_norm_index = (index_peak/2)*FS;
-
-            if(Freq_norm_index > F0MIN && Freq_norm_index < F0MAX)
+            if(Freq_norm_index > F0min && Freq_norm_index < F0max)
             {
                 CompteF0++;
             }
@@ -161,12 +176,16 @@ void getEZWEED(void){
         }
 
         if(stateget == RESULT){
-            if((CompteF0/CompteTotal)>ACCEPTABILITE){
-                printf("Vous avez dit EZWEED");
+            if (CompteTotal != 0){
+                if((CompteF0/CompteTotal)>ACCEPTABILITE){
+
+                }
             }
+
             else{
-                printf("....");
+
             }
+            CompteF0 = 0;
             stateget = IDLE;
         }
     }

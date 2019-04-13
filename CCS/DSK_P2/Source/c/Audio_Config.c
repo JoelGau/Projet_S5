@@ -10,6 +10,7 @@
 #include "CONSTANTES.h"
 #include "C6713Helper_UdeS.h"
 #include "Audio_Config.h"
+#include "DSK6713_LED.h"
 
 #define DSK6713_AIC23_INPUT_MIC 0x0015
 #define DSK6713_AIC23_INPUT_LINE 0x0011
@@ -39,6 +40,7 @@ void Codec_Audio_init(void){
     Lock2 = 0;
     Lock = &Lock1;
     comm_intr(DSK6713_AIC23_FREQ_16KHZ,DSK6713_AIC23_INPUT_MIC);
+    DSK6713_waitusec(10000);
 }
 
 interrupt void c_int11(void){

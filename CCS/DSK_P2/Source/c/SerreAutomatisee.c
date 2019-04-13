@@ -53,12 +53,14 @@ void main(void)
     // Ce main est en cours de conception, à modifier
     DSK6713_init();
     ALL_LED_OFF();
+
     Codec_Audio_init();
     getEZWEED_init();
     initteachEZWEED();
 
+
     // Attendre l'initialisation du codec
-    DSK6713_waitusec(1000);
+
     *Lock = 0;
 
     while (1)
@@ -66,6 +68,10 @@ void main(void)
         if (DSK6713_DIP_get(0) == 0)
         {
             teachEZWEED();
+        }
+        if (DSK6713_DIP_get(1) == 0)
+        {
+            getEZWEED();
         }
     }
 }
