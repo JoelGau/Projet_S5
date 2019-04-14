@@ -8,9 +8,7 @@
 // Used modules headers
 #include "EMIF_driver.h"
 #include "SPI_driver.h"
-#include "Audio_driver.h"
 #include "C6713Helper_UdeS.h"
-#include "CorrelationCroisee.h"
 
 // standard libraries
 #include <stdio.h>   // get standard I/O functions (as printf)
@@ -27,30 +25,11 @@
 #include <dsk6713.h>
 #include "dsk6713_dip.h"
 #include "getEZWEED.h"
-
-#define ATTENTE 0
-#define ORTHO 1
-#define AUTO 2
-#define COMPUTING 3
-#define AUTRE 4
-#define LONGUEURTRAME 10
-#define NB_CYCLES_PAR_SEC 225000000     // Nombre de cycles par secondes
-
-unsigned const char A = 0x41;
-unsigned const char B = 0x42;
-unsigned const char E = 0x45;
-unsigned const char H = 0x48;
-unsigned const char L = 0x4C;
-unsigned const char P = 0x50;
-unsigned const char S = 0x53;
-unsigned const char T = 0x54;
-unsigned const char V = 0x56;
-
-int State = ATTENTE;
-
-int Sref[LONGUEURTRAME] = {1,2,3,4,5,5,4,3,2,1};
-int Sort[LONGUEURTRAME] = {0,0,0,0,0,0,0,0,0,0};
-int Scus[LONGUEURTRAME] = {-1,0,1,0,-1,0,1,0,-1,0};
+#include "Audio_Config.h"
+#include "teachEZWEED.h"
+// Variables globales externes
+extern int* Lock;
+extern int F0;
 
 unsigned char rx_msg;
 int rx_flag;
@@ -90,27 +69,32 @@ void ALL_LED_ON()
 }
 
 // Attente en sec. (approximatif)
-void attendre(float seconds)
+/*void attendre(float seconds)
 {
     int cnt=0;
     int fin = (int)NB_CYCLES_PAR_SEC*seconds;
     while (cnt++<fin) {}
-}
+}*/
 
 void main(void)
 {
     // Ce main est en cours de conception, à modifier
     DSK6713_init();
     GPIO_init();
-    Audio_init();
     SPI_init();
     ALL_LED_OFF();
     //sendUART(0x53); //humidite du sol
     DSK6713_waitusec(2000);
+    Codec_Audio_init();
+    getEZWEED_init();
+    initteachEZWEED();
     MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
     DSK6713_waitusec(2000);
     MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
     DSK6713_waitusec(2000);
+    // Attendre l'initialisation du codec
+    *Lock = 0;
+
     while (true)
     {
         /*
@@ -121,6 +105,14 @@ void main(void)
         printf("Luminosite = %u \n",ValLumen);
         printf("Humidité = %u \n",ValHumidite);
         */
+        if (DSK6713_DIP_get(0) == 0)
+        {
+            teachEZWEED();
+        }
+        if (DSK6713_DIP_get(1) == 0)
+        {
+            getEZWEED();
+        }
 
         //attendre(5);
         //printf("write data \n");

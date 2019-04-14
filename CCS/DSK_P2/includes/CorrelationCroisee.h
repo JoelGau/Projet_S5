@@ -23,6 +23,17 @@ int Sum(int* Tableau1, int* Tableau2, int Longueur)
     return Sum;
 }
 
+float SumFloat(float* Tableau1, float* Tableau2, int Longueur)
+{
+    int i;
+    float Sum = 0.0;
+    for (i = 0; i < Longueur; i++)
+    {
+        Sum = Sum + Tableau1[i] * Tableau2[i];
+    }
+    return Sum;
+}
+
 int CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2, int* CORR)
 {
     int i;
@@ -74,6 +85,69 @@ int CorrelationCroisee(int* x1, int Longueur1, int* x2, int Longueur2, int* CORR
             Kmin1 = Kmin1 + 1;
             Kmax2 = Kmax2 - 1;
         }
+    }
+    return 1; //Succès
+
+}
+
+int AutoCorrelation(int* x1, int* CORR)
+{
+    // Cette fonction est basée sur CorrelationCroisee. Cependant elle est optimisée
+    // pour faire une autocorrelation. Prendre note qu'elle retourne un tableau de [LONGUEUR_TRAME].
+    int i;
+    int Kmin1, Kmax1, Kmin2;
+    int *newx1, *newx2;
+
+    // On assigne les index de débuts pour les 2 signaux
+
+    // Pour éviter la saturation
+    for (i = 0; i < LONGUEUR_TRAME; i++)
+    {
+        x1[i] = x1[i] >> 8;
+    }
+
+    Kmin1 = 0;
+    Kmax1 = 0;
+
+    Kmin2 = LONGUEUR_TRAME-1;
+
+    for (i = 0; i < LONGUEUR_TRAME; i++)
+    {
+        newx1 = &x1[Kmin1];
+        newx2 = &x1[Kmin2];
+
+        CORR[i] = SumASM(newx1,newx2,(Kmax1-Kmin1+1));
+
+        Kmax1 = Kmax1 + 1;
+        Kmin2 = Kmin2 - 1;
+    }
+    return 1; //Succès
+
+}
+int AutoCorrelationFloat(float* x1, float* CORR)
+{
+    // Cette fonction est basée sur CorrelationCroisee. Cependant elle est optimisée
+    // pour faire une autocorrelation. Prendre note qu'elle retourne un tableau de [LONGUEUR_TRAME].
+    int i;
+    int Kmin1, Kmax1, Kmin2;
+    float *newx1, *newx2;
+
+    // On assigne les index de débuts pour les 2 signaux
+
+    Kmin1 = 0;
+    Kmax1 = 0;
+
+    Kmin2 = LONGUEUR_TRAME-1;
+
+    for (i = 0; i < LONGUEUR_TRAME; i++)
+    {
+        newx1 = &x1[Kmin1];
+        newx2 = &x1[Kmin2];
+
+        CORR[i] = SumFloat(newx1,newx2,(Kmax1-Kmin1+1));
+
+        Kmax1 = Kmax1 + 1;
+        Kmin2 = Kmin2 - 1;
     }
     return 1; //Succès
 
