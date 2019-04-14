@@ -14,8 +14,14 @@
 #include <csl_gpio.h>
 #include <dsk6713.h>
 
-extern unsigned short ValLumen;
-extern unsigned short ValHumidite;
+struct Input_Ana
+{
+    short value;    // valeur du capteur
+    short request;    // 1 = lire le capteur, 2 = idle
+};
+
+extern struct Input_Ana Lumen;
+extern struct Input_Ana Humidite;
 
 void ActiveADCLuminosite(void){
     *(unsigned int *) ADRESSE_ADC_lumen = 0x0; // Activer ADC luminosité
@@ -29,11 +35,11 @@ void ActiveADCHumidite(void){
     ISR :
 ****************************************************************************/
 void interrupt intHumidite(void){
-        ValHumidite = *(unsigned short*) ADRESSE_ADC_humidite; //READ une donnée de l’ADC
+        Humidite.value = *(unsigned short*) ADRESSE_ADC_humidite; //READ une donnée de l’ADC
     return;
 }
 
 void interrupt intLumen(void){
-        ValLumen = *(unsigned short*) ADRESSE_ADC_lumen; //READ une donnée de l’ADC
+        Lumen.value = *(unsigned short*) ADRESSE_ADC_lumen; //READ une donnée de l’ADC
     return;
 }

@@ -27,6 +27,26 @@
 #include "getEZWEED.h"
 #include "Audio_Config.h"
 #include "teachEZWEED.h"
+
+// Définir des structures de références
+struct Output_Bin
+{
+    short state;      // 0 = off, 1 = on
+    short request;    // 0 = mettre à off, 1 = mettre à on, 2 = idle
+};
+
+struct Output_Bin  Pompe;
+struct Output_Bin  Lumiere;
+
+struct Input_Ana
+{
+    short value;    // valeur du capteur
+    short request;    // 1 = lire le capteur, 2 = idle
+};
+
+struct Input_Ana Humidite;
+struct Input_Ana Lumen;
+
 // Variables globales externes
 extern int* Lock;
 extern int F0;
@@ -35,8 +55,7 @@ unsigned char rx_msg;
 int rx_flag;
 int Son_out;
 int sb = 0;
-unsigned short ValLumen = 0;
-unsigned short ValHumidite = 694;
+
 int FlagTLC1550 = 0;
 
 // Partie Communication
@@ -68,62 +87,135 @@ void ALL_LED_ON()
     DSK6713_LED_on(3);
 }
 
-// Attente en sec. (approximatif)
-/*void attendre(float seconds)
-{
-    int cnt=0;
-    int fin = (int)NB_CYCLES_PAR_SEC*seconds;
-    while (cnt++<fin) {}
-}*/
-
 void main(void)
 {
-    // Ce main est en cours de conception, à modifier
+    /******************/
+    /* Initialisation */
+    /******************/
+
+    // Communication et GPIO
     DSK6713_init();
     GPIO_init();
     SPI_init();
-    ALL_LED_OFF();
-    //sendUART(0x53); //humidite du sol
+
+    // Vider buffer à valider!
+    /*MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
     DSK6713_waitusec(2000);
+    MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
+    DSK6713_waitusec(2000);*/
+
+
+
+    // Traitement de Signal
     Codec_Audio_init();
     getEZWEED_init();
     initteachEZWEED();
-    MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
-    DSK6713_waitusec(2000);
-    MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
-    DSK6713_waitusec(2000);
-    // Attendre l'initialisation du codec
     *Lock = 0;
+
+    // Configurer les IO au démarrage
+    ALL_LED_OFF();
+
+    Pompe.request = 2;
+    Pompe.state = 0;
+    DesactiverPompe();
+
+    Lumiere.request = 2;
+    Lumiere.state = 0;
+    DesactiverLumiere();
+
+    // Check ADC
+    ActiveADCHumidite();
+    ActiveADCLuminosite();
+    DSK6713_waitusec(2000);
+    if (Lumen.value == 0)
+    {
+        Lumen.value = *(unsigned short*) ADRESSE_ADC_lumen; //READ une donnée de l’ADC
+    }
+    if (Humidite.value == 0)
+    {
+        Humidite.value = *(unsigned short*) ADRESSE_ADC_humidite; //READ une donnée de l’ADC
+    }
 
     while (true)
     {
-        /*
-        ActiveADCLuminosite();
-        attendre(0.05);
-        ActiveADCHumidite();
-        attendre(0.05);
-        printf("Luminosite = %u \n",ValLumen);
-        printf("Humidité = %u \n",ValHumidite);
-        */
+        /***************************************/
+        /*         Section sur le PID          */
+        /***************************************/
+
+
+
+        /***************************************/
+        /* Section sur le traitement de signal */
+        /***************************************/
+
         if (DSK6713_DIP_get(0) == 0)
         {
             teachEZWEED();
         }
-        if (DSK6713_DIP_get(1) == 0)
+        else
         {
             getEZWEED();
         }
 
-        //attendre(5);
-        //printf("write data \n");
+        /***************************************/
+        /*   Section sur la communication SPI  */
+        /***************************************/
+
         if(FlagSPI == 1)
         {
             lire_MCBSP();
             FlagSPI = 0;    // Reset Flag à 0
         }
         readRXData();
-    }
 
+        /***************************************/
+        /* Section sur la lecture des capteurs */
+        /***************************************/
+
+        // Capteur d'humidite de sol
+        if (Humidite.request == 1)
+        {
+            ActiveADCHumidite();
+        }
+
+        // Capteur de luminosite
+        if (Lumen.request == 1)
+        {
+            ActiveADCLuminosite();
+        }
+
+        /*****************************************/
+        /* Section sur l'écriture des actuateurs */
+        /*****************************************/
+
+        // Pompe eau
+        if (Pompe.request == 1)
+        {
+            ActiverPompe();
+            Pompe.state = 1;
+            Pompe.request = 2;
+        }
+        if (Pompe.request == 0)
+        {
+            DesactiverPompe();
+            Pompe.state = 0;
+            Pompe.request = 2;
+        }
+
+        // Lampe UV
+        if (Lumiere.request == 1)
+        {
+            ActiverLumiere();
+            Lumiere.state = 1;
+            Lumiere.request = 2;
+        }
+        if (Lumiere.request == 0)
+        {
+            DesactiverLumiere();
+            Lumiere.state = 0;
+            Lumiere.request = 2;
+        }
+    }
 }
 
 void readRXData(void)
@@ -266,8 +358,8 @@ void sendUART(unsigned char type){
             ecrire_MCBSP(0x55);
             ecrire_MCBSP(0x55);
             ecrire_MCBSP(0x45);
-            ecrire_MCBSP(ValLumen>>8);
-            ecrire_MCBSP(ValLumen&0xFF);
+            ecrire_MCBSP(Lumen.value>>8);
+            ecrire_MCBSP(Lumen.value&0xFF);
             ecrire_MCBSP(0x00);
             break;}
         case 0x48:{
@@ -280,8 +372,8 @@ void sendUART(unsigned char type){
             ecrire_MCBSP(0x55);
             ecrire_MCBSP(0x55);
             ecrire_MCBSP(0x53);
-            ecrire_MCBSP(ValHumidite >> 8);
-            ecrire_MCBSP(ValHumidite & 0xFF);
+            ecrire_MCBSP(Humidite.value >> 8);
+            ecrire_MCBSP(Humidite.value & 0xFF);
             ecrire_MCBSP(0x00);
             break;}
         case 0x54:{
