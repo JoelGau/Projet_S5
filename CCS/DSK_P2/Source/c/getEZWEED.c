@@ -25,8 +25,8 @@
 #define IDLE 0
 #define COMPUTING 1
 #define RESULT 2
-#define SEUIL_HAUT 1000
-#define SEUIL_BAS 500
+#define SEUIL_HAUT 5000
+#define SEUIL_BAS 2000
 
 const float ACCEPTABILITE = 0.4;
 
@@ -77,7 +77,7 @@ float findPeaks(float * mag)
     int i;
     int amp = 0;
     int index = 0;
-    for (i = 0; i < LONGUEUR_TRAME; i=i+2)
+    for (i = 0; i < LONGUEUR_TRAME/8; i=i+2)
     {
         if (mag[i] > amp)
         {
@@ -107,7 +107,6 @@ void getEZWEED(void){
     if (FlagEnveloppe == 1)
     {
         echLineIn = abs((short) input);
-        //DSPF_sp_fir_gen(const float* restrict pEnveloppe, const float* restrict &echLineInFilt, float* restrict r, int LONGUEUR_TRAME, int LONGUEUR_TRAME);
         pEnveloppe = direct1FIR_ASM(pEnveloppe,abs(echLineIn), CoeffsFIR, &echLineInFilt);
         FlagEnveloppe = 0;
     }
@@ -120,9 +119,7 @@ void getEZWEED(void){
             // Détection de seuil
             if(max_enveloppe>SEUIL_HAUT){
                 stateget = COMPUTING;
-
                 *Lock = 0;
-
                 DSK6713_LED_off(1);
                 DSK6713_LED_off(2);
                 DSK6713_LED_on(3);
@@ -137,11 +134,9 @@ void getEZWEED(void){
                 DSK6713_LED_on(2);
                 DSK6713_LED_off(3);
             }
-
             int a;
             //Fenetrage
             //x_hm = F_hm'.*x_fn;
-
             // Ajoute la partie imaginaire au signal d entree
 
             for (a=0;a<LONGUEUR_TRAME; a++)
@@ -163,16 +158,14 @@ void getEZWEED(void){
             }
 
             index_peak = findPeaks(X_fn);
-            Freq_norm_index = (index_peak*FS)/(2*LONGUEUR_TRAME);
+            Freq_norm_index = (index_peak*FS/2)/(LONGUEUR_TRAME);
 
             if(Freq_norm_index > F0min && Freq_norm_index < F0max)
             {
                 CompteF0++;
             }
             CompteTotal++;
-
             *Lock = 0;
-
         }
 
         if(stateget == RESULT){
@@ -181,10 +174,10 @@ void getEZWEED(void){
 
                 }
             }
-
             else{
 
             }
+            CompteTotal = 0;
             CompteF0 = 0;
             stateget = IDLE;
         }

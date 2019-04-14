@@ -9,7 +9,7 @@
 #include "CONSTANTES.h"
 #include "CorrelationCroisee.h"
 
-#define TRESHOLD 6
+#define TRESHOLD 50
 
 extern int* Lock;
 extern int *x_fn;             // pointeur vers l'échantillon lue
@@ -101,8 +101,8 @@ void teachEZWEED()
         if (compteF >= 50)
         {
             F0 = concludeEZWEED();
-            F0max = F0 + F0/TRESHOLD;
-            F0min = F0 - F0/TRESHOLD;
+            F0max = F0 + TRESHOLD;
+            F0min = F0 - TRESHOLD;
         }
     }
 }
@@ -114,5 +114,3 @@ int concludeEZWEED()
     compteF = 0;
     return LaF0;
 }
-
-
