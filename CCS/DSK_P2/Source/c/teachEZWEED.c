@@ -7,7 +7,20 @@
 
 #include "teachEZWEED.h"
 #include "CONSTANTES.h"
+#include "CorrelationCroisee.h"
 
+#define TRESHOLD 50
+
+extern int* Lock;
+extern int *x_fn;             // pointeur vers l'échantillon lue
+
+int F0;
+int F0max;
+int F0min;
+int moyF0;
+short compteF;
+
+int CORR[LONGUEUR_TRAME];
 
 int getF0(int* autocorr)
 {
@@ -21,7 +34,7 @@ int getF0(int* autocorr)
     int state = FIRST_MAX;
     short FirstPeak = 0, SecondPeak = 0;
 
-    for (i=0; i<LONGUEUR_TRAME; i++)
+    for (i=LONGUEUR_TRAME-1; i>=0; i--)
     {
         if (state == FIRST_MAX)
         {
@@ -32,7 +45,7 @@ int getF0(int* autocorr)
             }
             else
             {
-                FirstPeak = i - 1;
+                FirstPeak = i + 1;
                 state = FIRST_ZERO;
             }
         }
@@ -50,6 +63,7 @@ int getF0(int* autocorr)
             if (autocorr[i] > 0)
             {
                state = SECOND_MAX;
+               amp_max = 0;
             }
         }
         else if (state == SECOND_MAX)
@@ -61,17 +75,45 @@ int getF0(int* autocorr)
             }
             else
             {
-                SecondPeak = i - 1;
+                SecondPeak = i + 1;
                 break;
             }
         }
     }
-    return FS/(SecondPeak - FirstPeak); // On retourne la F0 (fréquence réelle, pas normalisée)
+	if (FirstPeak - SecondPeak != 0)
+	{
+		return FS/(FirstPeak - SecondPeak); // On retourne la F0 (fréquence réelle, pas normalisée)
+	}
+	return 0;
+}
+void initteachEZWEED()
+{
+    moyF0 = 0;
+    compteF = 0;
 }
 
 void teachEZWEED()
 {
-
+    if (*Lock == 1)
+    {
+        AutoCorrelation((int*) x_fn, CORR);
+        // Incrémente la moyenne et le compte
+        moyF0 = moyF0 + getF0(CORR);
+        compteF++;
+        *Lock = 0;
+        if (compteF >= 50)
+        {
+            F0 = concludeEZWEED();
+            F0max = F0 + TRESHOLD;
+            F0min = F0 - TRESHOLD;
+        }
+    }
 }
 
-
+int concludeEZWEED()
+{
+    int LaF0 = moyF0/compteF;
+    moyF0 = 0;
+    compteF = 0;
+    return LaF0;
+}

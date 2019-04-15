@@ -16,8 +16,8 @@
 
 #define ADRESSE_ADC_humidite 0xB0380000 //Capteur humidité
 #define ADRESSE_ADC_lumen 0xB0300000 //Capteur luminosité
-#define Lumiere 1
-#define Humidite 0
+#define LUMIERE 1
+#define HUMIDITE 0
 
 
 extern int FlagTLC1550;

@@ -15,13 +15,13 @@ short max(short* x){
 
     int i = 1;
     int echantillon;
-    int test;
+    int test = x[0];
 
-    for(i; i < LONGUEUR_TRAME; i++){
+    for(i; i < 64; i++){
 
         echantillon = x[i];
 
-        if(echantillon > x[i-1]){
+        if(echantillon > test){
             test = echantillon;
         }
     }

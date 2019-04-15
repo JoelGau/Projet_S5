@@ -16,6 +16,9 @@
 #define SECOND_MAX 3
 
 int getF0(int*);
+int concludeEZWEED();
+void initteachEZWEED();
+void teachEZWEED();
 
 
 #endif /* INCLUDES_TEACHEZWEED_H_ */
