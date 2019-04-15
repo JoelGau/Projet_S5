@@ -20,6 +20,7 @@
 #include <csl_gpio.h>
 #include <csl_mcbsp.h>
 #include <csl_irq.h>
+#include <csl_timer.h>
 #include <dsk6713_led.h>
 #include <dsk6713_aic23.h>
 #include <dsk6713.h>
@@ -51,16 +52,22 @@ struct Output_Bin  Lumiere;
 
 struct Input_Ana
 {
-    short value;    // valeur du capteur
+    unsigned short value;    // valeur du capteur
     short request;    // 1 = lire le capteur, 2 = idle
 };
 
 struct Input_Ana Humidite;
 struct Input_Ana Lumen;
 
+/*unsigned short LumState = 0;
+unsigned short PompeState = 0;
+unsigned short ValHumidite = 0;
+unsigned short ValLumen = 0;
+unsigned long long mainCounter = 0;
+unsigned long long time = 0;*/
+
 // Variables globales externes
 extern int* Lock;
-extern int F0;
 extern int PIDFlag;
 
 unsigned char rx_msg;
@@ -110,22 +117,29 @@ void main(void)
 
     // Communication et GPIO
     DSK6713_init();
-    GPIO_init();
-    SPI_init();
-
-    // Vider buffer à valider!
-    /*MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
     DSK6713_waitusec(2000);
-    MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
-    DSK6713_waitusec(2000);*/
-
-
+    GPIO_init();
+    DSK6713_waitusec(2000);
 
     // Traitement de Signal
     Codec_Audio_init();
+    DSK6713_waitusec(2000);
     getEZWEED_init();
+    DSK6713_waitusec(2000);
     initteachEZWEED();
+    DSK6713_waitusec(2000);
     *Lock = 0;
+
+    SPI_init();
+    DSK6713_waitusec(2000);
+    Timer1Init();
+    DSK6713_waitusec(2000);
+
+    // Vider buffer à valider!
+    MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
+    DSK6713_waitusec(2000);
+    MCBSP_read(DSK6713_AIC23_CONTROLHANDLE);
+    DSK6713_waitusec(2000);
 
     // Configurer les IO au démarrage
     ALL_LED_OFF();
@@ -144,6 +158,7 @@ void main(void)
     DSK6713_waitusec(2000);
     Lumen.value = *(unsigned short*) ADRESSE_ADC_lumen; //READ une donnée de l’ADC
     Humidite.value = *(unsigned short*) ADRESSE_ADC_humidite; //READ une donnée de l’ADC
+    sendUART(S);
 
     while (true)
     {
@@ -153,7 +168,29 @@ void main(void)
 
         if (PIDFlag)
         {
-            // Faire une demande de lecture des capteurs
+            PIDFlag = 0;
+
+            // Faire une demande de lecture des capteurs du PIC
+
+            pollUART(T);
+            //pollUART(H);
+            ActiveADCLuminosite();
+            ActiveADCHumidite();
+
+            // Faire les actions conséquentes
+
+            // Condition sur les volets
+            if (humidite > 700 || Humidite.value > 700 || temperature > 250)
+            {
+                volet = 1;
+                sendUART(V);
+
+            }
+            // Condition sur les
+            if (humidite < 300 || Humidite.value < 300 || temperature < 250)
+            {
+                Lumiere.request = 1;
+            }
 
         }
 
@@ -174,29 +211,17 @@ void main(void)
         /***************************************/
         /*   Section sur la communication SPI  */
         /***************************************/
-
+        mainCounter++;
+        if(mainCounter == time){
+            lire_MCBSP();
+        }
         if(FlagSPI == 1)
         {
+            time = mainCounter;
             lire_MCBSP();
             FlagSPI = 0;    // Reset Flag à 0
         }
         readRXData();
-
-        /***************************************/
-        /* Section sur la lecture des capteurs */
-        /***************************************/
-
-        // Capteur d'humidite de sol
-        if (Humidite.request == 1)
-        {
-            ActiveADCHumidite();
-        }
-
-        // Capteur de luminosite
-        if (Lumen.request == 1)
-        {
-            ActiveADCLuminosite();
-        }
 
         /*****************************************/
         /* Section sur l'écriture des actuateurs */
@@ -208,6 +233,7 @@ void main(void)
             ActiverPompe();
             Pompe.state = 1;
             Pompe.request = 2;
+            //Pompe.request = 0;
         }
         if (Pompe.request == 0)
         {
@@ -305,7 +331,7 @@ void pollUART(unsigned char type){
             ecrire_MCBSP(0x00);
             ecrire_MCBSP(0xFF);
             break;}
-        case 0x4C:{
+        case L:{
             break;}
         case P:{
             break;}
@@ -335,6 +361,12 @@ void pollUART(unsigned char type){
 void infoUART(unsigned char type){
     switch(type){
         case A:{
+            if(Pompe.request == 1){
+                Pompe.request = 0;
+            }
+            else if(Pompe.request == 0){
+                Pompe.request = 1;
+            }
             break;}
         case B:{
             break;}
@@ -344,7 +376,13 @@ void infoUART(unsigned char type){
             humidite = byte1 << 8;
             humidite = humidite | byte2;
             break;}
-        case 0x4C:{
+        case L:{
+            if(Lumiere.request == 1){
+                Lumiere.request = 0;
+            }
+            else if(Lumiere.request == 0){
+                Lumiere.request = 1;
+            }
             break;}
         case P:{
             plant = byte2;
@@ -379,7 +417,13 @@ void sendUART(unsigned char type){
             break;}
         case H:{
             break;}
-        case 0x4C:{
+        case L:{
+            /*ecrire_MCBSP(0x55);
+            ecrire_MCBSP(0x55);
+            ecrire_MCBSP(L);
+            ecrire_MCBSP(0);
+            ecrire_MCBSP(Lumiere.state);
+            ecrire_MCBSP(0x00);*/
             break;}
         case P:{
             ecrire_MCBSP(0x55);

@@ -34,8 +34,8 @@ void GPIO_init(void){
     GPIO_intPolarity(hGpio,GPIO_GPINT4,GPIO_FALLING); //GPIO actif lors d'un rising
     GPIO_intPolarity(hGpio,GPIO_GPINT5,GPIO_FALLING);
 
-    GPIO_pinWrite(hGpio,GPIO_PIN8,0);
-    GPIO_pinWrite(hGpio,GPIO_PIN10,0);
+    GPIO_pinWrite(hGpio,GPIO_PIN8,1);
+    GPIO_pinWrite(hGpio,GPIO_PIN10,1);
 
     // Settings of IRQ -> GPIO4 lié à int4 et GPIO5 lié à int5
     IRQ_setVecs(vectors);
@@ -61,11 +61,11 @@ void DesactiverPompe(void){
 }
 
 void ActiverLumiere(void){
-    GPIO_pinWrite(hGpio,GPIO_PIN8,1);
+    GPIO_pinWrite(hGpio,GPIO_PIN8,0);
 }
 
 void DesactiverLumiere(void){
-    GPIO_pinWrite(hGpio,GPIO_PIN8,0);
+    GPIO_pinWrite(hGpio,GPIO_PIN8,1);
 }
 /****************************************************************************
     ISR :

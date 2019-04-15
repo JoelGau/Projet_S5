@@ -1,5 +1,5 @@
 /********************************************************
-**  Session 5 - APP6 - Téléphonie par DSP
+**  Session 5 - Projet P2
 **  Fichier SPI_driver.c
 **  Auteurs : < vos noms >
 **  Date : < derniere modification >
@@ -174,7 +174,6 @@ void ecrire_MCBSP(unsigned char ch){
 ****************************************************************************/
 void interrupt intSPI(void){
     FlagSPI = 1;
-    return;
 }
 
 // end of SPI_driver.c

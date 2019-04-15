@@ -14,7 +14,7 @@
    .global _c_int11		; AIC
    .global _vector12  
    .global _vector13   
-   .global _vector14
+   .global _c_int14
    .global _vector15
 
    .ref _c_int00				;entry address
@@ -51,5 +51,5 @@ _vector10:  VEC_ENTRY _vec_dummy
 _vector11:  VEC_ENTRY _c_int11    	; AIC
 _vector12:  VEC_ENTRY _vec_dummy
 _vector13:  VEC_ENTRY _vec_dummy
-_vector14:  VEC_ENTRY _vec_dummy
+_vector14:  VEC_ENTRY _c_int14		; Timer interruption PID
 _vector15:  VEC_ENTRY _vec_dummy

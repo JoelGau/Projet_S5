@@ -36,7 +36,7 @@ void ActiveADCHumidite(void){
 ****************************************************************************/
 void interrupt intHumidite(void){
 		Humidite.value = *(unsigned short*) ADRESSE_ADC_humidite; //READ une donnée de l’ADC
-        Humidite.value = *(unsigned short*) ADRESSE_ADC_humidite; //READ une donnée de l’ADC
+        //Humidite.value = *(unsigned short*) ADRESSE_ADC_humidite; //READ une donnée de l’ADC
         if(Humidite.value > 999){
             Humidite.value = 999;
         }
