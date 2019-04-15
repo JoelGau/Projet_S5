@@ -28,6 +28,17 @@
 #include "Audio_Config.h"
 #include "teachEZWEED.h"
 
+#define A 0x41
+#define B 0x42
+#define E 0x45
+#define H 0x48
+#define L 0x4C
+#define M 0x4D
+#define P 0x50
+#define S 0x53
+#define T 0x54
+#define V 0x56
+
 // Définir des structures de références
 struct Output_Bin
 {
@@ -50,6 +61,7 @@ struct Input_Ana Lumen;
 // Variables globales externes
 extern int* Lock;
 extern int F0;
+extern int PIDFlag;
 
 unsigned char rx_msg;
 int rx_flag;
@@ -57,6 +69,8 @@ int Son_out;
 int sb = 0;
 
 int FlagTLC1550 = 0;
+unsigned long long mainCounter = 1;
+unsigned long long time = 0;
 
 // Partie Communication
 unsigned char i_rx_msg = 0;
@@ -67,6 +81,7 @@ unsigned char answer = 0;
 unsigned short temperature = 0;
 unsigned short humidite = 0;
 unsigned char volet = 0;
+unsigned short plant = 0;
 void readRXData(void);
 void pollUART(unsigned char);
 void infoUART(unsigned char);
@@ -127,14 +142,8 @@ void main(void)
     ActiveADCHumidite();
     ActiveADCLuminosite();
     DSK6713_waitusec(2000);
-    if (Lumen.value == 0)
-    {
-        Lumen.value = *(unsigned short*) ADRESSE_ADC_lumen; //READ une donnée de l’ADC
-    }
-    if (Humidite.value == 0)
-    {
-        Humidite.value = *(unsigned short*) ADRESSE_ADC_humidite; //READ une donnée de l’ADC
-    }
+    Lumen.value = *(unsigned short*) ADRESSE_ADC_lumen; //READ une donnée de l’ADC
+    Humidite.value = *(unsigned short*) ADRESSE_ADC_humidite; //READ une donnée de l’ADC
 
     while (true)
     {
@@ -142,6 +151,11 @@ void main(void)
         /*         Section sur le PID          */
         /***************************************/
 
+        if (PIDFlag)
+        {
+            // Faire une demande de lecture des capteurs
+
+        }
 
 
         /***************************************/
@@ -277,13 +291,13 @@ void readRXData(void)
 
 void pollUART(unsigned char type){
     switch(type){
-        case 0x41:{
+        case A:{
             break;}
-        case 0x42:{
+        case B:{
             break;}
-        case 0x45:{
+        case E:{
             break;}
-        case 0x48:{
+        case H:{
             ecrire_MCBSP(0x55);
             ecrire_MCBSP(0x55);
             ecrire_MCBSP(0x48);
@@ -293,11 +307,11 @@ void pollUART(unsigned char type){
             break;}
         case 0x4C:{
             break;}
-        case 0x50:{
+        case P:{
             break;}
-        case 0x53:{
+        case S:{
             break;}
-        case 0x54:{
+        case T:{
             ecrire_MCBSP(0x55);
             ecrire_MCBSP(0x55);
             ecrire_MCBSP(0x54);
@@ -305,7 +319,7 @@ void pollUART(unsigned char type){
             ecrire_MCBSP(0x00);
             ecrire_MCBSP(0xFF);
             break;}
-        case 0x56:{
+        case V:{
             ecrire_MCBSP(0x55);
             ecrire_MCBSP(0x55);
             ecrire_MCBSP(0x56);
@@ -320,27 +334,28 @@ void pollUART(unsigned char type){
 }
 void infoUART(unsigned char type){
     switch(type){
-        case 0x41:{
+        case A:{
             break;}
-        case 0x42:{
+        case B:{
             break;}
-        case 0x45:{
+        case E:{
             break;}
-        case 0x48:{
+        case H:{
             humidite = byte1 << 8;
             humidite = humidite | byte2;
             break;}
         case 0x4C:{
             break;}
-        case 0x50:{
+        case P:{
+            plant = byte2;
             break;}
-        case 0x53:{
+        case S:{
             break;}
-        case 0x54:{
+        case T:{
             temperature = byte1 << 8;
             temperature = temperature | byte2;
             break;}
-        case 0x56:{
+        case V:{
             volet = byte2;
             break;}
         default:{
@@ -350,35 +365,41 @@ void infoUART(unsigned char type){
 }
 void sendUART(unsigned char type){
     switch(type){
-        case 0x41:{
+        case A:{
             break;}
-        case 0x42:{
+        case B:{
             break;}
-        case 0x45:{
+        case E:{
             ecrire_MCBSP(0x55);
             ecrire_MCBSP(0x55);
             ecrire_MCBSP(0x45);
-            ecrire_MCBSP(Lumen.value>>8);
-            ecrire_MCBSP(Lumen.value&0xFF);
+            ecrire_MCBSP(Lumen.value >> 8);
+            ecrire_MCBSP(Lumen.value & 0x00FF);
             ecrire_MCBSP(0x00);
             break;}
-        case 0x48:{
+        case H:{
             break;}
         case 0x4C:{
             break;}
-        case 0x50:{
+        case P:{
+            ecrire_MCBSP(0x55);
+            ecrire_MCBSP(0x55);
+            ecrire_MCBSP(P);
+            ecrire_MCBSP(0);
+            ecrire_MCBSP(plant);
+            ecrire_MCBSP(0x00);
             break;}
-        case 0x53:{
+        case S:{
             ecrire_MCBSP(0x55);
             ecrire_MCBSP(0x55);
             ecrire_MCBSP(0x53);
             ecrire_MCBSP(Humidite.value >> 8);
-            ecrire_MCBSP(Humidite.value & 0xFF);
+            ecrire_MCBSP(Humidite.value & 0x00FF);
             ecrire_MCBSP(0x00);
             break;}
-        case 0x54:{
+        case T:{
             break;}
-        case 0x56:{
+        case V:{
             break;}
         default:{
             break;}

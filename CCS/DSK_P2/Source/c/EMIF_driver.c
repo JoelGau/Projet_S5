@@ -35,11 +35,19 @@ void ActiveADCHumidite(void){
     ISR :
 ****************************************************************************/
 void interrupt intHumidite(void){
+		Humidite.value = *(unsigned short*) ADRESSE_ADC_humidite; //READ une donnée de l’ADC
         Humidite.value = *(unsigned short*) ADRESSE_ADC_humidite; //READ une donnée de l’ADC
+        if(Humidite.value > 999){
+            Humidite.value = 999;
+        }
     return;
 }
 
 void interrupt intLumen(void){
         Lumen.value = *(unsigned short*) ADRESSE_ADC_lumen; //READ une donnée de l’ADC
+        Lumen.value = 1023 - Lumen.value;
+        if(Lumen.value > 999){
+            Lumen.value = 999;
+        }
     return;
 }
