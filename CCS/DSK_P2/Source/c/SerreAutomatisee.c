@@ -28,14 +28,6 @@
 #include "dsk6713_dip.h"
 #include "getEZWEED.h"
 
-#define ATTENTE 0
-#define ORTHO 1
-#define AUTO 2
-#define COMPUTING 3
-#define AUTRE 4
-#define LONGUEURTRAME 10
-#define NB_CYCLES_PAR_SEC 225000000     // Nombre de cycles par secondes
-
 #define A 0x41
 #define B 0x42
 #define E 0x45
@@ -47,11 +39,6 @@
 #define T 0x54
 #define V 0x56
 
-int State = ATTENTE;
-
-int Sref[LONGUEURTRAME] = {1,2,3,4,5,5,4,3,2,1};
-int Sort[LONGUEURTRAME] = {0,0,0,0,0,0,0,0,0,0};
-int Scus[LONGUEURTRAME] = {-1,0,1,0,-1,0,1,0,-1,0};
 
 unsigned char rx_msg;
 int rx_flag;
@@ -62,6 +49,8 @@ unsigned short ValHumidite = 0;
 int FlagTLC1550 = 0;
 unsigned long long mainCounter = 1;
 unsigned long long time = 0;
+unsigned short LumState = 0;
+unsigned short PompeState = 0;
 
 // Partie Communication
 unsigned char i_rx_msg = 0;
@@ -93,13 +82,6 @@ void ALL_LED_ON()
     DSK6713_LED_on(3);
 }
 
-// Attente en sec. (approximatif)
-void attendre(float seconds)
-{
-    int cnt=0;
-    int fin = (int)NB_CYCLES_PAR_SEC*seconds;
-    while (cnt++<fin) {}
-}
 
 void main(void)
 {
@@ -139,7 +121,18 @@ void main(void)
         if(time == mainCounter){
             lire_MCBSP();
         }
-
+        if(LumState == 1){
+            ActiverLumiere();
+        }
+        else{
+            DesactiverLumiere();
+        }
+        if(PompeState == 1){
+            ActiverPompe();
+        }
+        else{
+            DesactiverPompe();
+        }
 
 
 
@@ -260,6 +253,7 @@ void pollUART(unsigned char type){
 void infoUART(unsigned char type){
     switch(type){
         case A:{
+            PompeState = !PompeState;
             break;}
         case B:{
             break;}
@@ -269,7 +263,8 @@ void infoUART(unsigned char type){
             humidite = byte1 << 8;
             humidite = humidite | byte2;
             break;}
-        case 0x4C:{
+        case L:{
+            LumState = !LumState;
             break;}
         case P:{
             plant = byte2;
@@ -304,7 +299,14 @@ void sendUART(unsigned char type){
             break;}
         case H:{
             break;}
-        case 0x4C:{
+        case L:{
+
+            ecrire_MCBSP(0x55);
+            ecrire_MCBSP(0x55);
+            //ecrire_MCBSP(L);
+            ecrire_MCBSP(0x00);
+            ecrire_MCBSP(LumState);
+            ecrire_MCBSP(0x00);
             break;}
         case P:{
             ecrire_MCBSP(0x55);

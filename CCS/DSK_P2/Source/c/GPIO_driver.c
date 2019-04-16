@@ -61,11 +61,11 @@ void DesactiverPompe(void){
 }
 
 void ActiverLumiere(void){
-    GPIO_pinWrite(hGpio,GPIO_PIN8,1);
+    GPIO_pinWrite(hGpio,GPIO_PIN8,0);
 }
 
 void DesactiverLumiere(void){
-    GPIO_pinWrite(hGpio,GPIO_PIN8,0);
+    GPIO_pinWrite(hGpio,GPIO_PIN8,1);
 }
 /****************************************************************************
     ISR :

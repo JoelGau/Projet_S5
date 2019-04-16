@@ -38,7 +38,7 @@ void interrupt intHumidite(void){
 
 void interrupt intLumen(void){
         ValLumen = *(unsigned short*) ADRESSE_ADC_lumen; //READ une donnée de l’ADC
-        ValLumen = 1023 - ValLumen;
+        ValLumen = 999 - ValLumen/2;
         if(ValLumen > 999){
             ValLumen = 999;
         }
